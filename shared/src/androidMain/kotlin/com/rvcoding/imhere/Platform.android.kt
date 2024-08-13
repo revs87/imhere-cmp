@@ -7,3 +7,4 @@ class AndroidPlatform : Platform {
 }
 
 actual fun getPlatform(): Platform = AndroidPlatform()
+actual fun getPlatformType(): PlatformType = PlatformType.ANDROID(AndroidPlatform().name)
