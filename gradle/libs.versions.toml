@@ -20,6 +20,10 @@ compose_material3 = "1.2.1"
 junit = "4.13.2"
 kotlin = "2.0.10"
 kotlinx-serialization = "1.7.1"
+room = "2.7.0-alpha06"
+ksp = "2.0.10-1.0.24"
+sqlite = "2.5.0-SNAPSHOT"
+realm = "2.1.0"
 ktor = "3.0.0-beta-2"
 coil3 = "3.0.0-alpha06"
 logback = "1.5.6"
@@ -59,18 +63,25 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
-mob-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
-
 jetbrains-androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "jetbrains-androidx-navigation" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-android-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+
+mob-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+realm = { module = "io.realm.kotlin:gradle-plugin", version.ref = "realm" }
+realm-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+realm-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
 
 
 
@@ -83,3 +94,6 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
+realm = { id = "io.realm.kotlin", version.ref = "realm" }

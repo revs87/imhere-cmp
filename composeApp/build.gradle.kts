@@ -9,6 +9,9 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.realm)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -54,6 +57,10 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.voyager.android.koin)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.realm.base)
+            implementation(libs.realm.sync)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -74,6 +81,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
+//            implementation(libs.room.runtime)
+//            implementation(libs.sqlite.bundled)
+//            implementation(libs.realm.base)
+//            implementation(libs.realm.sync)
 
             implementation(libs.jetbrains.androidx.navigation.compose)
             implementation(libs.voyager.navigator)
@@ -89,6 +100,10 @@ kotlin {
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.realm.base)
+            implementation(libs.realm.sync)
         }
     }
 }
@@ -129,6 +144,13 @@ android {
         debugImplementation(compose.uiTooling)
     }
 
-    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+    apply(plugin = libs.plugins.kotlin.serialization.get().pluginId)
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
