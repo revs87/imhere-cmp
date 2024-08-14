@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -48,10 +49,11 @@ kotlin {
     }
     
     sourceSets {
-        
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.voyager.android.koin)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -62,12 +64,31 @@ kotlin {
             implementation(compose.animation)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.jetbrains.androidx.navigation.compose)
-
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(projects.shared)
+            implementation(libs.mob.settings)
+            implementation(libs.kotlin.coroutines)
+            implementation(libs.stately.common)
 
+            implementation(libs.ktor.client.core)
+            implementation(libs.koin.core)
+            implementation(libs.kotlin.serialization)
+            implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.jetbrains.androidx.navigation.compose)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screen.model)
+            implementation(libs.voyager.transitions)
+
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
+
+            implementation(projects.shared)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
@@ -107,5 +128,7 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+
+    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 }
 
