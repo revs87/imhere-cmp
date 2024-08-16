@@ -15,23 +15,23 @@ plugins {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-        binaries.executable()
-    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            val projectDirPath = project.projectDir.path
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(projectDirPath)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
+//    }
     
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -53,6 +53,10 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidTest)
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
@@ -77,9 +81,13 @@ kotlin {
             implementation(libs.mob.settings)
             implementation(libs.kotlin.coroutines)
             implementation(libs.stately.common)
+            implementation(project.dependencies.platform(libs.kotlincrypto.hash))
+            implementation(libs.kotlincrypto.hash.sha2)
 
-            implementation(libs.ktor.client.core)
+            implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.ktor.client.core)
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
 //            implementation(libs.room.runtime)
@@ -100,6 +108,8 @@ kotlin {
             implementation(projects.shared)
         }
         iosMain.dependencies {
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
             implementation(libs.ktor.client.darwin)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)

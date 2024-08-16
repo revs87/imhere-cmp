@@ -24,15 +24,22 @@ room = "2.7.0-alpha06"
 ksp = "2.0.10-1.0.24"
 sqlite = "2.5.0-alpha06"
 realm = "2.1.0"
+# https://github.com/InsertKoinIO/koin-getting-started/blob/main/ktor/build.gradle
+koin_nowasm = "3.5.3"
+ktor_nowasm = "2.3.12"
+# Ktor 3 is not yet supported in Koin:
+#     https://github.com/InsertKoinIO/koin/issues/1716
+#     https://github.com/InsertKoinIO/koin/blob/main/projects/gradle/libs.versions.toml
+koin = "4.0.0-RC1"
 ktor = "3.0.0-beta-2"
 coil3 = "3.0.0-alpha06"
 logback = "1.5.6"
 jetbrains-androidx-navigation = "2.7.0-alpha07"
 multiplatformSettings = "1.1.1"
 voyager = "1.1.0-beta02"
-koin = "4.0.0-RC1"
 coroutines = "1.8.1"
 statelyCommon = "2.0.5"
+kotlincrypto = "0.5.1"
 
 
 
@@ -51,13 +58,19 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 
-ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
-#ktor-client-core-wasm-js = { group = "io.ktor", name = "ktor-client-core-wasm-js", version.ref = "ktor" }
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor_nowasm" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor_nowasm" }
+ktor-server-serializationKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_nowasm" }
+ktor-server-callLogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor_nowasm" }
+ktor-server-statusPages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor_nowasm" }
+ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor_nowasm" }
+ktor-server-defaultHeaders = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor_nowasm" }
+ktor-server-htmlBuilder = { module = "io.ktor:ktor-server-html-builder", version.ref = "ktor_nowasm" }
+ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor_nowasm" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor_nowasm" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor_nowasm" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor_nowasm" }
+#ktor-client-core-wasm-js = { group = "io.ktor", name = "ktor-client-core-wasm-js", version.ref = "ktor_compat" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
@@ -69,7 +82,13 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 voyager-screen-model = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-android-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin_nowasm" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-ktor = { module = "io.insert-koin:koin-ktor" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-androidTest = { module = "io.insert-koin:koin-android-test" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-loggerSlf4j = { module = "io.insert-koin:koin-logger-slf4j" }
 
 mob-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -83,8 +102,9 @@ sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sql
 realm = { module = "io.realm.kotlin:gradle-plugin", version.ref = "realm" }
 realm-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 realm-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
-
-
+kotlincrypto-hash = { module = "org.kotlincrypto.hash:bom", version.ref = "kotlincrypto" }
+kotlincrypto-macs = { module = "org.kotlincrypto.macs:bom", version.ref = "kotlincrypto" }
+kotlincrypto-hash-sha2 = { module = "org.kotlincrypto.hash:sha2" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -92,7 +112,8 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "cmp-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor_nowasm" }
+server-serialization = { id = "plugin.serialization", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
