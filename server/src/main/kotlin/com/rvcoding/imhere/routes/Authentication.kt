@@ -1,5 +1,6 @@
 package com.rvcoding.imhere.routes
 
+//import io.ktor.server.routing.RoutingContext
 import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.domain.repository.AuthRepository
 import com.rvcoding.imhere.domain.repository.LoginResult
@@ -12,19 +13,17 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondRedirect
 import io.ktor.server.routing.Routing
-//import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.serialization.Serializable
 import org.koin.ktor.ext.inject
+import java.util.Collections
 
 
 fun Routing.authentication() {
     val authRepository: AuthRepository by inject()
-
-    var isInternal = false
-
+    val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
     post(Route.Register.path) {
         val request = call.receive<AuthRequest>()
@@ -37,7 +36,7 @@ fun Routing.authentication() {
                 )
                 is RegisterResult.UnauthorizedError -> onUnauthorizedError()
                 is RegisterResult.UserAlreadyRegisteredError -> {
-                    isInternal = true
+                    isInternal[userId] = true
                     call.respondRedirect(url = "${Route.LoginInternal.path}?userId=$userId&password=$password", permanent = false)
                 }
                 is RegisterResult.Success -> call.respond(
@@ -56,12 +55,12 @@ fun Routing.authentication() {
         } catch (e: Exception) { onUnauthorizedError() }
     }
     get(Route.LoginInternal.path) {
-        if (!isInternal) {
+        val userId = call.request.queryParameters["userId"] ?: ""
+        if (isInternal[userId] == false) {
             onUnauthorizedError()
             return@get
         }
-        else { isInternal = false }
-        val userId = call.request.queryParameters["userId"] ?: ""
+        else { isInternal[userId] = false }
         val password = call.request.queryParameters["password"] ?: ""
         loginHandle(authRepository, userId, password)
     }

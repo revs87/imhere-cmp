@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     application
 }
 
@@ -30,6 +32,13 @@ dependencies {
     implementation(libs.ktor.server.defaultHeaders)
     implementation(libs.ktor.server.htmlBuilder)
 
+    implementation(libs.room.gradlePlugin)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.sqlite.bundled)
+    implementation(libs.realm.base)
+    implementation(libs.realm.sync)
+
     implementation(project.dependencies.platform(libs.kotlincrypto.hash))
     implementation(libs.kotlincrypto.hash.sha2)
 
@@ -44,4 +53,8 @@ tasks.test {
 
 kotlin {
     jvmToolchain(17)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

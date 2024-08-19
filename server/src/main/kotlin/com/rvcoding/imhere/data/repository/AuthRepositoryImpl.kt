@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.repository
+package com.rvcoding.imhere.data.repository
 
 import com.rvcoding.imhere.domain.models.User
 import com.rvcoding.imhere.domain.repository.AuthRepository
@@ -7,24 +7,26 @@ import com.rvcoding.imhere.domain.repository.LoginResult
 import com.rvcoding.imhere.domain.repository.RegisterResult
 import com.rvcoding.imhere.domain.repository.UserRepository
 import com.rvcoding.imhere.domain.util.sha256
-import org.koin.java.KoinJavaComponent.inject
-import java.util.Date
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class AuthRepositoryImpl : AuthRepository {
-    private val userRepository: UserRepository by inject(UserRepository::class.java)
+class AuthRepositoryImpl(private val userRepository: UserRepository) : AuthRepository {
+    private var coScope = CoroutineScope(Dispatchers.IO)
 
     override fun register(userId: String?, password: String?): RegisterResult {
         return try {
             when {
-                !validCredentials(userId, password) -> RegisterResult.InvalidParametersError
-                userRepository.containsEmail(userId) -> RegisterResult.UserAlreadyRegisteredError
+                !validSemantics(userId, password) -> RegisterResult.InvalidParametersError
+                userRepository.containsUserId(userId ?: "") -> RegisterResult.UserAlreadyRegisteredError
                 else -> {
                     val user = User(
                         id = userId ?: "",
                         password = password?.sha256() ?: "",
-                        lastLogin = Date().time,
+                        lastLogin = System.currentTimeMillis(),
+                        lastActivity = System.currentTimeMillis(),
                     )
-                    userRepository.update(user)
+                    coScope.launch { userRepository.insert(user) }
                     RegisterResult.Success
                 }
             }
@@ -34,14 +36,19 @@ class AuthRepositoryImpl : AuthRepository {
     override fun login(userId: String?, password: String?): LoginResult {
         return try {
             when {
-                !validCredentials(userId, password) -> LoginResult.InvalidParametersError
+                !validSemantics(userId, password) -> LoginResult.InvalidParametersError
                 !userRepository.validCredentials(userId ?: "", password?.sha256() ?: "") -> LoginResult.CredentialsMismatchError
                 else -> {
                     val user = userRepository.get(userId ?: "")
                     user?.let {
-                        userRepository.update(
-                            user.copy(lastLogin = Date().time)
-                        )
+                        coScope.launch {
+                            userRepository.insert(
+                                user.copy(
+                                    lastLogin = System.currentTimeMillis(),
+                                    lastActivity = System.currentTimeMillis()
+                                )
+                            )
+                        }
                     }
                     LoginResult.Success
                 }
@@ -53,6 +60,6 @@ class AuthRepositoryImpl : AuthRepository {
         return ChangePasswordResult.Success
     }
 
-    private fun validCredentials(userId: String?, password: String?): Boolean = !(userId.isNullOrBlank() || password.isNullOrBlank())
+    private fun validSemantics(userId: String?, password: String?): Boolean = !(userId.isNullOrBlank() || password.isNullOrBlank())
     private fun validPasswordChange(userId: String?, password: String?, newPassword: String?): Boolean = !(userId.isNullOrBlank() || password.isNullOrBlank() || newPassword.isNullOrBlank())
 }
