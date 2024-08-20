@@ -1,6 +1,6 @@
 package com.rvcoding.imhere.domain
 
-import com.rvcoding.imhere.domain.Configuration.Companion.COMPANY_ID as id
+import com.rvcoding.imhere.domain.Configuration.Companion.APP_ID as id
 
 sealed class Route(val path: String) {
     data object Root: Route("/")
