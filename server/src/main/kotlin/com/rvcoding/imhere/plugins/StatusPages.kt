@@ -1,6 +1,6 @@
 package com.rvcoding.imhere.plugins
 
-import com.rvcoding.imhere.domain.response.AuthResponse
+import com.rvcoding.imhere.domain.api.response.AuthResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install

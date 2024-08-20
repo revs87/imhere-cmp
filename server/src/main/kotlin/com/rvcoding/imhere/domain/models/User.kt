@@ -31,7 +31,7 @@ data class UserExposed(
     @Required val firstName: String = "",
     @Required val lastName: String = "",
     @Required val lastActivity: Long = 0L,
-    @Required val state: Int = IDLE.state
+    @Required val state: UserState = IDLE
 )
 
 fun User.toExposed() = UserExposed(
@@ -39,5 +39,5 @@ fun User.toExposed() = UserExposed(
     firstName = firstName,
     lastName = lastName,
     lastActivity = lastActivity,
-    state = state
+    state = UserState.fromInt(state)
 )

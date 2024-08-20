@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.domain.response
+package com.rvcoding.imhere.domain.api.response
 
 import kotlinx.serialization.Serializable
 

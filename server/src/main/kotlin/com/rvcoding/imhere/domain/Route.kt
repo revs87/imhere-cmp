@@ -9,4 +9,7 @@ sealed class Route(val path: String) {
     data object Login: Route("/$id/login")
     data object LoginInternal: Route("/$id/loginInternal")
     data object Users: Route("/$id/users")
+    data object Subscriptions: Route("/$id/subscriptions")
+    data object Subscribe: Route("/$id/subscribe")
+    data object Unsubscribe: Route("/$id/unsubscribe")
 }

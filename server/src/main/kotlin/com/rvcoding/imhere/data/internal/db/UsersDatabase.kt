@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
+import androidx.room.Transaction
 import com.rvcoding.imhere.domain.models.User
 import kotlinx.coroutines.flow.Flow
 
@@ -30,9 +31,11 @@ interface UsersDao {
     @Query("SELECT * FROM user WHERE id = :userId")
     suspend fun getUser(userId: String): User?
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User)
 
+    @Transaction
     @Query("UPDATE user SET password = :password WHERE id = :userId")
     suspend fun updatePassword(userId: String, password: String)
 
@@ -51,9 +54,11 @@ interface UsersDao {
     @Query("UPDATE user SET lastActivity = :now WHERE id = :userId")
     suspend fun updateLastActivity(userId: String, now: Long = System.currentTimeMillis())
 
+    @Transaction
     @Query("UPDATE user SET state = :state WHERE id = :userId")
     suspend fun updateState(userId: String, state: Int)
 
+    @Transaction
     @Query("DELETE FROM user")
     suspend fun deleteAll()
 }

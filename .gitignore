@@ -38,3 +38,8 @@ users_db
 users_db-shm
 users_db-wal
 users_db.lck
+subscriptions_db
+subscriptions_db-shm
+subscriptions_db-wal
+subscriptions_db.lck
+server/schemas/com.rvcoding.imhere.data.internal.db.SubscriptionsDatabase/1.json

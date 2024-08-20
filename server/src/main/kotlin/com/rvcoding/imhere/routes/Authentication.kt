@@ -2,10 +2,11 @@ package com.rvcoding.imhere.routes
 
 //import io.ktor.server.routing.RoutingContext
 import com.rvcoding.imhere.domain.Route
+import com.rvcoding.imhere.domain.api.request.AuthRequest
+import com.rvcoding.imhere.domain.api.response.AuthResponse
 import com.rvcoding.imhere.domain.repository.AuthRepository
 import com.rvcoding.imhere.domain.repository.LoginResult
 import com.rvcoding.imhere.domain.repository.RegisterResult
-import com.rvcoding.imhere.domain.response.AuthResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -16,7 +17,6 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.pipeline.PipelineContext
-import kotlinx.serialization.Serializable
 import org.koin.ktor.ext.get
 import java.util.Collections
 
@@ -105,9 +105,3 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.onUnauthorizedError()
         status = HttpStatusCode.Unauthorized
     )
 }
-
-@Serializable
-data class AuthRequest(
-    val userId: String,
-    val password: String
-)
