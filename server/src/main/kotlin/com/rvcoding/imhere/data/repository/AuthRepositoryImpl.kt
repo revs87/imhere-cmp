@@ -1,6 +1,7 @@
 package com.rvcoding.imhere.data.repository
 
 import com.rvcoding.imhere.domain.models.User
+import com.rvcoding.imhere.domain.models.UserState
 import com.rvcoding.imhere.domain.repository.AuthRepository
 import com.rvcoding.imhere.domain.repository.ChangePasswordResult
 import com.rvcoding.imhere.domain.repository.LoginResult
@@ -37,7 +38,10 @@ class AuthRepositoryImpl(private val userRepository: UserRepository) : AuthRepos
         return try {
             when {
                 !validSemantics(userId, password) -> LoginResult.InvalidParametersError
-                !userRepository.validCredentials(userId ?: "", password?.sha256() ?: "") -> LoginResult.CredentialsMismatchError
+                !userRepository.validCredentials(
+                    userId = userId ?: "",
+                    password = password?.sha256() ?: ""
+                ) -> LoginResult.CredentialsMismatchError
                 else -> {
                     val user = userRepository.get(userId ?: "")
                     user?.let {
@@ -45,7 +49,8 @@ class AuthRepositoryImpl(private val userRepository: UserRepository) : AuthRepos
                             userRepository.insert(
                                 user.copy(
                                     lastLogin = System.currentTimeMillis(),
-                                    lastActivity = System.currentTimeMillis()
+                                    lastActivity = System.currentTimeMillis(),
+                                    state = UserState.IDLE.state
                                 )
                             )
                         }

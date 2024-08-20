@@ -1,6 +1,7 @@
 package com.rvcoding.imhere.routes
 
 import com.rvcoding.imhere.domain.Route
+import com.rvcoding.imhere.domain.models.toExposed
 import com.rvcoding.imhere.domain.repository.UserRepository
 import com.rvcoding.imhere.domain.response.UsersResponse
 import io.ktor.http.ContentType
@@ -18,7 +19,7 @@ fun Routing.users() {
 
     get(Route.Users.path) {
         val users = userRepository.getAll()
-        call.respondText(Json.encodeToString(UsersResponse(users)), ContentType.Application.Json)
+        call.respondText(Json.encodeToString(UsersResponse(users.map { it.toExposed() })), ContentType.Application.Json)
     }
 
 }

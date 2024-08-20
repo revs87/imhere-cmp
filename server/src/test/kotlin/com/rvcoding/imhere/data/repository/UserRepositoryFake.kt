@@ -8,7 +8,7 @@ import java.util.Collections
 class UserRepositoryFake : UserRepository {
     private val users: MutableMap<String, User> = Collections.synchronizedMap(mutableMapOf())
 
-    override fun containsUserId(userId: String): Boolean = userId?.let { users.contains(userId) } ?: false
+    override fun containsUserId(userId: String): Boolean = users.contains(userId)
     override fun validCredentials(userId: String, password: String): Boolean {
         val user = users[userId]
         return when {
