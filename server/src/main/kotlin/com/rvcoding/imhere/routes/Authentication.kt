@@ -17,12 +17,12 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.serialization.Serializable
-import org.koin.ktor.ext.inject
+import org.koin.ktor.ext.get
 import java.util.Collections
 
 
 fun Routing.authentication() {
-    val authRepository: AuthRepository by inject()
+    val authRepository: AuthRepository = get<AuthRepository>()
     val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
     post(Route.Register.path) {

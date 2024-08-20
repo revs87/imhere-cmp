@@ -20,17 +20,16 @@ fun Application.configureStatusPages() {
             )
         }
 
-        exception<RuntimeException> { call, _ ->
+        exception<RuntimeException> { call, e ->
             call.respond(
                 message = AuthResponse(
-                    Error.UnauthorizedError.code,
-                    Error.UnauthorizedError::class.simpleName.toString(),
-                    "Unauthorized."
+                    Error.NotFoundError.code,
+                    Error.NotFoundError::class.simpleName.toString(),
+                    "Error: ${e.printStackTrace()}"
                 ),
                 status = HttpStatusCode.Unauthorized
             )
         }
-
     }
 }
 

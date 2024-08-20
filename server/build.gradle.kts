@@ -42,9 +42,10 @@ dependencies {
     implementation(project.dependencies.platform(libs.kotlincrypto.hash))
     implementation(libs.kotlincrypto.hash.sha2)
 
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.ktor.server.tests)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.junit)
+    testImplementation(libs.assertk)
 }
 
 tasks.test {

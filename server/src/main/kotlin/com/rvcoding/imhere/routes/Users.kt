@@ -10,11 +10,11 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.koin.ktor.ext.inject
+import org.koin.ktor.ext.get
 
 
 fun Routing.users() {
-    val userRepository: UserRepository by inject()
+    val userRepository: UserRepository = get<UserRepository>()
 
     get(Route.Users.path) {
         val users = userRepository.getAll()
