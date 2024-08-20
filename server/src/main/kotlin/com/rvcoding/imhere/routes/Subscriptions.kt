@@ -31,6 +31,23 @@ fun Routing.subscriptions() {
         call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
+    get(Route.UserSubscriptions.path) {
+        val userId = call.request.queryParameters["userId"] ?: ""
+        val containsUser = userRepository.get(userId) != null
+        when {
+            userId.isBlank() -> {
+                call.respondText(Json.encodeToString(SubscriptionResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                return@get
+            }
+            !containsUser -> {
+                call.respondText(Json.encodeToString(SubscriptionResponse(Failure("User not found"))), ContentType.Application.Json)
+                return@get
+            }
+        }
+        val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
+        call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
+    }
+
     post(Route.Subscribe.path) {
         try {
             val request = call.receive<SubscribeRequest>()
