@@ -21,8 +21,9 @@ class SubscriptionsRepositoryImpl(
         }
     }
 
-    override fun getAllSubscriptions(): List<Subscription> = subscriptions.value
+    override fun getAllSubscriptions(): List<Subscription> = subscriptions.value.sortedByDescending { it.timestamp }
     override fun getUserSubscriptions(userId: String): List<Subscription> = subscriptions.value.filter { it.userId == userId }.sortedByDescending { it.timestamp }
+    override fun getUserSubscribers(userId: String): List<Subscription> = subscriptions.value.filter { it.userSubscribedId == userId }.sortedByDescending { it.timestamp }
     override suspend fun subscribe(subscription: Subscription) = subscriptionsDao.insert(subscription)
     override suspend fun unsubscribe(userId: String, userSubscribedId: String) = subscriptionsDao.delete(userId, userSubscribedId)
 }
