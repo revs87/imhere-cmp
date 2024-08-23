@@ -5,6 +5,7 @@ import com.rvcoding.imhere.domain.api.request.UserCoordinatesRequest
 import com.rvcoding.imhere.domain.api.request.UserStateRequest
 import com.rvcoding.imhere.domain.api.response.UserStateResponse
 import com.rvcoding.imhere.domain.api.response.UsersResponse
+import com.rvcoding.imhere.domain.models.Coordinates
 import com.rvcoding.imhere.domain.models.toExposed
 import com.rvcoding.imhere.domain.repository.UserRepository
 import io.ktor.http.ContentType
@@ -53,9 +54,14 @@ fun Routing.users() {
     post(Route.Sync.path) {
         try {
             val request = call.receive<UserCoordinatesRequest>()
-            userRepository.updateCoordinates(request.userId, request.coordinates)
+            val coordinates = Coordinates(request.lat, request.lon, request.timestamp ?: System.currentTimeMillis())
+            userRepository.updateCoordinates(request.userId, coordinates)
             userRepository.get(request.userId)?.let { user ->
-                call.respondText(Json.encodeToString(UserStateResponse(user.copy(lat = request.coordinates.lat, lon = request.coordinates.lon).toExposed())), ContentType.Application.Json)
+                call.respondText(Json.encodeToString(UserStateResponse(user.copy(
+                    lat = coordinates.lat,
+                    lon = coordinates.lon,
+                    lastCoordinatesTimestamp = coordinates.timestamp
+                ).toExposed())), ContentType.Application.Json)
             } ?: call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
         } catch (e: Exception) {
             call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)

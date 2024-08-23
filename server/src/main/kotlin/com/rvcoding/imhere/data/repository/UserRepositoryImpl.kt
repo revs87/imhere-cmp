@@ -46,6 +46,6 @@ class UserRepositoryImpl(private val usersDao: UsersDao) : UserRepository {
     override suspend fun updateLastLogin(userId: String) = usersDao.updateLastLogin(userId = userId)
     override suspend fun updateLastActivity(userId: String) = usersDao.updateLastActivity(userId = userId)
     override suspend fun updateState(userId: String, state: UserState) = usersDao.updateState(userId = userId, state = state.state)
-    override suspend fun updateCoordinates(userId: String, coordinates: Coordinates) = usersDao.updateCoordinates(userId = userId, lat = coordinates.lat, lon = coordinates.lon)
+    override suspend fun updateCoordinates(userId: String, coordinates: Coordinates) = usersDao.updateCoordinates(userId = userId, lat = coordinates.lat, lon = coordinates.lon, lastCoordinatesTimestamp = coordinates.timestamp)
 
 }

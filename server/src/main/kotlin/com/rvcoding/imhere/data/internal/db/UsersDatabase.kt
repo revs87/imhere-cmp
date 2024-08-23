@@ -60,8 +60,8 @@ interface UsersDao {
     suspend fun updateState(userId: String, state: Int)
 
     @Transaction
-    @Query("UPDATE user SET lat = :lat, lon = :lon WHERE id = :userId")
-    suspend fun updateCoordinates(userId: String, lat: Double, lon: Double)
+    @Query("UPDATE user SET lat = :lat, lon = :lon, lastCoordinatesTimestamp = :lastCoordinatesTimestamp WHERE id = :userId")
+    suspend fun updateCoordinates(userId: String, lat: Double, lon: Double, lastCoordinatesTimestamp: Long)
 
     @Transaction
     @Query("DELETE FROM user")
