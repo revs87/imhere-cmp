@@ -1,5 +1,6 @@
 package com.rvcoding.imhere.data.repository
 
+import com.rvcoding.imhere.domain.models.Coordinates
 import com.rvcoding.imhere.domain.models.User
 import com.rvcoding.imhere.domain.models.UserState
 import com.rvcoding.imhere.domain.repository.UserRepository
@@ -23,4 +24,5 @@ class UserRepositoryFake : UserRepository {
     override suspend fun updateLastLogin(userId: String) {}
     override suspend fun updateLastActivity(userId: String) {}
     override suspend fun updateState(userId: String, state: UserState) {}
+    override suspend fun updateCoordinates(userId: String, coordinates: Coordinates) {}
 }

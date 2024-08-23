@@ -1,6 +1,7 @@
 package com.rvcoding.imhere.data.repository
 
 import com.rvcoding.imhere.data.internal.db.UsersDao
+import com.rvcoding.imhere.domain.models.Coordinates
 import com.rvcoding.imhere.domain.models.User
 import com.rvcoding.imhere.domain.models.UserState
 import com.rvcoding.imhere.domain.repository.UserRepository
@@ -45,5 +46,6 @@ class UserRepositoryImpl(private val usersDao: UsersDao) : UserRepository {
     override suspend fun updateLastLogin(userId: String) = usersDao.updateLastLogin(userId = userId)
     override suspend fun updateLastActivity(userId: String) = usersDao.updateLastActivity(userId = userId)
     override suspend fun updateState(userId: String, state: UserState) = usersDao.updateState(userId = userId, state = state.state)
+    override suspend fun updateCoordinates(userId: String, coordinates: Coordinates) = usersDao.updateCoordinates(userId = userId, lat = coordinates.lat, lon = coordinates.lon)
 
 }

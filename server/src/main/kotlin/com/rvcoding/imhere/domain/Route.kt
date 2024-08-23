@@ -14,4 +14,6 @@ sealed class Route(val path: String) {
     data object UserSubscribers: Route("/$id/subscribersOfUser")
     data object Subscribe: Route("/$id/subscribe")
     data object Unsubscribe: Route("/$id/unsubscribe")
+    data object State: Route("/$id/state")
+    data object Sync: Route("/$id/sync")
 }

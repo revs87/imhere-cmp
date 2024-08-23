@@ -18,7 +18,9 @@ data class User(
     val lastName: String = "",
     val lastLogin: Long = 0L,
     val lastActivity: Long = 0L,
-    val state: Int = IDLE.state
+    val state: Int = IDLE.state,
+    val lat: Double = 0.0,
+    val lon: Double = 0.0,
 ) {
     companion object {
         val Default by lazy { User("default", "default") }
@@ -31,7 +33,8 @@ data class UserExposed(
     @Required val firstName: String = "",
     @Required val lastName: String = "",
     @Required val lastActivity: Long = 0L,
-    @Required val state: UserState = IDLE
+    @Required val state: UserState = IDLE,
+    @Required val coordinates: Coordinates = Coordinates(0.0, 0.0)
 )
 
 fun User.toExposed() = UserExposed(
@@ -39,5 +42,6 @@ fun User.toExposed() = UserExposed(
     firstName = firstName,
     lastName = lastName,
     lastActivity = lastActivity,
-    state = UserState.fromInt(state)
+    state = UserState.fromInt(state),
+    coordinates = Coordinates(lat, lon)
 )

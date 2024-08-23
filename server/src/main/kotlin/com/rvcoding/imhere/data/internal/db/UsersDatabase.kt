@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
+import com.rvcoding.imhere.domain.models.Coordinates
 import com.rvcoding.imhere.domain.models.User
 import kotlinx.coroutines.flow.Flow
 
@@ -57,6 +58,10 @@ interface UsersDao {
     @Transaction
     @Query("UPDATE user SET state = :state WHERE id = :userId")
     suspend fun updateState(userId: String, state: Int)
+
+    @Transaction
+    @Query("UPDATE user SET lat = :lat, lon = :lon WHERE id = :userId")
+    suspend fun updateCoordinates(userId: String, lat: Double, lon: Double)
 
     @Transaction
     @Query("DELETE FROM user")

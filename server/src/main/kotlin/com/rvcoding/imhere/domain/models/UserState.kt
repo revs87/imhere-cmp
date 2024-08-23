@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class UserState(val state: Int) {
     IDLE(0),
-    LOGGING(2),
-    PAUSED(3);
+    LOGGING(1),
+    PAUSED(2);
 
     companion object {
         val Default = IDLE

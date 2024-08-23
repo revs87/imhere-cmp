@@ -1,5 +1,6 @@
 package com.rvcoding.imhere.domain.repository
 
+import com.rvcoding.imhere.domain.models.Coordinates
 import com.rvcoding.imhere.domain.models.User
 import com.rvcoding.imhere.domain.models.UserState
 
@@ -12,4 +13,5 @@ interface UserRepository {
     suspend fun updateLastLogin(userId: String)
     suspend fun updateLastActivity(userId: String)
     suspend fun updateState(userId: String, state: UserState)
+    suspend fun updateCoordinates(userId: String, coordinates: Coordinates)
 }
