@@ -42,8 +42,9 @@ fun Routing.users() {
     post(Route.State.path) {
         try {
             val request = call.receive<UserStateRequest>()
-            userRepository.updateState(request.userId, request.state)
             userRepository.get(request.userId)?.let { user ->
+                userRepository.updateLastActivity(user.id)
+                userRepository.updateState(user.id, request.state)
                 call.respondText(Json.encodeToString(UserStateResponse(user.copy(state = request.state.state).toExposed())), ContentType.Application.Json)
             } ?: call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
         } catch (e: Exception) {
@@ -54,9 +55,10 @@ fun Routing.users() {
     post(Route.Sync.path) {
         try {
             val request = call.receive<UserCoordinatesRequest>()
-            val coordinates = Coordinates(request.lat, request.lon, request.timestamp ?: System.currentTimeMillis())
-            userRepository.updateCoordinates(request.userId, coordinates)
             userRepository.get(request.userId)?.let { user ->
+                userRepository.updateLastActivity(user.id)
+                val coordinates = Coordinates(request.lat, request.lon, request.timestamp ?: System.currentTimeMillis())
+                userRepository.updateCoordinates(request.userId, coordinates)
                 call.respondText(Json.encodeToString(UserStateResponse(user.copy(
                     lat = coordinates.lat,
                     lon = coordinates.lon,

@@ -1,8 +1,10 @@
 package com.rvcoding.imhere.routes
 
+import com.rvcoding.imhere.domain.Configuration.Companion.SESSION_TTL
 import com.rvcoding.imhere.domain.Configuration.Companion.TIMEOUT
 import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.routes.ConfigurationKeys.Companion.FEATURE_FLAGS_KEY
+import com.rvcoding.imhere.routes.ConfigurationKeys.Companion.SESSION_TTL_KEY
 import com.rvcoding.imhere.routes.ConfigurationKeys.Companion.TIMEOUT_KEY
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -19,6 +21,7 @@ fun Routing.configuration() {
                 configuration = mapOf(
                     FEATURE_FLAGS_KEY to "",
                     TIMEOUT_KEY to TIMEOUT.toString(),
+                    SESSION_TTL_KEY to SESSION_TTL.toString(),
                 )
             ),
             status = HttpStatusCode.OK
@@ -35,5 +38,6 @@ class ConfigurationKeys {
     companion object {
         const val FEATURE_FLAGS_KEY = "featureFlags"
         const val TIMEOUT_KEY = "timeoutInMillis"
+        const val SESSION_TTL_KEY = "sessionTtlInMillis"
     }
 }

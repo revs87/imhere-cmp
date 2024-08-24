@@ -4,9 +4,12 @@ package com.rvcoding.imhere.routes
 import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.domain.api.request.AuthRequest
 import com.rvcoding.imhere.domain.api.response.AuthResponse
+import com.rvcoding.imhere.domain.models.Session
 import com.rvcoding.imhere.domain.repository.AuthRepository
 import com.rvcoding.imhere.domain.repository.LoginResult
 import com.rvcoding.imhere.domain.repository.RegisterResult
+import com.rvcoding.imhere.domain.repository.SessionRepository
+import com.rvcoding.imhere.domain.repository.UserRepository
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -23,6 +26,8 @@ import java.util.Collections
 
 fun Routing.authentication() {
     val authRepository: AuthRepository = get<AuthRepository>()
+    val sessionRepository: SessionRepository = get<SessionRepository>()
+    val userRepository: UserRepository = get<UserRepository>()
     val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
     post(Route.Register.path) {
@@ -51,7 +56,7 @@ fun Routing.authentication() {
         val request = call.receive<AuthRequest>()
         try {
             val (userId, password) = listOf(request.userId, request.password)
-            loginHandle(authRepository, userId, password)
+            loginHandle(authRepository, sessionRepository, userRepository, userId, password)
         } catch (e: Exception) { onUnauthorizedError() }
     }
     get(Route.LoginInternal.path) {
@@ -62,7 +67,7 @@ fun Routing.authentication() {
         }
         else { isInternal[userId] = false }
         val password = call.request.queryParameters["password"] ?: ""
-        loginHandle(authRepository, userId, password)
+        loginHandle(authRepository, sessionRepository, userRepository, userId, password)
     }
 
 //    post("/$companyId/changepassword") {
@@ -74,6 +79,8 @@ fun Routing.authentication() {
 //private suspend fun RoutingContext.loginHandle(
 private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
     authRepository: AuthRepository,
+    sessionRepository: SessionRepository,
+    userRepository: UserRepository,
     userId: String,
     password: String
 ) {
@@ -87,10 +94,14 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
             message = AuthResponse(result.code, result::class.simpleName.toString(), "User login failed."),
             status = HttpStatusCode.BadRequest
         )
-        LoginResult.Success -> call.respond(
-            message = AuthResponse(result.code, result::class.simpleName.toString(), "User logged in successfully."),
-            status = HttpStatusCode.OK
-        )
+        LoginResult.Success -> {
+            sessionRepository.newSession(Session.generate(userId))
+            userRepository.updateLastLogin(userId)
+            call.respond(
+                message = AuthResponse(result.code, result::class.simpleName.toString(), "User logged in successfully."),
+                status = HttpStatusCode.OK
+            )
+        }
     }
 }
 

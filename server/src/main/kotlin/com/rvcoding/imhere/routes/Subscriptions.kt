@@ -85,6 +85,7 @@ fun Routing.subscriptions() {
             }
             val subscription = Subscription(request.userId, request.userIdToSubscribe)
             subscriptionRepository.subscribe(subscription)
+            userRepository.updateLastActivity(request.userId)
             call.respondText(Json.encodeToString(SubscriptionResponse(Success)), ContentType.Application.Json)
         } catch (e: Exception) {
             call.respondText(Json.encodeToString(SubscriptionResponse(Failure("${e.message}"))), ContentType.Application.Json)
@@ -110,6 +111,7 @@ fun Routing.subscriptions() {
                 }
             }
             subscriptionRepository.unsubscribe(request.userId, request.userIdToUnsubscribe)
+            userRepository.updateLastActivity(request.userId)
             call.respondText(Json.encodeToString(SubscriptionResponse(Success)), ContentType.Application.Json)
         } catch (e: Exception) {
             call.respondText(Json.encodeToString(SubscriptionResponse(Failure("${e.message}"))), ContentType.Application.Json)
