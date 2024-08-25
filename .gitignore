@@ -43,3 +43,7 @@ subscriptions_db-shm
 subscriptions_db-wal
 subscriptions_db.lck
 server/schemas/com.rvcoding.imhere.data.internal.db.SubscriptionsDatabase/1.json
+session_db
+session_db-shm
+session_db-wal
+session_db.lck
