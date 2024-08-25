@@ -5,4 +5,4 @@ class JVMPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = JVMPlatform()
-actual fun getPlatformType(): PlatformType = PlatformType.SERVER(JVMPlatform().name)
+actual fun getPlatformType(): PlatformType = PlatformType.DESKTOP(JVMPlatform().name)
