@@ -1,7 +1,6 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -36,10 +35,12 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
+    jvm("desktop")
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -50,8 +51,10 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
+        val desktopMain by getting
+
         androidMain.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
@@ -116,6 +119,12 @@ kotlin {
             implementation(libs.realm.base)
             implementation(libs.realm.sync)
         }
+        desktopMain.dependencies {
+            implementation(libs.skiko.awt)
+            implementation(libs.skiko.awt.runtime)
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
+        }
     }
 }
 
@@ -145,8 +154,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
@@ -156,6 +165,18 @@ android {
     }
 
     apply(plugin = libs.plugins.kotlin.serialization.get().pluginId)
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.rvcoding.imhere.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.rvcoding.imhere"
+            packageVersion = "1.0.0"
+        }
+    }
 }
 
 room {

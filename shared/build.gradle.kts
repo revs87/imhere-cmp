@@ -6,6 +6,8 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -27,7 +29,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -36,10 +38,41 @@ kotlin {
     iosSimulatorArm64()
     
     jvm()
-    
+
+    ios {
+        binaries {
+            framework {
+                binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
+            }
+        }
+    }
+
+    val osName = System.getProperty("os.name")
+    val targetOs = when {
+        osName == "Mac OS X" -> "macos"
+        osName.startsWith("Win") -> "windows"
+        osName.startsWith("Linux") -> "linux"
+        else -> error("Unsupported OS: $osName")
+    }
+    val targetArch = when (val osArch = System.getProperty("os.arch")) {
+        "x86_64", "amd64" -> "x64"
+        "aarch64" -> "arm64"
+        else -> error("Unsupported arch: $osArch")
+    }
+    val version = "0.8.12" // or any more recent version
+    val target = "${targetOs}-${targetArch}"
+
+
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+        }
+        jvmMain.dependencies {
+            implementation(libs.skiko.awt)
+            implementation(libs.skiko.awt.runtime)
+            implementation(compose.desktop.currentOs)
         }
     }
 }
@@ -48,8 +81,8 @@ android {
     namespace = "com.rvcoding.imhere.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

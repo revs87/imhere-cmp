@@ -41,6 +41,7 @@ voyager = "1.1.0-beta02"
 coroutines = "1.8.1"
 statelyCommon = "2.0.5"
 kotlincrypto = "0.5.1"
+skiko-awt = "0.8.0"
 
 
 
@@ -94,6 +95,7 @@ koin-loggerSlf4j = { module = "io.insert-koin:koin-logger-slf4j" }
 
 mob-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -108,6 +110,8 @@ realm-sync = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
 kotlincrypto-hash = { module = "org.kotlincrypto.hash:bom", version.ref = "kotlincrypto" }
 kotlincrypto-macs = { module = "org.kotlincrypto.macs:bom", version.ref = "kotlincrypto" }
 kotlincrypto-hash-sha2 = { module = "org.kotlincrypto.hash:sha2" }
+skiko-awt = { module = "org.jetbrains.skiko:skiko-awt", version.ref = "skiko-awt" }
+skiko-awt-runtime = { module = "org.jetbrains.skiko:skiko-awt-runtime-macos-arm64", version.ref = "skiko-awt" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
