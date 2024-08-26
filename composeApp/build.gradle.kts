@@ -91,6 +91,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.serializationKotlinxJson)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.cio)
+
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
 //            implementation(libs.room.runtime)

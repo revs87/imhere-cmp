@@ -63,10 +63,12 @@ androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecyc
 
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor_nowasm" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor_nowasm" }
-ktor-server-serializationKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_nowasm" }
+ktor-serializationKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_nowasm" }
 ktor-server-callLogging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor_nowasm" }
 ktor-server-statusPages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor_nowasm" }
 ktor-server-contentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor_nowasm" }
+ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor_nowasm" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor_nowasm" }
 ktor-server-defaultHeaders = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor_nowasm" }
 ktor-server-htmlBuilder = { module = "io.ktor:ktor-server-html-builder", version.ref = "ktor_nowasm" }
 ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor_nowasm" }
