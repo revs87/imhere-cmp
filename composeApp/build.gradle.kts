@@ -97,6 +97,7 @@ kotlin {
 
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
 //            implementation(libs.room.runtime)
 //            implementation(libs.sqlite.bundled)
 //            implementation(libs.realm.base)
