@@ -3,7 +3,7 @@ package com.rvcoding.imhere.domain.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.rvcoding.imhere.domain.Configuration.Companion.APP_ID
-import com.rvcoding.imhere.util.sha256
+import com.rvcoding.imhere.domain.util.sha256
 import com.rvcoding.imhere.domain.util.uniqueRandom
 import kotlinx.serialization.Serializable
 
