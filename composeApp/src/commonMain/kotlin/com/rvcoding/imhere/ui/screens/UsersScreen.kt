@@ -13,9 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.rvcoding.imhere.PlatformType
 import com.rvcoding.imhere.api.response.UsersResponse
 import com.rvcoding.imhere.client
 import com.rvcoding.imhere.domain.model.User
+import com.rvcoding.imhere.getPlatformType
 import com.rvcoding.imhere.ui.component.UserCard
 import com.rvcoding.imhere.ui.theme.AppTheme
 import io.ktor.client.call.body
@@ -32,7 +34,12 @@ fun UsersScreen(
 
     LaunchedEffect(Unit) {
         try {
-            val url = "http://0.0.0.0:8080/rvc-imhere/users"
+            val url = when (getPlatformType()) {
+                is PlatformType.ANDROID -> "http://10.0.2.2:8080/rvc-imhere/users"
+                is PlatformType.DESKTOP -> "http://0.0.0.0:8080/rvc-imhere/users"
+                is PlatformType.IOS -> "http://0.0.0.0:8080/rvc-imhere/users"
+                is PlatformType.WEB -> "http://0.0.0.0:8080/rvc-imhere/users"
+            }
             val response: UsersResponse = client.get(url).body()
             users.addAll(response.users)
         } catch (e: Exception) {
@@ -55,8 +62,8 @@ fun UsersScreen(
                 ) { user ->
                     UserCard(
                         modifier = Modifier
-                            .size(400.dp, 200.dp)
-                            .padding(top = 8.dp, bottom = 8.dp),
+                            .size(380.dp, 200.dp)
+                            .padding(8.dp),
                         user = user,
                         onFollowClick = {},
                         onUnfollowClick = {},

@@ -34,19 +34,26 @@ kotlin {
         }
     }
     
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    
-    jvm()
-
-    ios {
-        binaries {
-            framework {
-                binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
-            }
+    iosX64 {
+        binaries.framework {
+            baseName = "imhere"
+            binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
         }
     }
+    iosArm64 {
+        binaries.framework {
+            baseName = "imhere"
+            binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "imhere"
+            binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
+        }
+    }
+    
+    jvm()
 
     val osName = System.getProperty("os.name")
     val targetOs = when {
