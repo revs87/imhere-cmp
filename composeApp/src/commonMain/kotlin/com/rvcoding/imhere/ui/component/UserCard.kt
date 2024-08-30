@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.rvcoding.imhere.User
-import com.rvcoding.imhere.domain.util.toLocalDate
+import com.rvcoding.imhere.domain.model.User
+import com.rvcoding.imhere.util.toLocalDate
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 

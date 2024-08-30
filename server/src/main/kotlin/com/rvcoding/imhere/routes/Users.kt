@@ -5,7 +5,7 @@ import com.rvcoding.imhere.domain.api.request.UserCoordinatesRequest
 import com.rvcoding.imhere.domain.api.request.UserStateRequest
 import com.rvcoding.imhere.domain.api.response.UserStateResponse
 import com.rvcoding.imhere.domain.api.response.UsersResponse
-import com.rvcoding.imhere.domain.models.Coordinates
+import com.rvcoding.imhere.model.Coordinates
 import com.rvcoding.imhere.domain.models.toExposed
 import com.rvcoding.imhere.domain.repository.UserRepository
 import io.ktor.http.ContentType

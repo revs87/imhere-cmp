@@ -2,6 +2,7 @@ package com.rvcoding.imhere.domain.util
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import com.rvcoding.imhere.util.sha256
 import kotlin.test.Test
 
 

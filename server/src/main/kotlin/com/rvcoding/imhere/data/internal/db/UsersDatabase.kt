@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
-import com.rvcoding.imhere.domain.models.Coordinates
 import com.rvcoding.imhere.domain.models.User
 import kotlinx.coroutines.flow.Flow
 

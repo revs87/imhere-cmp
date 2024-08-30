@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -14,9 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.rvcoding.imhere.User
-import com.rvcoding.imhere.UsersResponse
+import com.rvcoding.imhere.api.response.UsersResponse
 import com.rvcoding.imhere.client
+import com.rvcoding.imhere.domain.model.User
 import com.rvcoding.imhere.ui.component.UserCard
 import com.rvcoding.imhere.ui.theme.AppTheme
 import io.ktor.client.call.body

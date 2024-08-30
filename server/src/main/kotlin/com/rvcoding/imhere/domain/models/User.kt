@@ -2,9 +2,10 @@ package com.rvcoding.imhere.domain.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.rvcoding.imhere.domain.models.UserState.IDLE
-import kotlinx.serialization.Required
-import kotlinx.serialization.SerialName
+import com.rvcoding.imhere.model.Coordinates
+import com.rvcoding.imhere.model.UserState.IDLE
+import com.rvcoding.imhere.model.UserExposed
+import com.rvcoding.imhere.model.UserState
 import kotlinx.serialization.Serializable
 
 @Entity
@@ -27,16 +28,6 @@ data class User(
         val Default by lazy { User("default", "default") }
     }
 }
-
-@Serializable
-data class UserExposed(
-    @Required @SerialName("userId") val id: String,
-    @Required val firstName: String = "",
-    @Required val lastName: String = "",
-    @Required val lastActivity: Long = 0L,
-    @Required val state: UserState = IDLE,
-    @Required val coordinates: Coordinates = Coordinates(0.0, 0.0, 0L)
-)
 
 fun User.toExposed() = UserExposed(
     id = id,

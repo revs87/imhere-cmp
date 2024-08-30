@@ -27,9 +27,6 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.Required
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -91,28 +88,3 @@ val client = HttpClient(CIO) {
         call
     }
 }
-
-@Serializable
-data class UsersResponse(val users: List<User>)
-@Serializable
-data class User(
-    @Required @SerialName("userId") val id: String,
-    @Required val firstName: String = "",
-    @Required val lastName: String = "",
-    @Required val lastActivity: Long = 0L,
-    @Required val state: String = "",
-    @Required val coordinates: Coordinates = Coordinates(0.0, 0.0, 0L),
-) {
-    companion object {
-        val Default = User(
-            id = "id",
-            state = "IDLE"
-        )
-    }
-}
-@Serializable
-data class Coordinates(
-    val lat: Double,
-    val lon: Double,
-    val timestamp: Long
-)

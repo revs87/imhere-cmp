@@ -43,6 +43,7 @@ statelyCommon = "2.0.5"
 kotlincrypto = "0.5.1"
 skiko-awt = "0.8.0"
 kotlinx-datetime = "0.6.1"
+kotlinx-uuid = "0.1.2"
 
 
 
@@ -116,6 +117,7 @@ kotlincrypto-hash-sha2 = { module = "org.kotlincrypto.hash:sha2" }
 skiko-awt = { module = "org.jetbrains.skiko:skiko-awt", version.ref = "skiko-awt" }
 skiko-awt-runtime = { module = "org.jetbrains.skiko:skiko-awt-runtime-macos-arm64", version.ref = "skiko-awt" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-uuid = { module = "app.softwork:kotlinx-uuid-core", version.ref = "kotlinx-uuid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

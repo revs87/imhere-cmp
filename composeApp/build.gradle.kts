@@ -130,6 +130,9 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+        wasmJsMain.dependencies {
+            implementation(npm("uuid", "10.0.0"))
+        }
     }
 }
 

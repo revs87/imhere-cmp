@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.domain.util
+package com.rvcoding.imhere.util
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime

@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -68,11 +69,20 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+
+            implementation(libs.kotlin.serialization)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
+            implementation(project.dependencies.platform(libs.kotlincrypto.hash))
+            implementation(libs.kotlincrypto.hash.sha2)
         }
         jvmMain.dependencies {
             implementation(libs.skiko.awt)
             implementation(libs.skiko.awt.runtime)
             implementation(compose.desktop.currentOs)
+        }
+        wasmJsMain.dependencies {
+            implementation(npm("uuid", "10.0.0"))
         }
     }
 }
