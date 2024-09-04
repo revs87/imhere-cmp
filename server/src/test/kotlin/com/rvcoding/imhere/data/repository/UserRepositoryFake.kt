@@ -1,8 +1,8 @@
 package com.rvcoding.imhere.data.repository
 
-import com.rvcoding.imhere.model.Coordinates
+import com.rvcoding.imhere.domain.model.Coordinates
 import com.rvcoding.imhere.domain.models.User
-import com.rvcoding.imhere.model.UserState
+import com.rvcoding.imhere.domain.model.UserState
 import com.rvcoding.imhere.domain.repository.UserRepository
 import java.util.Collections
 

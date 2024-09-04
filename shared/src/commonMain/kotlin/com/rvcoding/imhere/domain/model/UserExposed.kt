@@ -1,6 +1,6 @@
-package com.rvcoding.imhere.model
+package com.rvcoding.imhere.domain.model
 
-import com.rvcoding.imhere.model.UserState.IDLE
+import com.rvcoding.imhere.domain.model.UserState.IDLE
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

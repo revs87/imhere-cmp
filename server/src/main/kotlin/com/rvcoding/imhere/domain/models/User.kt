@@ -2,10 +2,10 @@ package com.rvcoding.imhere.domain.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.rvcoding.imhere.model.Coordinates
-import com.rvcoding.imhere.model.UserState.IDLE
-import com.rvcoding.imhere.model.UserExposed
-import com.rvcoding.imhere.model.UserState
+import com.rvcoding.imhere.domain.model.Coordinates
+import com.rvcoding.imhere.domain.model.UserState.IDLE
+import com.rvcoding.imhere.domain.model.UserExposed
+import com.rvcoding.imhere.domain.model.UserState
 import kotlinx.serialization.Serializable
 
 @Entity

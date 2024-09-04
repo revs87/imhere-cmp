@@ -18,7 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.rvcoding.imhere.ui.screens.UsersScreen
+import com.rvcoding.imhere.di.IHKoin
+import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.theme.AppTheme
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -28,10 +29,15 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.core.context.startKoin
 
 @Composable
 @Preview
 fun App() {
+    startKoin {
+        modules(IHKoin.modules)
+    }
+
     AppTheme {
         Scaffold(
             modifier = Modifier.fillMaxWidth(),

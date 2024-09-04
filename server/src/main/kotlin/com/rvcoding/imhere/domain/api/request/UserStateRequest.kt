@@ -1,6 +1,6 @@
 package com.rvcoding.imhere.domain.api.request
 
-import com.rvcoding.imhere.model.UserState
+import com.rvcoding.imhere.domain.model.UserState
 import kotlinx.serialization.Serializable
 
 @Serializable

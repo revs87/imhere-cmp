@@ -7,7 +7,7 @@ import com.rvcoding.imhere.domain.repository.LoginResult
 import com.rvcoding.imhere.domain.repository.RegisterResult
 import com.rvcoding.imhere.domain.repository.UserRepository
 import com.rvcoding.imhere.domain.util.sha256
-import com.rvcoding.imhere.model.UserState
+import com.rvcoding.imhere.domain.model.UserState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
