@@ -18,6 +18,7 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondRedirect
 import io.ktor.server.routing.Routing
+import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.pipeline.PipelineContext
 import org.koin.ktor.ext.get
@@ -74,11 +75,22 @@ fun Routing.authentication() {
             loginHandle(authRepository, sessionRepository, userRepository, userId, password)
         } catch (e: Exception) { onUnauthorizedError() }
     }
+
     post(Route.LoginInternal.path) {
         val userId = call.request.queryParameters["userId"] ?: ""
         if (isInternal[userId] == false) {
             onUnauthorizedError()
             return@post
+        }
+        else { isInternal[userId] = false }
+        val password = call.request.queryParameters["password"] ?: ""
+        loginHandle(authRepository, sessionRepository, userRepository, userId, password)
+    }
+    get(Route.LoginInternal.path) {
+        val userId = call.request.queryParameters["userId"] ?: ""
+        if (isInternal[userId] == false) {
+            onUnauthorizedError()
+            return@get
         }
         else { isInternal[userId] = false }
         val password = call.request.queryParameters["password"] ?: ""

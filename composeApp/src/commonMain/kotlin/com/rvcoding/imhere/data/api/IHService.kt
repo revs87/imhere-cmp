@@ -48,11 +48,15 @@ class IHService(
             val response: AuthResponse = responseObject.body()
             when (response.result) {
                 is RegisterResult.Success -> Result.Success(response)
-                is LoginResult.Success -> Result.Success(response)  // returned if user already registered (redirect to login)
                 is RegisterResult.InvalidParametersError -> Result.Error(HttpError.Auth(response))
                 is RegisterResult.CriteriaNotMetError -> Result.Error(HttpError.Auth(response))
                 is RegisterResult.UserAlreadyRegisteredError -> Result.Error(HttpError.Auth(response))
                 is RegisterResult.UnauthorizedError -> Result.Error(HttpError.Auth(response))
+                // returned if user already registered (redirect to login)
+                is LoginResult.Success -> Result.Success(response)
+                is LoginResult.InvalidParametersError -> Result.Error(HttpError.Auth(response))
+                is LoginResult.CredentialsMismatchError -> Result.Error(HttpError.Auth(response))
+                is LoginResult.UnauthorizedError -> Result.Error(HttpError.Auth(response))
                 else -> Result.Error(
                     error = HttpError.Communication(
                         code = responseObject.status.value,

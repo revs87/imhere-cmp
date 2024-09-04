@@ -30,6 +30,7 @@ fun AllInOneApiScreen(
 ) {
     val content by sm.content.collectAsStateWithLifecycle()
     var userId by remember { mutableStateOf("revs") }
+    var password by remember { mutableStateOf("test") }
     var showUsers by remember { mutableStateOf(false) }
 
     AppTheme {
@@ -47,9 +48,14 @@ fun AllInOneApiScreen(
                     onValueChange = { userId = it },
                     label = { Text("User ID") }
                 )
+                TextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") }
+                )
                 Row {
-                    Button(onClick = { sm.requestRegister(userId, "test", "", ""); showUsers = false }) { Text("Register") }
-                    Button(onClick = { sm.requestLogin(userId, "test"); showUsers = false }) { Text("Login") }
+                    Button(onClick = { sm.requestRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
+                    Button(onClick = { sm.requestLogin(userId, password); showUsers = false }) { Text("Login") }
                     Button(onClick = { /*sm.requestUsers()*/ showUsers = true }) { Text("Users") }
                 }
 
