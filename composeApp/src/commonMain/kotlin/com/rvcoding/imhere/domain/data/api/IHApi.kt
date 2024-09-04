@@ -25,10 +25,10 @@ interface IHApi {
 
     companion object {
         internal val URL = when (getPlatformType()) {
-            is PlatformType.ANDROID -> "http://10.0.2.2:8080/"
-            is PlatformType.DESKTOP -> "http://0.0.0.0:8080/"
-            is PlatformType.IOS -> "http://0.0.0.0:8080/"
-            is PlatformType.WEB -> "http://0.0.0.0:8080/"
+            is PlatformType.ANDROID -> "http://10.0.2.2:8080"
+            is PlatformType.DESKTOP -> "http://0.0.0.0:8080"
+            is PlatformType.IOS -> "http://0.0.0.0:8080"
+            is PlatformType.WEB -> "http://0.0.0.0:8080"
         }
     }
 }

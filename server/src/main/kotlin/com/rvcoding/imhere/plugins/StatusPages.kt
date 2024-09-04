@@ -7,6 +7,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
+import kotlinx.serialization.Serializable
 
 fun Application.configureStatusPages() {
     install(StatusPages) {
@@ -36,7 +37,10 @@ fun Application.configureStatusPages() {
     }
 }
 
+@Serializable
 sealed class Error(val code: Int) {
+    @Serializable
     data object UnauthorizedError : Error(900)
+    @Serializable
     data object NotFoundError : Error(901)
 }

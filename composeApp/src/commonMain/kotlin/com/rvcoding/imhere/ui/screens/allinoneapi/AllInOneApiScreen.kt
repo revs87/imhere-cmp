@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,7 +26,7 @@ fun AllInOneApiScreen(
     modifier: Modifier = Modifier
 ) {
     val content by sm.content.collectAsStateWithLifecycle()
-
+    var userId by remember { mutableStateOf("revs") }
 
     AppTheme {
         Box(
@@ -30,9 +34,15 @@ fun AllInOneApiScreen(
             contentAlignment = Alignment.Center
         ) {
             Column {
-                Button(onClick = { sm.requestConfiguration() }) {
-                    Text("Configuration")
-                }
+                TextField(
+                    value = userId,
+                    onValueChange = { userId = it },
+                    label = { Text("User ID") }
+                )
+                Button(onClick = { sm.requestConfiguration() }) { Text("Configuration") }
+                Button(onClick = { sm.requestRegister(userId, "test", "", "") }) { Text("Register") }
+                Button(onClick = { sm.requestLogin(userId, "test") }) { Text("Login") }
+                Button(onClick = { sm.requestUsers() }) { Text("Users") }
                 Text(
                     modifier = Modifier.fillMaxSize(),
                     text = content

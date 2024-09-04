@@ -9,14 +9,20 @@ import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpCallValidator
+import io.ktor.client.plugins.HttpRedirect
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.koin.dsl.module
 
 val appModule = module {
+    single { CoroutineScope(Dispatchers.IO) }
+
     fun provideHttpClient(): HttpClient = HttpClient(CIO) {
         install(ContentNegotiation) { json() }
         //    install(Logging) {
@@ -28,6 +34,9 @@ val appModule = module {
             requestTimeoutMillis = 30000
             connectTimeoutMillis = 30000
             socketTimeoutMillis = 30000
+        }
+        install(HttpRedirect) {
+            this.checkHttpMethod = false
         }
     }.also {
         it.plugin(HttpSend).intercept { request ->
@@ -44,5 +53,5 @@ val appModule = module {
     single<UsersRepository> { UsersRepositoryImpl(get()) }
 
     factory { UsersStateModel(get()) }
-    factory { AllInOneApiStateModel(get()) }
+    factory { AllInOneApiStateModel(get(), get()) }
 }
