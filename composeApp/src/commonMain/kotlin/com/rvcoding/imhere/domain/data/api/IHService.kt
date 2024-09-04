@@ -8,6 +8,7 @@ import com.rvcoding.imhere.domain.data.api.IHApi.Companion.URL
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
 
 class IHService(
     private val client: HttpClient
@@ -19,16 +20,16 @@ class IHService(
         return try {
             val responseObject = client.get("$URL${Route.Users.path}")
             val response: UsersResponse = responseObject.body()
-            if (responseObject.status.value in 200..299) Result.Success(data = response)
-            else Result.Error(
-                error = HttpError.Connection(
-                    code = responseObject.status.value,
-                    codeDescription = responseObject.status.description
+            when {
+                responseObject.statusSuccess() -> Result.Success(data = response)
+                else -> Result.Error(
+                    error = HttpError.Connection(
+                        code = responseObject.status.value,
+                        codeDescription = responseObject.status.description
+                    )
                 )
-            )
-        } catch (e: Exception) {
-            Result.Error(error = HttpError.Unknown)
-        }
+            }
+        } catch (e: Exception) { Result.Error(error = HttpError.Unknown(message = e.message.toString())) }
     }
     override suspend fun sessions() {}
     override suspend fun subscriptions() {}
@@ -40,3 +41,5 @@ class IHService(
     override suspend fun state() {}
     override suspend fun sync() {}
 }
+
+private fun HttpResponse.statusSuccess(): Boolean  = this.status.value in 200..299
