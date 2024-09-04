@@ -1,9 +1,9 @@
 package com.rvcoding.imhere.data.repository
 
-import com.rvcoding.imhere.api.response.UsersResponse
-import com.rvcoding.imhere.domain.DataError
 import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.IHApi
+import com.rvcoding.imhere.domain.data.api.error.DataError
+import com.rvcoding.imhere.domain.data.api.response.UsersResponse
 import com.rvcoding.imhere.domain.data.repository.UsersRepository
 
 class UsersRepositoryImpl(

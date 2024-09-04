@@ -1,7 +1,7 @@
 package com.rvcoding.imhere.domain
 
 import kotlinx.serialization.Serializable
-import com.rvcoding.imhere.domain.Error as LayerError
+import com.rvcoding.imhere.domain.data.api.error.Error as LayerError
 
 
 @Serializable

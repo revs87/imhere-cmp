@@ -1,13 +1,13 @@
 package com.rvcoding.imhere.routes
 
 import com.rvcoding.imhere.domain.Route
-import com.rvcoding.imhere.domain.api.request.UserCoordinatesRequest
-import com.rvcoding.imhere.domain.api.request.UserStateRequest
-import com.rvcoding.imhere.domain.api.response.UserStateResponse
-import com.rvcoding.imhere.domain.api.response.UsersResponse
+import com.rvcoding.imhere.domain.data.api.request.UserCoordinatesRequest
+import com.rvcoding.imhere.domain.data.api.request.UserStateRequest
+import com.rvcoding.imhere.domain.data.api.response.UserStateResponse
+import com.rvcoding.imhere.domain.data.api.response.UsersResponse
+import com.rvcoding.imhere.domain.data.db.toExposed
 import com.rvcoding.imhere.domain.model.Coordinates
-import com.rvcoding.imhere.domain.models.toExposed
-import com.rvcoding.imhere.domain.repository.UserRepository
+import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import io.ktor.http.ContentType
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
@@ -21,7 +21,7 @@ import org.koin.ktor.ext.get
 
 
 fun Routing.users() {
-    val userRepository: UserRepository = get<UserRepository>()
+    val userRepository: ApiUserRepository = get<ApiUserRepository>()
 
     get(Route.Users.path) {
         val users = userRepository.getAll()
@@ -59,11 +59,13 @@ fun Routing.users() {
                 userRepository.updateLastActivity(user.id)
                 val coordinates = Coordinates(request.lat, request.lon, request.timestamp ?: System.currentTimeMillis())
                 userRepository.updateCoordinates(request.userId, coordinates)
-                call.respondText(Json.encodeToString(UserStateResponse(user.copy(
+                call.respondText(Json.encodeToString(
+                    UserStateResponse(user.copy(
                     lat = coordinates.lat,
                     lon = coordinates.lon,
                     lastCoordinatesTimestamp = coordinates.timestamp
-                ).toExposed())), ContentType.Application.Json)
+                ).toExposed())
+                ), ContentType.Application.Json)
             } ?: call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
         } catch (e: Exception) {
             call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)

@@ -19,15 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.rvcoding.imhere.di.IHKoin
-import com.rvcoding.imhere.ui.screens.users.UsersScreen
+import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiScreen
 import com.rvcoding.imhere.ui.theme.AppTheme
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpSend
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.plugin
-import io.ktor.serialization.kotlinx.json.json
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.core.context.startKoin
 
@@ -53,7 +46,10 @@ fun App() {
 
 
                 var showContent by remember { mutableStateOf(false) }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Button(onClick = { showContent = !showContent }) {
                         Text("Fetch Users")
                     }
@@ -63,7 +59,8 @@ fun App() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text("Registered users:")
-                            UsersScreen()
+                            //UsersScreen()
+                            AllInOneApiScreen()
                         }
                     }
                 }
@@ -71,26 +68,5 @@ fun App() {
 
             }
         }
-    }
-}
-
-val client = HttpClient(CIO) {
-    install(ContentNegotiation) { json() }
-//    install(Logging) {
-//        logger = Logger.DEFAULT
-//        level = LogLevel.ALL
-//    }
-    install(HttpTimeout) {
-        requestTimeoutMillis = 30000
-        connectTimeoutMillis = 30000
-        socketTimeoutMillis = 30000
-    }
-}.also {
-    it.plugin(HttpSend).intercept { request ->
-        println("Intercepting request: ${request.url}")
-        request.headers.append("X-Custom-Header", "MyValue")
-        val call = execute(request)
-        println("Response received: ${call.response.status}")
-        call
     }
 }

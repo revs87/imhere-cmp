@@ -7,12 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
-import com.rvcoding.imhere.domain.models.Subscription
+import com.rvcoding.imhere.domain.data.db.SubscriptionEntity
 import kotlinx.coroutines.flow.Flow
 
 
 @Database(
-    entities = [Subscription::class],
+    entities = [SubscriptionEntity::class],
     version = 1
 )
 abstract class SubscriptionsDatabase : RoomDatabase() {
@@ -26,11 +26,11 @@ abstract class SubscriptionsDatabase : RoomDatabase() {
 @Dao
 interface SubscriptionsDao {
     @Query("SELECT * FROM subscription")
-    fun getAllSubscriptions(): Flow<List<Subscription>>
+    fun getAllSubscriptions(): Flow<List<SubscriptionEntity>>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(subscription: Subscription)
+    suspend fun insert(subscription: SubscriptionEntity)
 
     @Transaction
     @Query("DELETE FROM subscription WHERE userId = :userId AND userSubscribedId = :userSubscribedId")

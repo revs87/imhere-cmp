@@ -1,9 +1,10 @@
 package com.rvcoding.imhere.di
 
+import com.rvcoding.imhere.data.api.IHService
 import com.rvcoding.imhere.data.repository.UsersRepositoryImpl
 import com.rvcoding.imhere.domain.data.api.IHApi
-import com.rvcoding.imhere.domain.data.api.IHService
 import com.rvcoding.imhere.domain.data.repository.UsersRepository
+import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiStateModel
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -43,4 +44,5 @@ val appModule = module {
     single<UsersRepository> { UsersRepositoryImpl(get()) }
 
     factory { UsersStateModel(get()) }
+    factory { AllInOneApiStateModel(get()) }
 }

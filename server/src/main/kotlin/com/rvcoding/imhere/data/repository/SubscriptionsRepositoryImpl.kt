@@ -1,8 +1,8 @@
 package com.rvcoding.imhere.data.repository
 
 import com.rvcoding.imhere.data.internal.db.SubscriptionsDao
-import com.rvcoding.imhere.domain.models.Subscription
-import com.rvcoding.imhere.domain.repository.SubscriptionRepository
+import com.rvcoding.imhere.domain.data.db.SubscriptionEntity
+import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class SubscriptionsRepositoryImpl(
     private val subscriptionsDao: SubscriptionsDao
-) : SubscriptionRepository {
-    private lateinit var subscriptions: StateFlow<List<Subscription>>
+) : ApiSubscriptionRepository {
+    private lateinit var subscriptions: StateFlow<List<SubscriptionEntity>>
     private var scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     init {
@@ -21,9 +21,9 @@ class SubscriptionsRepositoryImpl(
         }
     }
 
-    override fun getAllSubscriptions(): List<Subscription> = subscriptions.value.sortedByDescending { it.timestamp }
-    override fun getUserSubscriptions(userId: String): List<Subscription> = subscriptions.value.filter { it.userId == userId }.sortedByDescending { it.timestamp }
-    override fun getUserSubscribers(userId: String): List<Subscription> = subscriptions.value.filter { it.userSubscribedId == userId }.sortedByDescending { it.timestamp }
-    override suspend fun subscribe(subscription: Subscription) = subscriptionsDao.insert(subscription)
+    override fun getAllSubscriptions(): List<SubscriptionEntity> = subscriptions.value.sortedByDescending { it.timestamp }
+    override fun getUserSubscriptions(userId: String): List<SubscriptionEntity> = subscriptions.value.filter { it.userId == userId }.sortedByDescending { it.timestamp }
+    override fun getUserSubscribers(userId: String): List<SubscriptionEntity> = subscriptions.value.filter { it.userSubscribedId == userId }.sortedByDescending { it.timestamp }
+    override suspend fun subscribe(subscription: SubscriptionEntity) = subscriptionsDao.insert(subscription)
     override suspend fun unsubscribe(userId: String, userSubscribedId: String) = subscriptionsDao.delete(userId, userSubscribedId)
 }

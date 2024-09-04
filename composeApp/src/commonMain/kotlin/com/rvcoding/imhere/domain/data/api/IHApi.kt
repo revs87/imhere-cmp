@@ -1,15 +1,17 @@
 package com.rvcoding.imhere.domain.data.api
 
 import com.rvcoding.imhere.PlatformType
-import com.rvcoding.imhere.api.response.UsersResponse
-import com.rvcoding.imhere.domain.HttpError
 import com.rvcoding.imhere.domain.Result
+import com.rvcoding.imhere.domain.data.api.error.HttpError
+import com.rvcoding.imhere.domain.data.api.response.AuthResponse
+import com.rvcoding.imhere.domain.data.api.response.ConfigurationResponse
+import com.rvcoding.imhere.domain.data.api.response.UsersResponse
 import com.rvcoding.imhere.getPlatformType
 
 interface IHApi {
-    suspend fun getConfiguration()
-    suspend fun register()
-    suspend fun login()
+    suspend fun getConfiguration(): Result<ConfigurationResponse, HttpError>
+    suspend fun register(userId: String, password: String, firstName: String, lastName: String): Result<AuthResponse, HttpError>
+    suspend fun login(userId: String, password: String): Result<AuthResponse, HttpError>
     suspend fun users(): Result<UsersResponse, HttpError>
     suspend fun sessions()
     suspend fun subscriptions()

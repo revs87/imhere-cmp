@@ -16,3 +16,5 @@ fun Long.toLocalDate(): String = dateTimeFormat.format(
         .fromEpochMilliseconds(this)
         .toLocalDateTime(TimeZone.currentSystemDefault())
 )
+
+expect fun currentTimeMillis(): Long

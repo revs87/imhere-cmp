@@ -1,12 +1,12 @@
 package com.rvcoding.imhere.data.repository
 
+import com.rvcoding.imhere.domain.data.db.User
 import com.rvcoding.imhere.domain.model.Coordinates
-import com.rvcoding.imhere.domain.models.User
 import com.rvcoding.imhere.domain.model.UserState
-import com.rvcoding.imhere.domain.repository.UserRepository
+import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import java.util.Collections
 
-class UserRepositoryFake : UserRepository {
+class UserRepositoryFake : ApiUserRepository {
     private val users: MutableMap<String, User> = Collections.synchronizedMap(mutableMapOf())
 
     override fun containsUserId(userId: String): Boolean = users.contains(userId)

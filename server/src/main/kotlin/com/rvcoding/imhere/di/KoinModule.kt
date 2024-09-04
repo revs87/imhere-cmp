@@ -8,14 +8,14 @@ import com.rvcoding.imhere.data.internal.db.SubscriptionsDao
 import com.rvcoding.imhere.data.internal.db.SubscriptionsDatabase
 import com.rvcoding.imhere.data.internal.db.UsersDao
 import com.rvcoding.imhere.data.internal.db.UsersDatabase
-import com.rvcoding.imhere.data.repository.AuthRepositoryImpl
-import com.rvcoding.imhere.data.repository.SessionsRepositoryImpl
+import com.rvcoding.imhere.data.repository.ApiAuthRepositoryImpl
+import com.rvcoding.imhere.data.repository.ApiSessionsRepositoryImpl
+import com.rvcoding.imhere.data.repository.ApiUserRepositoryImpl
 import com.rvcoding.imhere.data.repository.SubscriptionsRepositoryImpl
-import com.rvcoding.imhere.data.repository.UserRepositoryImpl
-import com.rvcoding.imhere.domain.repository.AuthRepository
-import com.rvcoding.imhere.domain.repository.SessionRepository
-import com.rvcoding.imhere.domain.repository.SubscriptionRepository
-import com.rvcoding.imhere.domain.repository.UserRepository
+import com.rvcoding.imhere.domain.repository.ApiAuthRepository
+import com.rvcoding.imhere.domain.repository.ApiSessionRepository
+import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
+import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
@@ -48,8 +48,10 @@ val koinModule = module {
         .build()
         .subscriptionDao
     }
-    single<SessionRepository> { SessionsRepositoryImpl(get()) }
-    single<SubscriptionRepository> { SubscriptionsRepositoryImpl(get()) }
-    single<UserRepository> { UserRepositoryImpl(get()) }
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<ApiSessionRepository> { ApiSessionsRepositoryImpl(get()) }
+    single<ApiAuthRepository> { ApiAuthRepositoryImpl(get()) }
+    single<ApiUserRepository> { ApiUserRepositoryImpl(get()) }
+
+
+    single<ApiSubscriptionRepository> { SubscriptionsRepositoryImpl(get()) }
 }

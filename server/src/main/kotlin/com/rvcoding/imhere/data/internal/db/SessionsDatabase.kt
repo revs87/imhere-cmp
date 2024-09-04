@@ -7,12 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
-import com.rvcoding.imhere.domain.models.Session
+import com.rvcoding.imhere.domain.data.db.SessionEntity
 import kotlinx.coroutines.flow.Flow
 
 
 @Database(
-    entities = [Session::class],
+    entities = [SessionEntity::class],
     version = 1
 )
 abstract class SessionsDatabase : RoomDatabase() {
@@ -26,14 +26,14 @@ abstract class SessionsDatabase : RoomDatabase() {
 @Dao
 interface SessionsDao {
     @Query("SELECT * FROM session")
-    fun getAllSessions(): Flow<List<Session>>
+    fun getAllSessions(): Flow<List<SessionEntity>>
 
     @Query("SELECT * FROM session WHERE userId = :userId")
-    suspend fun getSessions(userId: String): List<Session>
+    suspend fun getSessions(userId: String): List<SessionEntity>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(session: Session)
+    suspend fun insert(session: SessionEntity)
 
     @Transaction
     @Query("DELETE FROM session")

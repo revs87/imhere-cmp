@@ -1,6 +1,7 @@
 package com.rvcoding.imhere.plugins
 
-import com.rvcoding.imhere.domain.api.response.AuthResponse
+import com.rvcoding.imhere.domain.data.api.AuthResult
+import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -12,9 +13,10 @@ fun Application.configureStatusPages() {
         status(HttpStatusCode.NotFound) { call, _ ->
             call.respond(
                 message = AuthResponse(
-                    Error.NotFoundError.code,
-                    Error.NotFoundError::class.simpleName.toString(),
-                    "Not found."
+                    code = Error.NotFoundError.code,
+                    type = Error.NotFoundError::class.simpleName.toString(),
+                    message = "Not found.",
+                    result = AuthResult.KtorStatus.NotFound
                 ),
                 status = HttpStatusCode.NotFound
             )
@@ -23,9 +25,10 @@ fun Application.configureStatusPages() {
         exception<RuntimeException> { call, e ->
             call.respond(
                 message = AuthResponse(
-                    Error.NotFoundError.code,
-                    Error.NotFoundError::class.simpleName.toString(),
-                    "Error: ${e.printStackTrace()}"
+                    code = Error.UnauthorizedError.code,
+                    type = Error.UnauthorizedError::class.simpleName.toString(),
+                    message = "Error: ${e.printStackTrace()}",
+                    result = AuthResult.KtorStatus.Unauthorized
                 ),
                 status = HttpStatusCode.Unauthorized
             )

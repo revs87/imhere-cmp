@@ -2,14 +2,15 @@ package com.rvcoding.imhere.routes
 
 //import io.ktor.server.routing.RoutingContext
 import com.rvcoding.imhere.domain.Route
-import com.rvcoding.imhere.domain.api.request.AuthRequest
-import com.rvcoding.imhere.domain.api.response.AuthResponse
-import com.rvcoding.imhere.domain.models.Session
-import com.rvcoding.imhere.domain.repository.AuthRepository
-import com.rvcoding.imhere.domain.repository.LoginResult
-import com.rvcoding.imhere.domain.repository.RegisterResult
-import com.rvcoding.imhere.domain.repository.SessionRepository
-import com.rvcoding.imhere.domain.repository.UserRepository
+import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
+import com.rvcoding.imhere.domain.data.api.AuthResult.RegisterResult
+import com.rvcoding.imhere.domain.data.api.request.LoginRequest
+import com.rvcoding.imhere.domain.data.api.request.RegisterRequest
+import com.rvcoding.imhere.domain.data.api.response.AuthResponse
+import com.rvcoding.imhere.domain.data.db.SessionEntity
+import com.rvcoding.imhere.domain.repository.ApiAuthRepository
+import com.rvcoding.imhere.domain.repository.ApiSessionRepository
+import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
@@ -25,18 +26,23 @@ import java.util.Collections
 
 
 fun Routing.authentication() {
-    val authRepository: AuthRepository = get<AuthRepository>()
-    val sessionRepository: SessionRepository = get<SessionRepository>()
-    val userRepository: UserRepository = get<UserRepository>()
+    val authRepository: ApiAuthRepository = get<ApiAuthRepository>()
+    val sessionRepository: ApiSessionRepository = get<ApiSessionRepository>()
+    val userRepository: ApiUserRepository = get<ApiUserRepository>()
     val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
     post(Route.Register.path) {
-        val request = call.receive<AuthRequest>()
+        val request = call.receive<RegisterRequest>()
         try {
-            val (userId, password) = listOf(request.userId, request.password)
-            when (val result = authRepository.register(userId, password)) {
+            val (userId, password, firstName, lastName) = listOf(request.userId, request.password, request.firstName, request.lastName)
+            when (val result = authRepository.register(userId, password, firstName, lastName)) {
                 is RegisterResult.InvalidParametersError, is RegisterResult.CriteriaNotMetError -> call.respond(
-                    message = AuthResponse(result.code, result::class.simpleName.toString(), "User registration failed."),
+                    message = AuthResponse(
+                        code = result.code,
+                        type = result::class.simpleName.toString(),
+                        message = "User registration failed.",
+                        result = result
+                    ),
                     status = HttpStatusCode.BadRequest
                 )
                 is RegisterResult.UnauthorizedError -> onUnauthorizedError()
@@ -45,7 +51,12 @@ fun Routing.authentication() {
                     call.respondRedirect(url = "${Route.LoginInternal.path}?userId=$userId&password=$password", permanent = false)
                 }
                 is RegisterResult.Success -> call.respond(
-                    message = AuthResponse(result.code, result::class.simpleName.toString(), "User registered successfully."),
+                    message = AuthResponse(
+                        code = result.code,
+                        type = result::class.simpleName.toString(),
+                        message = "User registered successfully.",
+                        result = result
+                    ),
                     status = HttpStatusCode.OK
                 )
             }
@@ -53,7 +64,7 @@ fun Routing.authentication() {
     }
 
     post(Route.Login.path) {
-        val request = call.receive<AuthRequest>()
+        val request = call.receive<LoginRequest>()
         try {
             val (userId, password) = listOf(request.userId, request.password)
             loginHandle(authRepository, sessionRepository, userRepository, userId, password)
@@ -78,27 +89,42 @@ fun Routing.authentication() {
 
 //private suspend fun RoutingContext.loginHandle(
 private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
-    authRepository: AuthRepository,
-    sessionRepository: SessionRepository,
-    userRepository: UserRepository,
+    authRepository: ApiAuthRepository,
+    sessionRepository: ApiSessionRepository,
+    userRepository: ApiUserRepository,
     userId: String,
     password: String
 ) {
     when (val result = authRepository.login(userId, password)) {
         LoginResult.CredentialsMismatchError -> call.respond(
-            message = AuthResponse(result.code, result::class.simpleName.toString(), "User login failed."),
+            message = AuthResponse(
+                code = result.code,
+                type = result::class.simpleName.toString(),
+                message = "User login failed.",
+                result = result
+            ),
             status = HttpStatusCode.PreconditionFailed
         )
         LoginResult.UnauthorizedError -> onUnauthorizedError()
         LoginResult.InvalidParametersError -> call.respond(
-            message = AuthResponse(result.code, result::class.simpleName.toString(), "User login failed."),
+            message = AuthResponse(
+                code = result.code,
+                type = result::class.simpleName.toString(),
+                message = "User login failed.",
+                result = result
+            ),
             status = HttpStatusCode.BadRequest
         )
         LoginResult.Success -> {
-            sessionRepository.newSession(Session.generate(userId))
+            sessionRepository.newSession(SessionEntity.generate(userId))
             userRepository.updateLastLogin(userId)
             call.respond(
-                message = AuthResponse(result.code, result::class.simpleName.toString(), "User logged in successfully."),
+                message = AuthResponse(
+                    code = result.code,
+                    type = result::class.simpleName.toString(),
+                    message = "User logged in successfully.",
+                    result = result
+                ),
                 status = HttpStatusCode.OK
             )
         }
@@ -109,9 +135,10 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
 private suspend fun PipelineContext<Unit, ApplicationCall>.onUnauthorizedError() {
     call.respond(
         message = AuthResponse(
-            LoginResult.UnauthorizedError.code,
-            LoginResult.UnauthorizedError::class.simpleName.toString(),
-            "User unauthorized."
+            code = LoginResult.UnauthorizedError.code,
+            type = LoginResult.UnauthorizedError::class.simpleName.toString(),
+            message = "User unauthorized.",
+            result = LoginResult.UnauthorizedError
         ),
         status = HttpStatusCode.Unauthorized
     )
