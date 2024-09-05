@@ -12,6 +12,7 @@ sealed class Route(val endpoint: String) {
     data object Sessions: Route("/$id/sessions")
     data object Subscriptions: Route("/$id/subscriptions")
     data object UserSubscriptions: Route("/$id/subscriptionsFromUser")
+    data object UserSubscribedUsers: Route("/$id/userSubscribedUsers")
     data object UserSubscribers: Route("/$id/subscribersOfUser")
     data object Subscribe: Route("/$id/subscribe")
     data object Unsubscribe: Route("/$id/unsubscribe")

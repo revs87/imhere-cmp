@@ -23,6 +23,12 @@ class UsersStateModel(
             is Result.Success -> _users.update { usersRepository.users.value }
         }
     }
+    fun requestUserSubscriptions(userId: String) = coScope.launch {
+        when (val result = usersRepository.userSubscriptions(userId)) {
+            is Result.Error -> println("Error: ${result.error}")
+            is Result.Success -> {}
+        }
+    }
     fun requestSubscribedUsers(userId: String) = coScope.launch {
         when (val result = usersRepository.usersSubscribed(userId)) {
             is Result.Error -> println("Error: ${result.error}")

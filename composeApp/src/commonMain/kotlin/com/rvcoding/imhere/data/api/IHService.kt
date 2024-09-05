@@ -13,6 +13,7 @@ import com.rvcoding.imhere.domain.data.api.request.SubscribeRequest
 import com.rvcoding.imhere.domain.data.api.request.UnsubscribeRequest
 import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import com.rvcoding.imhere.domain.data.api.response.ConfigurationResponse
+import com.rvcoding.imhere.domain.data.api.response.SubscriptionsResponse
 import com.rvcoding.imhere.domain.data.api.response.UsersResponse
 import com.rvcoding.imhere.domain.model.User
 import io.ktor.client.HttpClient
@@ -96,13 +97,29 @@ class IHService(
         }
     }
 
+    override suspend fun subscriptionsFromUser(userId: String): Result<SubscriptionsResponse, HttpError> = try {
+        val responseObject = client.get("$URL${Route.UserSubscriptions.endpoint}/?userId=$userId")
+        val response: SubscriptionsResponse = responseObject.body()
+        when {
+            responseObject.statusSuccess() -> Result.Success(data = response)
+            else -> Result.Error(
+                error = HttpError.Communication(
+                    code = responseObject.status.value,
+                    codeDescription = responseObject.status.description
+                )
+            )
+        }
+    } catch (e: Exception) {
+        Result.Error(error = HttpError.Unknown(message = e.message.toString()))
+    }
+
     override suspend fun users(): Result<UsersResponse, HttpError> =
         usersResponseHttpRequest(endpoint = Route.Users.endpoint)
 
-    override suspend fun subscriptionsFromUser(userId: String): Result<UsersResponse, HttpError> =
-        usersResponseHttpRequest(endpoint = Route.UserSubscriptions.endpoint)
+    override suspend fun userSubscribedUsers(userId: String): Result<UsersResponse, HttpError> =
+        usersResponseHttpRequest(endpoint = Route.UserSubscribedUsers.endpoint)
 
-    override suspend fun subscribersOfUser(userId: String): Result<UsersResponse, HttpError> =
+    override suspend fun userSubscribers(userId: String): Result<UsersResponse, HttpError> =
         usersResponseHttpRequest(endpoint = Route.UserSubscribers.endpoint)
 
     override suspend fun subscribe(userId: String, userIdToSubscribe: String): Result<Unit, HttpError> = try {

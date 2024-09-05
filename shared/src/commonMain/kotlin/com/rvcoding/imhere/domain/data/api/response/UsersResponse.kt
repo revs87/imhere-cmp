@@ -1,9 +1,9 @@
 package com.rvcoding.imhere.domain.data.api.response
 
-import com.rvcoding.imhere.domain.model.UserExposed
+import com.rvcoding.imhere.domain.model.User
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UsersResponse(
-    val users: List<UserExposed>
+    val users: List<User>
 )

@@ -7,7 +7,10 @@ import com.rvcoding.imhere.domain.data.api.response.ApiResponse
 import com.rvcoding.imhere.domain.data.api.response.ApiResult.Failure
 import com.rvcoding.imhere.domain.data.api.response.ApiResult.Success
 import com.rvcoding.imhere.domain.data.api.response.SubscriptionsResponse
+import com.rvcoding.imhere.domain.data.api.response.UsersResponse
 import com.rvcoding.imhere.domain.data.db.SubscriptionEntity
+import com.rvcoding.imhere.domain.data.db.UserEntity
+import com.rvcoding.imhere.domain.data.db.toExposed
 import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
 import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import io.ktor.http.ContentType
@@ -49,6 +52,24 @@ fun Routing.subscriptions() {
         call.respondText(json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
+    get(Route.UserSubscribedUsers.endpoint) {
+        val userId = call.request.queryParameters["userId"] ?: ""
+        val containsUser = userRepository.get(userId) != null
+        when {
+            userId.isBlank() -> {
+                call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                return@get
+            }
+            !containsUser -> {
+                call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                return@get
+            }
+        }
+        val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
+        val subscribedUsers = subscriptions.map { userRepository.get(it.userSubscribedId)?.toExposed() ?: UserEntity.Default.toExposed() }
+        call.respondText(json.encodeToString(UsersResponse(subscribedUsers)), ContentType.Application.Json)
+    }
+
     get(Route.UserSubscribers.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         val containsUser = userRepository.get(userId) != null
@@ -63,7 +84,8 @@ fun Routing.subscriptions() {
             }
         }
         val subscriptions = subscriptionRepository.getUserSubscribers(userId)
-        call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
+        val userSubscribers = subscriptions.map { userRepository.get(it.userSubscribedId)?.toExposed() ?: UserEntity.Default.toExposed() }
+        call.respondText(Json.encodeToString(UsersResponse(userSubscribers)), ContentType.Application.Json)
     }
 
     post(Route.Subscribe.endpoint) {
