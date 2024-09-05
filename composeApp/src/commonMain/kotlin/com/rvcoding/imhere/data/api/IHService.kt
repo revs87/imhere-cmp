@@ -114,13 +114,13 @@ class IHService(
     }
 
     override suspend fun users(): Result<UsersResponse, HttpError> =
-        usersResponseHttpRequest(endpoint = Route.Users.endpoint)
+        usersResponseHttpRequest(endpoint = Route.Users.endpoint, userId = "")
 
     override suspend fun userSubscribedUsers(userId: String): Result<UsersResponse, HttpError> =
-        usersResponseHttpRequest(endpoint = Route.UserSubscribedUsers.endpoint)
+        usersResponseHttpRequest(endpoint = Route.UserSubscribedUsers.endpoint, userId = userId)
 
     override suspend fun userSubscribers(userId: String): Result<UsersResponse, HttpError> =
-        usersResponseHttpRequest(endpoint = Route.UserSubscribers.endpoint)
+        usersResponseHttpRequest(endpoint = Route.UserSubscribers.endpoint, userId = userId)
 
     override suspend fun subscribe(userId: String, userIdToSubscribe: String): Result<Unit, HttpError> = try {
         val responseObject = client.post("$URL${Route.Subscribe.endpoint}") {
@@ -166,9 +166,10 @@ class IHService(
 
     private val notImplemented = HttpError.Unknown(message = "Not implemented")
 
-    private suspend fun usersResponseHttpRequest(endpoint: String): Result<UsersResponse, HttpError> {
+    private suspend fun usersResponseHttpRequest(endpoint: String, userId: String): Result<UsersResponse, HttpError> {
         return try {
-            val responseObject = client.get("$URL$endpoint")
+            val suffix = if (userId.isBlank()) "" else "?userId=$userId"
+            val responseObject = client.get("$URL$endpoint$suffix")
             val response: UsersResponse = responseObject.body()
             when {
                 responseObject.statusSuccess() -> Result.Success(data = response)
