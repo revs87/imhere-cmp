@@ -23,12 +23,12 @@ import org.koin.ktor.ext.get
 fun Routing.users() {
     val userRepository: ApiUserRepository = get<ApiUserRepository>()
 
-    get(Route.Users.path) {
+    get(Route.Users.endpoint) {
         val users = userRepository.getAll()
         call.respondText(Json.encodeToString(UsersResponse(users.map { it.toExposed() })), ContentType.Application.Json)
     }
 
-    get(Route.State.path) {
+    get(Route.State.endpoint) {
         try {
             val userId = call.request.queryParameters["userId"] ?: ""
             userRepository.get(userId)?.let { user ->
@@ -39,7 +39,7 @@ fun Routing.users() {
         }
     }
 
-    post(Route.State.path) {
+    post(Route.State.endpoint) {
         try {
             val request = call.receive<UserStateRequest>()
             userRepository.get(request.userId)?.let { user ->
@@ -52,7 +52,7 @@ fun Routing.users() {
         }
     }
 
-    post(Route.Sync.path) {
+    post(Route.Sync.endpoint) {
         try {
             val request = call.receive<UserCoordinatesRequest>()
             userRepository.get(request.userId)?.let { user ->

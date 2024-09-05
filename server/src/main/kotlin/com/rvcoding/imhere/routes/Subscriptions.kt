@@ -26,12 +26,12 @@ fun Routing.subscriptions() {
     val userRepository: ApiUserRepository = get<ApiUserRepository>()
     val subscriptionRepository: ApiSubscriptionRepository = get<ApiSubscriptionRepository>()
 
-    get(Route.Subscriptions.path) {
+    get(Route.Subscriptions.endpoint) {
         val subscriptions = subscriptionRepository.getAllSubscriptions()
         call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
-    get(Route.UserSubscriptions.path) {
+    get(Route.UserSubscriptions.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         val containsUser = userRepository.get(userId) != null
         when {
@@ -48,7 +48,7 @@ fun Routing.subscriptions() {
         call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
-    get(Route.UserSubscribers.path) {
+    get(Route.UserSubscribers.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         val containsUser = userRepository.get(userId) != null
         when {
@@ -65,7 +65,7 @@ fun Routing.subscriptions() {
         call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
-    post(Route.Subscribe.path) {
+    post(Route.Subscribe.endpoint) {
         try {
             val request = call.receive<SubscribeRequest>()
             val containsUser = userRepository.get(request.userId) != null
@@ -92,7 +92,7 @@ fun Routing.subscriptions() {
         }
     }
 
-    post(Route.Unsubscribe.path) {
+    post(Route.Unsubscribe.endpoint) {
         try {
             val request = call.receive<UnsubscribeRequest>()
             val containsSubscription = subscriptionRepository.getUserSubscriptions(request.userId).find { it.userSubscribedId == request.userIdToUnsubscribe } != null

@@ -36,7 +36,7 @@ fun Routing.authentication() {
     val userRepository: ApiUserRepository = get<ApiUserRepository>()
     val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
-    post(Route.Register.path) {
+    post(Route.Register.endpoint) {
         val request = call.receive<RegisterRequest>()
         try {
             val (userId, password, firstName, lastName) = listOf(request.userId, request.password, request.firstName, request.lastName)
@@ -53,7 +53,7 @@ fun Routing.authentication() {
                 is RegisterResult.UnauthorizedError -> onUnauthorizedError()
                 is RegisterResult.UserAlreadyRegisteredError -> {
                     isInternal[userId] = true
-                    call.respondRedirect(url = "${Route.LoginInternal.path}?userId=$userId&password=$password", permanent = false)
+                    call.respondRedirect(url = "${Route.LoginInternal.endpoint}?userId=$userId&password=$password", permanent = false)
                 }
                 is RegisterResult.Success -> call.respond(
                     message = AuthResponse(
@@ -68,7 +68,7 @@ fun Routing.authentication() {
         } catch (e: Exception) { onUnauthorizedError() }
     }
 
-    post(Route.Login.path) {
+    post(Route.Login.endpoint) {
         val request = call.receive<LoginRequest>()
         try {
             val (userId, password) = listOf(request.userId, request.password)
@@ -76,7 +76,7 @@ fun Routing.authentication() {
         } catch (e: Exception) { onUnauthorizedError() }
     }
 
-    post(Route.LoginInternal.path) {
+    post(Route.LoginInternal.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         if (isInternal[userId] == false) {
             onUnauthorizedError()
@@ -86,7 +86,7 @@ fun Routing.authentication() {
         val password = call.request.queryParameters["password"] ?: ""
         loginHandle(authRepository, sessionRepository, userRepository, userId, password)
     }
-    get(Route.LoginInternal.path) {
+    get(Route.LoginInternal.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         if (isInternal[userId] == false) {
             onUnauthorizedError()

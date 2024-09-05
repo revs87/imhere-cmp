@@ -15,7 +15,7 @@ import io.ktor.server.routing.get
 
 fun Routing.configuration() {
 
-    get(Route.Configuration.path) {
+    get(Route.Configuration.endpoint) {
         call.respond(
             message = ConfigurationResponse(
                 configuration = mapOf(

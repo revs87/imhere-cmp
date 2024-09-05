@@ -1,9 +1,9 @@
 package com.rvcoding.imhere.di
 
 import com.rvcoding.imhere.data.api.IHService
-import com.rvcoding.imhere.data.repository.UsersRepositoryImpl
 import com.rvcoding.imhere.domain.data.api.IHApi
-import com.rvcoding.imhere.domain.data.repository.UsersRepository
+import com.rvcoding.imhere.domain.repository.UsersRepository
+import com.rvcoding.imhere.domain.repository.UsersRepositoryPlatformImpl
 import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiStateModel
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import io.ktor.client.HttpClient
@@ -23,6 +23,7 @@ import org.koin.dsl.module
 val appModule = module {
     single { CoroutineScope(Dispatchers.IO) }
 
+    /** API Client */
     fun provideHttpClient(): HttpClient = HttpClient(CIO) {
         install(ContentNegotiation) { json() }
         //    install(Logging) {
@@ -47,11 +48,13 @@ val appModule = module {
             call
         }
     }
-
     single { provideHttpClient() }
     single<IHApi> { IHService(get()) }
-    single<UsersRepository> { UsersRepositoryImpl(get()) }
 
-    factory { UsersStateModel(get(), get(), get()) }
+    /** Repositories */
+    single<UsersRepository> { UsersRepositoryPlatformImpl(get()) }
+
+    /** StateModels */
+    factory { UsersStateModel(get(), get()) }
     factory { AllInOneApiStateModel(get(), get()) }
 }

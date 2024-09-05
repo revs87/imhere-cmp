@@ -16,7 +16,7 @@ import org.koin.ktor.ext.get
 fun Routing.sessions() {
     val sessionRepository: ApiSessionRepository = get<ApiSessionRepository>()
 
-    get(Route.Sessions.path) {
+    get(Route.Sessions.endpoint) {
         val sessions = sessionRepository.getAllSessions()
         call.respondText(Json.encodeToString(SessionsResponse(sessions)), ContentType.Application.Json)
     }

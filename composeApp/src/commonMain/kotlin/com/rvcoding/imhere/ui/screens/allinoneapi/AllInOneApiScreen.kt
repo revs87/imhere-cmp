@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
+import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.getKoin
@@ -26,12 +27,15 @@ import org.koin.compose.getKoin
 @Composable
 fun AllInOneApiScreen(
     sm: AllInOneApiStateModel = getKoin().get<AllInOneApiStateModel>(),
+    um: UsersStateModel = getKoin().get<UsersStateModel>(),
     modifier: Modifier = Modifier
 ) {
     val content by sm.content.collectAsStateWithLifecycle()
     var userId by remember { mutableStateOf("revs") }
     var password by remember { mutableStateOf("test") }
     var showUsers by remember { mutableStateOf(false) }
+    var toSubscribe by remember { mutableStateOf("") }
+    var toUnsubscribe by remember { mutableStateOf("") }
 
     AppTheme {
         Box(
@@ -58,11 +62,29 @@ fun AllInOneApiScreen(
                     Button(onClick = { sm.requestLogin(userId, password); showUsers = false }) { Text("Login") }
                 }
                 Row {
-                    Button(onClick = { /*sm.requestUsers()*/ showUsers = true }) { Text("AllUsers") }
+                    Button(onClick = { um.requestUsers(userId); showUsers = true }) { Text("AllUsers") }
+                    Button(onClick = { um.requestSubscribedUsers(userId); showUsers = true }) { Text("SubscribedUsers") }
+                    Button(onClick = { um.requestSubscribingUsers(userId); showUsers = true }) { Text("SubscribingUsers") }
+                }
+                Row {
+                    TextField(
+                        value = toSubscribe,
+                        onValueChange = { toSubscribe = it },
+                        label = { Text("User ID to subscribe") }
+                    )
+                    TextField(
+                        value = toUnsubscribe,
+                        onValueChange = { toUnsubscribe = it },
+                        label = { Text("User ID to unsubscribe") }
+                    )
+                }
+                Row {
+                    Button(onClick = { um.requestSubscription(userId, toSubscribe); showUsers = true }) { Text("Subscribe") }
+                    Button(onClick = { um.requestUnsubscription(userId, toUnsubscribe); showUsers = true }) { Text("Unsubscribe") }
                 }
 
                 AnimatedVisibility(showUsers) {
-                    UsersScreen()
+                    UsersScreen(sm = um)
                 }
                 AnimatedVisibility(!showUsers) {
                     Text(

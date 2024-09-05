@@ -5,12 +5,12 @@ import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.RegisterResult
 import com.rvcoding.imhere.domain.data.api.IHApi
+import com.rvcoding.imhere.domain.data.api.URL
 import com.rvcoding.imhere.domain.data.api.error.HttpError
 import com.rvcoding.imhere.domain.data.api.request.LoginRequest
 import com.rvcoding.imhere.domain.data.api.request.RegisterRequest
 import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import com.rvcoding.imhere.domain.data.api.response.ConfigurationResponse
-import com.rvcoding.imhere.domain.data.api.response.SubscriptionsResponse
 import com.rvcoding.imhere.domain.data.api.response.UsersResponse
 import com.rvcoding.imhere.domain.model.User
 import io.ktor.client.HttpClient
@@ -26,7 +26,7 @@ class IHService(
 ) : IHApi {
     override suspend fun getConfiguration(): Result<ConfigurationResponse, HttpError> {
         return try {
-            val responseObject = client.get("${IHApi.URL}${Route.Configuration.path}")
+            val responseObject = client.get("$URL${Route.Configuration.endpoint}")
             val response: ConfigurationResponse = responseObject.body()
             when {
                 responseObject.statusSuccess() -> Result.Success(data = response)
@@ -43,7 +43,7 @@ class IHService(
     }
     override suspend fun register(userId: String, password: String, firstName: String, lastName: String): Result<AuthResponse, HttpError> {
         return try {
-            val responseObject = client.post("${IHApi.URL}${Route.Register.path}") {
+            val responseObject = client.post("$URL${Route.Register.endpoint}") {
                 contentType(ContentType.Application.Json)
                 setBody(RegisterRequest(userId = userId, password = password, firstName = firstName, lastName = lastName))
             }
@@ -72,7 +72,7 @@ class IHService(
     }
     override suspend fun login(userId: String, password: String): Result<AuthResponse, HttpError> {
         return try {
-            val responseObject = client.post("${IHApi.URL}${Route.Login.path}") {
+            val responseObject = client.post("$URL${Route.Login.endpoint}") {
                 contentType(ContentType.Application.Json)
                 setBody(LoginRequest(userId = userId, password = password))
             }
@@ -95,7 +95,7 @@ class IHService(
     }
     override suspend fun users(): Result<UsersResponse, HttpError> {
         return try {
-            val responseObject = client.get("${IHApi.URL}${Route.Users.path}")
+            val responseObject = client.get("$URL${Route.Users.endpoint}")
             val response: UsersResponse = responseObject.body()
             when {
                 responseObject.statusSuccess() -> Result.Success(data = response)
@@ -110,12 +110,10 @@ class IHService(
             Result.Error(error = HttpError.Unknown(message = e.message.toString()))
         }
     }
-    override suspend fun sessions() {}
-    override suspend fun subscriptions(): Result<SubscriptionsResponse, HttpError>  { return Result.Error(notImplemented) }
     override suspend fun subscriptionsFromUser(userId: String): Result<UsersResponse, HttpError> { return Result.Error(notImplemented) }
     override suspend fun subscribersOfUser(userId: String): Result<UsersResponse, HttpError> { return Result.Error(notImplemented) }
-    override suspend fun subscribe(): Result<Unit, HttpError> { return Result.Error(notImplemented) }
-    override suspend fun unsubscribe(): Result<Unit, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun subscribe(userId: String, userIdToSubscribe: String): Result<Unit, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun unsubscribe(userId: String, userIdToUnsubscribe: String): Result<Unit, HttpError> { return Result.Error(notImplemented) }
     override suspend fun state(userId: String): Result<User, HttpError> { return Result.Error(notImplemented) }
     override suspend fun state(user: User) {}
     override suspend fun sync(user: User) {}

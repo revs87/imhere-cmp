@@ -2,7 +2,7 @@ package com.rvcoding.imhere.domain
 
 import com.rvcoding.imhere.domain.Configuration.Companion.APP_ID as id
 
-sealed class Route(val path: String) {
+sealed class Route(val endpoint: String) {
     data object Root: Route("/")
     data object Configuration: Route("/$id/configuration")
     data object Register: Route("/$id/register")

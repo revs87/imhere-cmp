@@ -38,5 +38,4 @@ class AllInOneApiStateModel(
                 password = password,
             ).toString() }
         }
-    fun requestUsers() = scope.launch { _content.update { api.users().toString() } }
 }

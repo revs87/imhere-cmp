@@ -10,8 +10,8 @@ import com.rvcoding.imhere.data.internal.db.UsersDao
 import com.rvcoding.imhere.data.internal.db.UsersDatabase
 import com.rvcoding.imhere.data.repository.ApiAuthRepositoryImpl
 import com.rvcoding.imhere.data.repository.ApiSessionsRepositoryImpl
-import com.rvcoding.imhere.data.repository.ApiUserRepositoryImpl
 import com.rvcoding.imhere.data.repository.ApiSubscriptionsRepositoryImpl
+import com.rvcoding.imhere.data.repository.ApiUserRepositoryImpl
 import com.rvcoding.imhere.domain.repository.ApiAuthRepository
 import com.rvcoding.imhere.domain.repository.ApiSessionRepository
 import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
 
-val koinModule = module {
+val serverModule = module {
     single<SessionsDao> {
         Room.databaseBuilder<SessionsDatabase>(
             name = SessionsDatabase.DATABASE_NAME
