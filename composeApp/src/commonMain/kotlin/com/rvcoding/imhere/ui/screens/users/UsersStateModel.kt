@@ -1,5 +1,6 @@
 package com.rvcoding.imhere.ui.screens.users
 
+import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.model.User
 import com.rvcoding.imhere.domain.repository.UsersRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,23 +18,33 @@ class UsersStateModel(
     val users: StateFlow<List<User>> = _users.asStateFlow()
 
     fun requestUsers(userId: String) = coScope.launch {
-        usersRepository.users(userId)
-        _users.update { usersRepository.users.value }
+        when (val result = usersRepository.users(userId)) {
+            is Result.Error -> println("Error: ${result.error}")
+            is Result.Success -> _users.update { usersRepository.users.value }
+        }
     }
     fun requestSubscribedUsers(userId: String) = coScope.launch {
-        usersRepository.usersSubscribed(userId)
-        _users.update { usersRepository.subscribedUsers.value }
+        when (val result = usersRepository.usersSubscribed(userId)) {
+            is Result.Error -> println("Error: ${result.error}")
+            is Result.Success -> _users.update { usersRepository.subscribedUsers.value }
+        }
     }
     fun requestSubscribingUsers(userId: String) = coScope.launch {
-        usersRepository.usersSubscribing(userId)
-        _users.update { usersRepository.subscribingUsers.value }
+        when (val result = usersRepository.usersSubscribing(userId)) {
+            is Result.Error -> println("Error: ${result.error}")
+            is Result.Success -> _users.update { usersRepository.subscribingUsers.value }
+        }
     }
     fun requestSubscription(userId: String, userIdToSubscribe: String) = coScope.launch {
-        usersRepository.subscribe(userId, userIdToSubscribe)
-        _users.update { usersRepository.subscribedUsers.value }
+        when (val result = usersRepository.subscribe(userId, userIdToSubscribe)) {
+            is Result.Error -> println("Error: ${result.error}")
+            is Result.Success -> _users.update { usersRepository.subscribedUsers.value }
+        }
     }
     fun requestUnsubscription(userId: String, userIdToUnsubscribe: String) = coScope.launch {
-        usersRepository.subscribe(userId, userIdToUnsubscribe)
-        _users.update { usersRepository.subscribedUsers.value }
+        when (val result = usersRepository.unsubscribe(userId, userIdToUnsubscribe)) {
+            is Result.Error -> println("Error: ${result.error}")
+            is Result.Success -> _users.update { usersRepository.subscribedUsers.value }
+        }
     }
 }
