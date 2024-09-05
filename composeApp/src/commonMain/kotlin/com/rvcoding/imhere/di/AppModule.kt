@@ -18,6 +18,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val appModule = module {
@@ -25,7 +26,9 @@ val appModule = module {
 
     /** API Client */
     fun provideHttpClient(): HttpClient = HttpClient(CIO) {
-        install(ContentNegotiation) { json() }
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true})
+        }
         //    install(Logging) {
         //        logger = Logger.DEFAULT
         //        level = LogLevel.ALL

@@ -5,7 +5,6 @@ import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.error.HttpError
 import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import com.rvcoding.imhere.domain.data.api.response.ConfigurationResponse
-import com.rvcoding.imhere.domain.data.api.response.SubscriptionsResponse
 import com.rvcoding.imhere.domain.data.api.response.UsersResponse
 import com.rvcoding.imhere.domain.model.User
 import com.rvcoding.imhere.getPlatformType
@@ -22,8 +21,8 @@ interface IHApi {
     suspend fun subscribe(userId: String, userIdToSubscribe: String): Result<Unit, HttpError>
     suspend fun unsubscribe(userId: String, userIdToUnsubscribe: String): Result<Unit, HttpError>
     suspend fun state(userId: String): Result<User, HttpError>
-    suspend fun state(user: User)
-    suspend fun sync(user: User)
+    suspend fun state(user: User): Result<Unit, HttpError>
+    suspend fun sync(user: User): Result<Unit, HttpError>
 }
 
 val URL = when (getPlatformType()) {

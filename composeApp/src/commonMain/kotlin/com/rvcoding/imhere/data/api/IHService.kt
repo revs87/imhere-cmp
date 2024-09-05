@@ -144,8 +144,8 @@ class IHService(
     }
 
     override suspend fun state(userId: String): Result<User, HttpError> { return Result.Error(notImplemented) }
-    override suspend fun state(user: User) {}
-    override suspend fun sync(user: User) {}
+    override suspend fun state(user: User): Result<Unit, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun sync(user: User): Result<Unit, HttpError> { return Result.Error(notImplemented) }
 
     private val notImplemented = HttpError.Unknown(message = "Not implemented")
 

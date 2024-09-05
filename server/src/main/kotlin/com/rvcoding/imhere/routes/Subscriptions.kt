@@ -25,10 +25,11 @@ import org.koin.ktor.ext.get
 fun Routing.subscriptions() {
     val userRepository: ApiUserRepository = get<ApiUserRepository>()
     val subscriptionRepository: ApiSubscriptionRepository = get<ApiSubscriptionRepository>()
+    val json = Json { ignoreUnknownKeys = true }
 
     get(Route.Subscriptions.endpoint) {
         val subscriptions = subscriptionRepository.getAllSubscriptions()
-        call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
+        call.respondText(json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
     get(Route.UserSubscriptions.endpoint) {
@@ -36,16 +37,16 @@ fun Routing.subscriptions() {
         val containsUser = userRepository.get(userId) != null
         when {
             userId.isBlank() -> {
-                call.respondText(Json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
                 return@get
             }
             !containsUser -> {
-                call.respondText(Json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
                 return@get
             }
         }
         val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
-        call.respondText(Json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
+        call.respondText(json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
     get(Route.UserSubscribers.endpoint) {
@@ -53,11 +54,11 @@ fun Routing.subscriptions() {
         val containsUser = userRepository.get(userId) != null
         when {
             userId.isBlank() -> {
-                call.respondText(Json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
                 return@get
             }
             !containsUser -> {
-                call.respondText(Json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
                 return@get
             }
         }
@@ -71,24 +72,24 @@ fun Routing.subscriptions() {
             val containsUser = userRepository.get(request.userId) != null
             when {
                 request.userId.isBlank() || request.userIdToSubscribe.isBlank() -> {
-                    call.respondText(Json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                    call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
                     return@post
                 }
                 !containsUser -> {
-                    call.respondText(Json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                    call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
                     return@post
                 }
                 request.userId == request.userIdToSubscribe -> {
-                    call.respondText(Json.encodeToString(ApiResponse(Failure("You can't subscribe to yourself"))), ContentType.Application.Json)
+                    call.respondText(json.encodeToString(ApiResponse(Failure("You can't subscribe to yourself"))), ContentType.Application.Json)
                     return@post
                 }
             }
             val subscription = SubscriptionEntity(request.userId, request.userIdToSubscribe)
             subscriptionRepository.subscribe(subscription)
             userRepository.updateLastActivity(request.userId)
-            call.respondText(Json.encodeToString(ApiResponse(Success)), ContentType.Application.Json)
+            call.respondText(json.encodeToString(ApiResponse(Success)), ContentType.Application.Json)
         } catch (e: Exception) {
-            call.respondText(Json.encodeToString(ApiResponse(Failure("${e.message}"))), ContentType.Application.Json)
+            call.respondText(json.encodeToString(ApiResponse(Failure("${e.message}"))), ContentType.Application.Json)
         }
     }
 
@@ -98,23 +99,23 @@ fun Routing.subscriptions() {
             val containsSubscription = subscriptionRepository.getUserSubscriptions(request.userId).find { it.userSubscribedId == request.userIdToUnsubscribe } != null
             when {
                 request.userId.isBlank() || request.userIdToUnsubscribe.isBlank() -> {
-                    call.respondText(Json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                    call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
                     return@post
                 }
                 !containsSubscription -> {
-                    call.respondText(Json.encodeToString(ApiResponse(Failure("Subscription not found"))), ContentType.Application.Json)
+                    call.respondText(json.encodeToString(ApiResponse(Failure("Subscription not found"))), ContentType.Application.Json)
                     return@post
                 }
                 request.userId == request.userIdToUnsubscribe -> {
-                    call.respondText(Json.encodeToString(ApiResponse(Failure("You can't unsubscribe yourself"))), ContentType.Application.Json)
+                    call.respondText(json.encodeToString(ApiResponse(Failure("You can't unsubscribe yourself"))), ContentType.Application.Json)
                     return@post
                 }
             }
             subscriptionRepository.unsubscribe(request.userId, request.userIdToUnsubscribe)
             userRepository.updateLastActivity(request.userId)
-            call.respondText(Json.encodeToString(ApiResponse(Success)), ContentType.Application.Json)
+            call.respondText(json.encodeToString(ApiResponse(Success)), ContentType.Application.Json)
         } catch (e: Exception) {
-            call.respondText(Json.encodeToString(ApiResponse(Failure("${e.message}"))), ContentType.Application.Json)
+            call.respondText(json.encodeToString(ApiResponse(Failure("${e.message}"))), ContentType.Application.Json)
         }
     }
 

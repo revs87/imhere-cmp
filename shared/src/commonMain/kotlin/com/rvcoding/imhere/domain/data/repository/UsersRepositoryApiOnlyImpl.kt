@@ -33,7 +33,7 @@ open class UsersRepositoryApiOnlyImpl(private val api: IHApi) : UsersRepository 
     }
 
     override suspend fun usersSubscribed(userId: String): Result<UsersResponse, HttpError> {
-        return when (val result = api.subscribersOfUser(userId)) {
+        return when (val result = api.subscriptionsFromUser(userId)) {
             is Result.Success -> {
                 _subscribedUsers.update { result.data.users }
                 Result.Success(result.data)
@@ -43,7 +43,7 @@ open class UsersRepositoryApiOnlyImpl(private val api: IHApi) : UsersRepository 
     }
 
     override suspend fun usersSubscribing(userId: String): Result<UsersResponse, HttpError> {
-        return when (val result = api.subscriptionsFromUser(userId)) {
+        return when (val result = api.subscribersOfUser(userId)) {
             is Result.Success -> {
                 _subscribingUsers.update { result.data.users }
                 Result.Success(result.data)
