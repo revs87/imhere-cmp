@@ -10,7 +10,9 @@ import com.rvcoding.imhere.domain.data.api.request.LoginRequest
 import com.rvcoding.imhere.domain.data.api.request.RegisterRequest
 import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import com.rvcoding.imhere.domain.data.api.response.ConfigurationResponse
+import com.rvcoding.imhere.domain.data.api.response.SubscriptionsResponse
 import com.rvcoding.imhere.domain.data.api.response.UsersResponse
+import com.rvcoding.imhere.domain.model.User
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -109,12 +111,14 @@ class IHService(
         }
     }
     override suspend fun sessions() {}
-    override suspend fun subscriptions() {}
-    override suspend fun subscriptionsFromUser(userId: String) {}
-    override suspend fun subscribersOfUser(userId: String) {}
-    override suspend fun subscribe() {}
-    override suspend fun unsubscribe() {}
-    override suspend fun state(userId: String) {}
-    override suspend fun state() {}
-    override suspend fun sync() {}
+    override suspend fun subscriptions(): Result<SubscriptionsResponse, HttpError>  { return Result.Error(notImplemented) }
+    override suspend fun subscriptionsFromUser(userId: String): Result<UsersResponse, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun subscribersOfUser(userId: String): Result<UsersResponse, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun subscribe(): Result<Unit, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun unsubscribe(): Result<Unit, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun state(userId: String): Result<User, HttpError> { return Result.Error(notImplemented) }
+    override suspend fun state(user: User) {}
+    override suspend fun sync(user: User) {}
+
+    private val notImplemented = HttpError.Unknown(message = "Not implemented")
 }

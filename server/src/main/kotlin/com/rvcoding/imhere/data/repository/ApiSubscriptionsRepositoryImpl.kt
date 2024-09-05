@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class SubscriptionsRepositoryImpl(
+class ApiSubscriptionsRepositoryImpl(
     private val subscriptionsDao: SubscriptionsDao
 ) : ApiSubscriptionRepository {
     private lateinit var subscriptions: StateFlow<List<SubscriptionEntity>>

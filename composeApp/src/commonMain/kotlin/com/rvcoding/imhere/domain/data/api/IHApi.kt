@@ -5,7 +5,9 @@ import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.error.HttpError
 import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import com.rvcoding.imhere.domain.data.api.response.ConfigurationResponse
+import com.rvcoding.imhere.domain.data.api.response.SubscriptionsResponse
 import com.rvcoding.imhere.domain.data.api.response.UsersResponse
+import com.rvcoding.imhere.domain.model.User
 import com.rvcoding.imhere.getPlatformType
 
 interface IHApi {
@@ -14,14 +16,14 @@ interface IHApi {
     suspend fun login(userId: String, password: String): Result<AuthResponse, HttpError>
     suspend fun users(): Result<UsersResponse, HttpError>
     suspend fun sessions()
-    suspend fun subscriptions()
-    suspend fun subscriptionsFromUser(userId: String)
-    suspend fun subscribersOfUser(userId: String)
-    suspend fun subscribe()
-    suspend fun unsubscribe()
-    suspend fun state(userId: String)
-    suspend fun state()
-    suspend fun sync()
+    suspend fun subscriptions(): Result<SubscriptionsResponse, HttpError>
+    suspend fun subscriptionsFromUser(userId: String): Result<UsersResponse, HttpError>
+    suspend fun subscribersOfUser(userId: String): Result<UsersResponse, HttpError>
+    suspend fun subscribe(): Result<Unit, HttpError>
+    suspend fun unsubscribe(): Result<Unit, HttpError>
+    suspend fun state(userId: String): Result<User, HttpError>
+    suspend fun state(user: User)
+    suspend fun sync(user: User)
 
     companion object {
         internal val URL = when (getPlatformType()) {

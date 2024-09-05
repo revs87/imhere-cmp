@@ -56,7 +56,9 @@ fun AllInOneApiScreen(
                 Row {
                     Button(onClick = { sm.requestRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
                     Button(onClick = { sm.requestLogin(userId, password); showUsers = false }) { Text("Login") }
-                    Button(onClick = { /*sm.requestUsers()*/ showUsers = true }) { Text("Users") }
+                }
+                Row {
+                    Button(onClick = { /*sm.requestUsers()*/ showUsers = true }) { Text("AllUsers") }
                 }
 
                 AnimatedVisibility(showUsers) {

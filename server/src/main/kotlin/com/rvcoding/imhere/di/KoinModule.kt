@@ -11,7 +11,7 @@ import com.rvcoding.imhere.data.internal.db.UsersDatabase
 import com.rvcoding.imhere.data.repository.ApiAuthRepositoryImpl
 import com.rvcoding.imhere.data.repository.ApiSessionsRepositoryImpl
 import com.rvcoding.imhere.data.repository.ApiUserRepositoryImpl
-import com.rvcoding.imhere.data.repository.SubscriptionsRepositoryImpl
+import com.rvcoding.imhere.data.repository.ApiSubscriptionsRepositoryImpl
 import com.rvcoding.imhere.domain.repository.ApiAuthRepository
 import com.rvcoding.imhere.domain.repository.ApiSessionRepository
 import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
@@ -53,5 +53,5 @@ val koinModule = module {
     single<ApiUserRepository> { ApiUserRepositoryImpl(get()) }
 
 
-    single<ApiSubscriptionRepository> { SubscriptionsRepositoryImpl(get()) }
+    single<ApiSubscriptionRepository> { ApiSubscriptionsRepositoryImpl(get()) }
 }

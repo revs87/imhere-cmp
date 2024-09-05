@@ -22,24 +22,9 @@ import org.koin.compose.getKoin
 @Composable
 fun UsersScreen(
     sm: UsersStateModel = getKoin().get<UsersStateModel>(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val users by sm.users.collectAsStateWithLifecycle()
-
-//    LaunchedEffect(Unit) {
-//        try {
-//            val url = when (getPlatformType()) {
-//                is PlatformType.ANDROID -> "http://10.0.2.2:8080/rvc-imhere/users"
-//                is PlatformType.DESKTOP -> "http://0.0.0.0:8080/rvc-imhere/users"
-//                is PlatformType.IOS -> "http://0.0.0.0:8080/rvc-imhere/users"
-//                is PlatformType.WEB -> "http://0.0.0.0:8080/rvc-imhere/users"
-//            }
-//            val response: UsersResponse = client.get(url).body()
-//            users.addAll(response.users)
-//        } catch (e: Exception) {
-//            println("Error fetching users: ${e.message}")
-//        }
-//    }
 
     AppTheme {
         Box(

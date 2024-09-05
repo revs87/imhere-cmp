@@ -52,6 +52,6 @@ val appModule = module {
     single<IHApi> { IHService(get()) }
     single<UsersRepository> { UsersRepositoryImpl(get()) }
 
-    factory { UsersStateModel(get()) }
+    factory { UsersStateModel(get(), get(), get()) }
     factory { AllInOneApiStateModel(get(), get()) }
 }
