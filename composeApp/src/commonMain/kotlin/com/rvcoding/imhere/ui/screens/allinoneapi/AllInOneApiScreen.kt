@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.getKoin
 
@@ -37,6 +39,12 @@ fun AllInOneApiScreen(
     var toSubscribe by remember { mutableStateOf("") }
     var toUnsubscribe by remember { mutableStateOf("") }
 
+    val coScope = rememberCoroutineScope()
+    val onConfiguration: () -> Unit = { coScope.launch { sm.userIntent.send(AllInOneApiIntent.Configuration) } }
+    val onRegister: (String, String, String, String) -> Unit = { uid, pass, firstName, lastName -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Register(uid, pass, firstName, lastName)) } }
+    val onLogin: (String, String) -> Unit = { uid, pass -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Login(uid, pass)) } }
+    val state by sm.state.collectAsStateWithLifecycle()
+
     AppTheme {
         Box(
             modifier = modifier,
@@ -46,7 +54,8 @@ fun AllInOneApiScreen(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(onClick = { sm.requestConfiguration(); showUsers = false }) { Text("Configuration") }
+                Text(text = "State: $state")
+                Button(onClick = { onConfiguration.invoke(); showUsers = false }) { Text("Configuration") }
                 TextField(
                     value = userId,
                     onValueChange = { userId = it },
@@ -58,8 +67,8 @@ fun AllInOneApiScreen(
                     label = { Text("Password") }
                 )
                 Row {
-                    Button(onClick = { sm.requestRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
-                    Button(onClick = { sm.requestLogin(userId, password); showUsers = false }) { Text("Login") }
+                    Button(onClick = { onRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
+                    Button(onClick = { onLogin(userId, password); showUsers = false }) { Text("Login") }
                 }
                 Row {
                     Button(onClick = { um.requestUsers(userId); showUsers = true }) { Text("AllUsers") }
