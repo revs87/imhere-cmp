@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rvcoding.imhere.ui.component.UserCard
 import com.rvcoding.imhere.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -24,7 +24,7 @@ fun UsersScreen(
     sm: UsersStateModel = getKoin().get<UsersStateModel>(),
     modifier: Modifier = Modifier,
 ) {
-    val users by sm.users.collectAsStateWithLifecycle()
+    val users by sm.users.collectAsState()
 
     AppTheme {
         Box(

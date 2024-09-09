@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
@@ -32,7 +32,7 @@ fun AllInOneApiScreen(
     um: UsersStateModel = getKoin().get<UsersStateModel>(),
     modifier: Modifier = Modifier
 ) {
-    val content by sm.content.collectAsStateWithLifecycle()
+    val content by sm.content.collectAsState()
     var userId by remember { mutableStateOf("revs") }
     var password by remember { mutableStateOf("test") }
     var showUsers by remember { mutableStateOf(false) }
@@ -43,7 +43,7 @@ fun AllInOneApiScreen(
     val onConfiguration: () -> Unit = { coScope.launch { sm.userIntent.send(AllInOneApiIntent.Configuration) } }
     val onRegister: (String, String, String, String) -> Unit = { uid, pass, firstName, lastName -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Register(uid, pass, firstName, lastName)) } }
     val onLogin: (String, String) -> Unit = { uid, pass -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Login(uid, pass)) } }
-    val state by sm.state.collectAsStateWithLifecycle()
+    val state by sm.state.collectAsState()
 
     AppTheme {
         Box(

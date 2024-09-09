@@ -72,6 +72,9 @@ kotlin {
 
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.androidx.startup.runtime)
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -80,6 +83,8 @@ kotlin {
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.androidx.datastore)
+            implementation(libs.androidx.datastore.preferences)
             implementation(project.dependencies.platform(libs.kotlincrypto.hash))
             implementation(libs.kotlincrypto.hash.sha2)
         }
