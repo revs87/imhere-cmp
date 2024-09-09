@@ -64,5 +64,5 @@ val appModule = module {
 
     /** StateModels */
     factory { UsersStateModel(get(), get()) }
-    factory { AllInOneApiStateModel(get(), get()) }
+    factory { AllInOneApiStateModel(get(), get(), get()) }
 }

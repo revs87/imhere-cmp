@@ -10,7 +10,7 @@ import okio.Path.Companion.toPath
 expect fun getDataStoreFilePath(): String
 
 class DataStoreFactoryImpl : DataStoreFactory {
-    override fun createDataStore(): DataStore<Preferences> =
+    override fun dataStore(): DataStore<Preferences> =
         PreferenceDataStoreFactory.createWithPath(
             produceFile = { getDataStoreFilePath().toPath() }
         )
