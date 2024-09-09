@@ -41,7 +41,7 @@ class AllInOneApiStateModel(
         val result = api.getConfiguration()
         _state.update {
             when (result) {
-                is Result.Success -> AllInOneApiState.Content
+                is Result.Success -> AllInOneApiState.Content.Configuration
                 is Result.Error -> AllInOneApiState.Error
             }
         }
@@ -62,7 +62,7 @@ class AllInOneApiStateModel(
         )
         _state.update {
             when (result) {
-                is Result.Success -> AllInOneApiState.Content
+                is Result.Success -> AllInOneApiState.Content.Register
                 is Result.Error -> AllInOneApiState.Error
             }
         }
@@ -76,7 +76,7 @@ class AllInOneApiStateModel(
         val result = api.login(userId = userId, password = password)
         _state.update {
             when (result) {
-                is Result.Success -> AllInOneApiState.Content
+                is Result.Success -> AllInOneApiState.Content.Login
                 is Result.Error -> AllInOneApiState.Error
             }
         }

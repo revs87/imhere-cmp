@@ -6,9 +6,13 @@ sealed class AllInOneApiIntent {
     data class Login(val userId: String, val password: String) : AllInOneApiIntent()
 }
 
-sealed class AllInOneApiState {
-    data object Initial : AllInOneApiState()
-    data object Loading : AllInOneApiState()
-    data object Content : AllInOneApiState()
-    data object Error : AllInOneApiState()
+sealed interface AllInOneApiState {
+    data object Initial : AllInOneApiState
+    data object Loading : AllInOneApiState
+    sealed interface Content : AllInOneApiState {
+        data object Configuration : Content
+        data object Register : Content
+        data object Login : Content
+    }
+    data object Error : AllInOneApiState
 }
