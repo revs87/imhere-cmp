@@ -14,6 +14,7 @@ interface IHApi {
     suspend fun getConfiguration(): Result<ConfigurationResponse, HttpError>
     suspend fun register(userId: String, password: String, firstName: String, lastName: String): Result<AuthResponse, HttpError>
     suspend fun login(userId: String, password: String): Result<AuthResponse, HttpError>
+    suspend fun logout(userId: String): Result<AuthResponse, HttpError>
     suspend fun users(): Result<UsersResponse, HttpError>
 //    suspend fun sessions()
 //    suspend fun subscriptions(): Result<SubscriptionsResponse, HttpError>
@@ -28,7 +29,8 @@ interface IHApi {
 }
 
 val URL = when (getPlatformType()) {
-    is PlatformType.ANDROID -> "http://10.0.2.2:8080"
+//    is PlatformType.ANDROID -> "http://10.0.2.2:8080"
+    is PlatformType.ANDROID -> "http://192.168.1.69:8080"
     is PlatformType.DESKTOP -> "http://0.0.0.0:8080"
     is PlatformType.IOS -> "http://0.0.0.0:8080"
     is PlatformType.WEB -> "http://0.0.0.0:8080"
