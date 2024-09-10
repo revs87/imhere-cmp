@@ -21,6 +21,12 @@ sealed interface AuthResult {
         @Serializable data object UnauthorizedError : LoginResult(203)
     }
     @Serializable
+    sealed class LogoutResult(val code: Int) : AuthResult {
+        @Serializable data object Success : LogoutResult(210)
+        @Serializable data object InvalidParametersError : LogoutResult(211)
+        @Serializable data object UnauthorizedError : LogoutResult(213)
+    }
+    @Serializable
     sealed class ChangePasswordResult(val code: Int) : AuthResult {
         @Serializable data object Success : ChangePasswordResult(300)
         @Serializable data object InvalidParametersError : ChangePasswordResult(301)
@@ -28,12 +34,12 @@ sealed interface AuthResult {
         @Serializable data object CriteriaNotMetError : ChangePasswordResult(303)
     }
     @Serializable
-    enum class KtorStatus : AuthResult {
-        OK,
-        BadRequest,
-        Unauthorized,
-        NotFound,
-        Forbidden,
-        InternalServerError
+    sealed class KtorStatus : AuthResult {
+        @Serializable data object OK : KtorStatus()
+        @Serializable data object BadRequest : KtorStatus()
+        @Serializable data object Unauthorized : KtorStatus()
+        @Serializable data object NotFound : KtorStatus()
+        @Serializable data object Forbidden : KtorStatus()
+        @Serializable data object InternalServerError : KtorStatus()
     }
 }

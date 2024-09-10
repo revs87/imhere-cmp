@@ -5,10 +5,12 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 
 class ConfigurationKeys {
     companion object {
-        val FEATURE_FLAGS_KEY = stringPreferencesKey("featureFlags")
-        val TIMEOUT_KEY = stringPreferencesKey("timeoutInMillis")
-        val SESSION_TTL_KEY = stringPreferencesKey("sessionTtlInMillis")
+        const val FEATURE_FLAGS_KEY = "featureFlags"
+        const val TIMEOUT_KEY = "timeoutInMillis"
+        const val SESSION_TTL_KEY = "sessionTtlInMillis"
 
-        val USER_ID_KEY = stringPreferencesKey("userId")
+        const val USER_ID_KEY = "userId"
+
+        fun String.asPreferenceKey() = stringPreferencesKey(this)
     }
 }

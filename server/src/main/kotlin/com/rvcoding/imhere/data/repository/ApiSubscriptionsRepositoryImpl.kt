@@ -1,7 +1,6 @@
 package com.rvcoding.imhere.data.repository
 
 import com.rvcoding.imhere.data.internal.db.SubscriptionsDao
-import com.rvcoding.imhere.data.internal.db.UsersDao
 import com.rvcoding.imhere.domain.data.db.SubscriptionEntity
 import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
 import kotlinx.coroutines.CoroutineScope

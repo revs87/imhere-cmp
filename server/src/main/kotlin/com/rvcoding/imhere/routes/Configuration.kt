@@ -19,9 +19,9 @@ fun Routing.configuration() {
         call.respond(
             message = ConfigurationResponse(
                 configuration = mapOf(
-                    FEATURE_FLAGS_KEY.name to "",
-                    TIMEOUT_KEY.name to TIMEOUT.toString(),
-                    SESSION_TTL_KEY.name to SESSION_TTL.toString(),
+                    FEATURE_FLAGS_KEY to "",
+                    TIMEOUT_KEY to TIMEOUT.toString(),
+                    SESSION_TTL_KEY to SESSION_TTL.toString(),
                 )
             ),
             status = HttpStatusCode.OK

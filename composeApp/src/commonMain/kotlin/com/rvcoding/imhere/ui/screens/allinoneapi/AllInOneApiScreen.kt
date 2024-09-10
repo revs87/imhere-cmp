@@ -17,6 +17,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.USER_ID_KEY
+import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.asPreferenceKey
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
@@ -43,6 +45,8 @@ fun AllInOneApiScreen(
     val onConfiguration: () -> Unit = { coScope.launch { sm.userIntent.send(AllInOneApiIntent.Configuration) } }
     val onRegister: (String, String, String, String) -> Unit = { uid, pass, firstName, lastName -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Register(uid, pass, firstName, lastName)) } }
     val onLogin: (String, String) -> Unit = { uid, pass -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Login(uid, pass)) } }
+    val onLogout: (String) -> Unit = { uid -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Logout(uid)) } }
+    val configState by sm.userConfig.collectAsState()
     val state by sm.state.collectAsState()
 
     AppTheme {
@@ -55,6 +59,7 @@ fun AllInOneApiScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "State: $state")
+                configState?.let { Text(text = "LoggedIn: ${it[USER_ID_KEY.asPreferenceKey()]}") }
                 Button(onClick = { onConfiguration.invoke(); showUsers = false }) { Text("Configuration") }
                 TextField(
                     value = userId,
@@ -69,6 +74,7 @@ fun AllInOneApiScreen(
                 Row {
                     Button(onClick = { onRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
                     Button(onClick = { onLogin(userId, password); showUsers = false }) { Text("Login") }
+                    Button(onClick = { onLogout(userId); showUsers = false }) { Text("Logout") }
                 }
                 Row {
                     Button(onClick = { um.requestUsers(userId); showUsers = true }) { Text("AllUsers") }

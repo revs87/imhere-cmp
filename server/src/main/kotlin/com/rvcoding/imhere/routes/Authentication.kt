@@ -3,8 +3,10 @@ package com.rvcoding.imhere.routes
 //import io.ktor.server.routing.RoutingContext
 import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
+import com.rvcoding.imhere.domain.data.api.AuthResult.LogoutResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.RegisterResult
 import com.rvcoding.imhere.domain.data.api.request.LoginRequest
+import com.rvcoding.imhere.domain.data.api.request.LogoutRequest
 import com.rvcoding.imhere.domain.data.api.request.RegisterRequest
 import com.rvcoding.imhere.domain.data.api.response.AuthResponse
 import com.rvcoding.imhere.domain.data.db.SessionEntity
@@ -50,7 +52,7 @@ fun Routing.authentication() {
                     ),
                     status = HttpStatusCode.BadRequest
                 )
-                is RegisterResult.UnauthorizedError -> onUnauthorizedError()
+                is RegisterResult.UnauthorizedError -> onUnauthorizedError(isLogout = false)
                 is RegisterResult.UserAlreadyRegisteredError -> {
                     isInternal[userId] = true
                     call.respondRedirect(url = "${Route.LoginInternal.endpoint}?userId=$userId&password=$password", permanent = false)
@@ -65,7 +67,8 @@ fun Routing.authentication() {
                     status = HttpStatusCode.OK
                 )
             }
-        } catch (e: Exception) { onUnauthorizedError() }
+        } catch (e: Exception) { onUnauthorizedError(isLogout = false)
+        }
     }
 
     post(Route.Login.endpoint) {
@@ -73,13 +76,44 @@ fun Routing.authentication() {
         try {
             val (userId, password) = listOf(request.userId, request.password)
             loginHandle(authRepository, sessionRepository, userRepository, userId, password)
-        } catch (e: Exception) { onUnauthorizedError() }
+        } catch (e: Exception) { onUnauthorizedError(isLogout = false)
+        }
+    }
+    post(Route.Logout.endpoint) {
+        val request = call.receive<LogoutRequest>()
+        try {
+            when (val result = authRepository.logout(request.userId)) {
+                LogoutResult.InvalidParametersError -> {
+                    call.respond(
+                        message = AuthResponse(
+                            code = result.code,
+                            type = result::class.simpleName.toString(),
+                            message = "User logout failed.",
+                            result = result
+                        ),
+                        status = HttpStatusCode.BadRequest
+                    )
+                }
+                LogoutResult.UnauthorizedError -> onUnauthorizedError(isLogout = true)
+                LogoutResult.Success -> {
+                    call.respond(
+                        message = AuthResponse(
+                            code = result.code,
+                            type = result::class.simpleName.toString(),
+                            message = "User logged out successfully.",
+                            result = result
+                        ),
+                        status = HttpStatusCode.OK
+                    )
+                }
+            }
+        } catch (e: Exception) { onUnauthorizedError(isLogout = true) }
     }
 
     post(Route.LoginInternal.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         if (isInternal[userId] == false) {
-            onUnauthorizedError()
+            onUnauthorizedError(isLogout = false)
             return@post
         }
         else { isInternal[userId] = false }
@@ -89,7 +123,7 @@ fun Routing.authentication() {
     get(Route.LoginInternal.endpoint) {
         val userId = call.request.queryParameters["userId"] ?: ""
         if (isInternal[userId] == false) {
-            onUnauthorizedError()
+            onUnauthorizedError(isLogout = false)
             return@get
         }
         else { isInternal[userId] = false }
@@ -121,7 +155,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
             ),
             status = HttpStatusCode.PreconditionFailed
         )
-        LoginResult.UnauthorizedError -> onUnauthorizedError()
+        LoginResult.UnauthorizedError -> onUnauthorizedError(isLogout = false)
         LoginResult.InvalidParametersError -> call.respond(
             message = AuthResponse(
                 code = result.code,
@@ -148,13 +182,13 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
 }
 
 //private suspend fun RoutingContext.onUnauthorizedError() {
-private suspend fun PipelineContext<Unit, ApplicationCall>.onUnauthorizedError() {
+private suspend fun PipelineContext<Unit, ApplicationCall>.onUnauthorizedError(isLogout: Boolean) {
     call.respond(
         message = AuthResponse(
-            code = LoginResult.UnauthorizedError.code,
-            type = LoginResult.UnauthorizedError::class.simpleName.toString(),
+            code = if (isLogout) LogoutResult.UnauthorizedError.code else LoginResult.UnauthorizedError.code,
+            type = if (isLogout) LogoutResult.UnauthorizedError::class.simpleName.toString() else LoginResult.UnauthorizedError::class.simpleName.toString(),
             message = "User unauthorized.",
-            result = LoginResult.UnauthorizedError
+            result = if (isLogout) LogoutResult.UnauthorizedError else LoginResult.UnauthorizedError
         ),
         status = HttpStatusCode.Unauthorized
     )

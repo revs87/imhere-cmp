@@ -8,6 +8,7 @@ sealed class Route(val endpoint: String) {
     data object Register: Route("/$id/register")
     data object Login: Route("/$id/login")
     data object LoginInternal: Route("/$id/loginInternal")
+    data object Logout: Route("/$id/logout")
     data object Users: Route("/$id/users")
     data object Sessions: Route("/$id/sessions")
     data object Subscriptions: Route("/$id/subscriptions")

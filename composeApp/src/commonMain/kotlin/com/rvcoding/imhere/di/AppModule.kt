@@ -1,9 +1,10 @@
 package com.rvcoding.imhere.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.rvcoding.imhere.data.api.IHService
 import com.rvcoding.imhere.data.local.DataStoreFactoryImpl
 import com.rvcoding.imhere.domain.data.api.IHApi
-import com.rvcoding.imhere.domain.data.local.DataStoreFactory
 import com.rvcoding.imhere.domain.repository.UsersRepository
 import com.rvcoding.imhere.domain.repository.UsersRepositoryPlatformImpl
 import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiStateModel
@@ -57,7 +58,7 @@ val appModule = module {
     single<IHApi> { IHService(get()) }
 
     /** Key-Value Storage */
-    single<DataStoreFactory> { DataStoreFactoryImpl() }
+    single<DataStore<Preferences>> { DataStoreFactoryImpl().dataStore() }
 
     /** Repositories */
     single<UsersRepository> { UsersRepositoryPlatformImpl(get()) }

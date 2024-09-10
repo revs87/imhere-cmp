@@ -3,11 +3,13 @@ package com.rvcoding.imhere.data.api
 import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
+import com.rvcoding.imhere.domain.data.api.AuthResult.LogoutResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.RegisterResult
 import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.data.api.URL
 import com.rvcoding.imhere.domain.data.api.error.HttpError
 import com.rvcoding.imhere.domain.data.api.request.LoginRequest
+import com.rvcoding.imhere.domain.data.api.request.LogoutRequest
 import com.rvcoding.imhere.domain.data.api.request.RegisterRequest
 import com.rvcoding.imhere.domain.data.api.request.SubscribeRequest
 import com.rvcoding.imhere.domain.data.api.request.UnsubscribeRequest
@@ -85,6 +87,29 @@ class IHService(
                 is LoginResult.InvalidParametersError -> Result.Error(HttpError.Auth(response))
                 is LoginResult.CredentialsMismatchError -> Result.Error(HttpError.Auth(response))
                 is LoginResult.UnauthorizedError -> Result.Error(HttpError.Auth(response))
+                else -> Result.Error(
+                    error = HttpError.Communication(
+                        code = responseObject.status.value,
+                        codeDescription = responseObject.status.description
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Result.Error(error = HttpError.Unknown(message = e.message.toString()))
+        }
+    }
+
+    override suspend fun logout(userId: String): Result<AuthResponse, HttpError> {
+        return try {
+            val responseObject = client.post("$URL${Route.Logout.endpoint}") {
+                contentType(ContentType.Application.Json)
+                setBody(LogoutRequest(userId = userId))
+            }
+            val response: AuthResponse = responseObject.body()
+            when (response.result) {
+                is LogoutResult.Success -> Result.Success(response)
+                is LogoutResult.InvalidParametersError -> Result.Error(HttpError.Auth(response))
+                is LogoutResult.UnauthorizedError -> Result.Error(HttpError.Auth(response))
                 else -> Result.Error(
                     error = HttpError.Communication(
                         code = responseObject.status.value,

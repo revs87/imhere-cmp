@@ -1,7 +1,9 @@
 package com.rvcoding.imhere.data.repository
 
+import com.rvcoding.imhere.domain.data.api.AuthResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.ChangePasswordResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
+import com.rvcoding.imhere.domain.data.api.AuthResult.LogoutResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.RegisterResult
 import com.rvcoding.imhere.domain.data.db.User
 import com.rvcoding.imhere.domain.model.UserState
@@ -10,10 +12,11 @@ import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import com.rvcoding.imhere.domain.util.sha256
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class ApiAuthRepositoryImpl(private val userRepository: ApiUserRepository) : ApiAuthRepository {
-    private var coScope = CoroutineScope(Dispatchers.IO)
+    private var coScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override fun register(userId: String?, password: String?, firstName: String, lastName: String): RegisterResult {
         return try {
@@ -61,6 +64,28 @@ class ApiAuthRepositoryImpl(private val userRepository: ApiUserRepository) : Api
                 }
             }
         } catch (e: Exception) { LoginResult.UnauthorizedError }
+    }
+
+    override fun logout(userId: String?): LogoutResult {
+        return try {
+            when {
+                 userId.isNullOrBlank() -> LogoutResult.InvalidParametersError
+                 else -> {
+                    val user = userRepository.get(userId)
+                    user?.let {
+                        coScope.launch {
+                            userRepository.insert(
+                                user.copy(
+                                    lastActivity = System.currentTimeMillis(),
+                                    state = UserState.LOGGED_OUT.state
+                                )
+                            )
+                        }
+                    }
+                    LogoutResult.Success
+                }
+            }
+        } catch (e: Exception) { LogoutResult.UnauthorizedError }
     }
 
     override fun changePassword(userId: String?, password: String?, newPassword: String?): ChangePasswordResult {
