@@ -21,8 +21,4 @@ fun WelcomeScreen() {
     ) {
         Text("Platform: $greeting")
     }
-    /**
-     * Desktop compile command:
-     *     ./gradlew :composeApp:compileKotlinDesktop
-     * */
 }
