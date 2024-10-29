@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -77,7 +78,7 @@ fun AllInOneApiScreen(
                     Button(onClick = { onLogout(userId); showUsers = false }) { Text("Logout") }
                 }
                 Row {
-                    Button(onClick = { um.requestUsers(userId); showUsers = true }) { Text("AllUsers") }
+                    Button(onClick = { um.requestUsers(""); showUsers = true }) { Text("AllUsers") }
                     Button(onClick = { um.requestSubscribedUsers(userId); showUsers = true }) { Text("SubscribedUsers") }
                     Button(onClick = { um.requestSubscribingUsers(userId); showUsers = true }) { Text("SubscribingUsers") }
                 }
@@ -99,7 +100,7 @@ fun AllInOneApiScreen(
                 }
 
                 AnimatedVisibility(showUsers) {
-                    UsersScreen(sm = um)
+                    UsersScreen(sm = um, modifier = Modifier.weight(1f).fillMaxWidth())
                 }
                 AnimatedVisibility(!showUsers) {
                     Text(
