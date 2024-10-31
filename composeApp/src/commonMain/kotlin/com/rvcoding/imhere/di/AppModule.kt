@@ -9,6 +9,7 @@ import com.rvcoding.imhere.domain.repository.UsersRepository
 import com.rvcoding.imhere.domain.repository.UsersRepositoryPlatformImpl
 import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiStateModel
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
+import com.rvcoding.imhere.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpCallValidator
@@ -19,13 +20,12 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val appModule = module {
-    single { CoroutineScope(Dispatchers.IO) }
+    single { StandardDispatchersProvider }
+    single { CoroutineScope(StandardDispatchersProvider.io) }
 
     /** API Client */
     fun provideHttpClient(): HttpClient = HttpClient(CIO) {
