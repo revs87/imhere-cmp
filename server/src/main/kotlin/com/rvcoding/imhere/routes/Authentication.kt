@@ -67,8 +67,7 @@ fun Routing.authentication() {
                     status = HttpStatusCode.OK
                 )
             }
-        } catch (e: Exception) { onUnauthorizedError(isLogout = false)
-        }
+        } catch (e: Exception) { onUnauthorizedError(isLogout = false) }
     }
 
     post(Route.Login.endpoint) {
@@ -76,8 +75,7 @@ fun Routing.authentication() {
         try {
             val (userId, password) = listOf(request.userId, request.password)
             loginHandle(authRepository, sessionRepository, userRepository, userId, password)
-        } catch (e: Exception) { onUnauthorizedError(isLogout = false)
-        }
+        } catch (e: Exception) { onUnauthorizedError(isLogout = false) }
     }
     post(Route.Logout.endpoint) {
         val request = call.receive<LogoutRequest>()
