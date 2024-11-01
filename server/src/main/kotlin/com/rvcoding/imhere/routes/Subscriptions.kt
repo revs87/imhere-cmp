@@ -109,7 +109,7 @@ fun Routing.subscriptions() {
             }
         }
         val subscriptions = subscriptionRepository.getUserSubscribers(userId)
-        val userSubscribers = subscriptions.map { userRepository.get(it.userSubscribedId)?.toExposed() ?: UserEntity.Default.toExposed() }
+        val userSubscribers = subscriptions.map { userRepository.get(it.userId)?.toExposed() ?: UserEntity.Default.toExposed() }
         call.respondText(Json.encodeToString(UsersResponse(userSubscribers)), ContentType.Application.Json)
     }
 
