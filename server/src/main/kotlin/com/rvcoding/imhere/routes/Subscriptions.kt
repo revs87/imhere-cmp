@@ -37,80 +37,108 @@ fun Routing.subscriptions() {
     }
 
     get(Route.UserSubscriptions.endpoint) {
-        val userId = call.request.queryParameters["userId"] ?: ""
-        val containsUser = userRepository.get(userId) != null
-        when {
-            userId.isBlank() -> {
-                call.respondText(
-                    text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.BadRequest
-                )
-                return@get
+        try {
+            val userId = call.request.queryParameters["userId"] ?: ""
+            val containsUser = userRepository.get(userId) != null
+            when {
+                userId.isBlank() -> {
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.BadRequest
+                    )
+                    return@get
+                }
+
+                !containsUser -> {
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotFound
+                    )
+                    return@get
+                }
             }
-            !containsUser -> {
-                call.respondText(
-                    text = json.encodeToString(ApiResponse(Failure("User not found"))),
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.NotFound
-                )
-                return@get
-            }
+            val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
+            call.respondText(
+                json.encodeToString(SubscriptionsResponse(subscriptions)),
+                ContentType.Application.Json
+            )
+        } catch (e: Exception) {
+            call.respondText(
+                text = json.encodeToString(ApiResponse(Failure("${e.message}"))),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
-        val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
-        call.respondText(json.encodeToString(SubscriptionsResponse(subscriptions)), ContentType.Application.Json)
     }
 
     get(Route.UserSubscribedUsers.endpoint) {
-        val userId = call.request.queryParameters["userId"] ?: ""
-        val containsUser = userRepository.get(userId) != null
-        when {
-            userId.isBlank() -> {
-                call.respondText(
-                    text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.BadRequest
-                )
-                return@get
+        try {
+            val userId = call.request.queryParameters["userId"] ?: ""
+            val containsUser = userRepository.get(userId) != null
+            when {
+                userId.isBlank() -> {
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.BadRequest
+                    )
+                    return@get
+                }
+                !containsUser -> {
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotFound
+                    )
+                    return@get
+                }
             }
-            !containsUser -> {
-                call.respondText(
-                    text = json.encodeToString(ApiResponse(Failure("User not found"))),
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.NotFound
-                )
-                return@get
-            }
+            val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
+            val subscribedUsers = subscriptions.map { userRepository.get(it.userSubscribedId)?.toExposed() ?: UserEntity.Default.toExposed() }
+            call.respondText(json.encodeToString(UsersResponse(subscribedUsers)), ContentType.Application.Json)
+        } catch (e: Exception) {
+            call.respondText(
+                text = json.encodeToString(ApiResponse(Failure("${e.message}"))),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
-        val subscriptions = subscriptionRepository.getUserSubscriptions(userId)
-        val subscribedUsers = subscriptions.map { userRepository.get(it.userSubscribedId)?.toExposed() ?: UserEntity.Default.toExposed() }
-        call.respondText(json.encodeToString(UsersResponse(subscribedUsers)), ContentType.Application.Json)
     }
 
     get(Route.UserSubscribers.endpoint) {
-        val userId = call.request.queryParameters["userId"] ?: ""
-        val containsUser = userRepository.get(userId) != null
-        when {
-            userId.isBlank() -> {
-                call.respondText(
-                    text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.BadRequest
-                )
-                return@get
+        try {
+            val userId = call.request.queryParameters["userId"] ?: ""
+            val containsUser = userRepository.get(userId) != null
+            when {
+                userId.isBlank() -> {
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.BadRequest
+                    )
+                    return@get
+                }
+                !containsUser -> {
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotFound
+                    )
+                    return@get
+                }
             }
-            !containsUser -> {
-                call.respondText(
-                    text = json.encodeToString(ApiResponse(Failure("User not found"))),
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.NotFound
-                )
-                return@get
-            }
+            val subscriptions = subscriptionRepository.getUserSubscribers(userId)
+            val userSubscribers = subscriptions.map { userRepository.get(it.userId)?.toExposed() ?: UserEntity.Default.toExposed() }
+            call.respondText(Json.encodeToString(UsersResponse(userSubscribers)), ContentType.Application.Json)
+        } catch (e: Exception) {
+            call.respondText(
+                text = json.encodeToString(ApiResponse(Failure("${e.message}"))),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
-        val subscriptions = subscriptionRepository.getUserSubscribers(userId)
-        val userSubscribers = subscriptions.map { userRepository.get(it.userId)?.toExposed() ?: UserEntity.Default.toExposed() }
-        call.respondText(Json.encodeToString(UsersResponse(userSubscribers)), ContentType.Application.Json)
     }
 
     post(Route.Subscribe.endpoint) {
@@ -148,7 +176,11 @@ fun Routing.subscriptions() {
             userRepository.updateLastActivity(request.userId)
             call.respondText(json.encodeToString(ApiResponse(Success)), ContentType.Application.Json)
         } catch (e: Exception) {
-            call.respondText(json.encodeToString(ApiResponse(Failure("${e.message}"))), ContentType.Application.Json)
+            call.respondText(
+                text = json.encodeToString(ApiResponse(Failure("${e.message}"))),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
     }
 
@@ -186,7 +218,11 @@ fun Routing.subscriptions() {
             userRepository.updateLastActivity(request.userId)
             call.respondText(json.encodeToString(ApiResponse(Success)), ContentType.Application.Json)
         } catch (e: Exception) {
-            call.respondText(json.encodeToString(ApiResponse(Failure("${e.message}"))), ContentType.Application.Json)
+            call.respondText(
+                text = json.encodeToString(ApiResponse(Failure("${e.message}"))),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
     }
 
