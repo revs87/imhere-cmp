@@ -76,16 +76,24 @@ fun AllInOneApiScreen(
                 Text(text = "State: $state")
                 configState?.let { Text(text = "LoggedIn: ${it[USER_ID_KEY.asPreferenceKey()]}") }
                 Button(onClick = { onConfiguration.invoke(); showUsers = false }) { Text("Configuration") }
-                TextField(
-                    value = userId,
-                    onValueChange = { userId = it },
-                    label = { Text("User ID") }
-                )
-                TextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Password") }
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    TextField(
+                        modifier = Modifier.weight(1f),
+                        value = userId,
+                        onValueChange = { userId = it },
+                        label = { Text("User ID") }
+                    )
+                    TextField(
+                        modifier = Modifier.weight(1f),
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") }
+                    )
+                }
                 Row {
                     Button(onClick = { onRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
                     Button(onClick = { onLogin(userId, password); showUsers = false }) { Text("Login") }

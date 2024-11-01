@@ -5,7 +5,10 @@ import com.rvcoding.imhere.domain.model.User
 import com.rvcoding.imhere.domain.repository.UsersRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UsersStateModel(
@@ -14,7 +17,8 @@ class UsersStateModel(
 ) {
     val error: Channel<String> = Channel(Channel.UNLIMITED)
 
-    val users: StateFlow<List<User>> = usersRepository.users
+    private val _users: MutableStateFlow<List<User>> = MutableStateFlow(emptyList())
+    val users: StateFlow<List<User>> = _users.asStateFlow()
 
     fun requestUsers(userId: String) = coScope.launch {
         when (val result = usersRepository.users(userId)) {
@@ -22,7 +26,7 @@ class UsersStateModel(
                 println("Error: ${result.error}")
                 error.send(result.error.toString())
             }
-            is Result.Success -> {}
+            is Result.Success -> _users.update { usersRepository.users.value }
         }
     }
     fun getUserSubscriptions(userId: String) = coScope.launch {
@@ -40,7 +44,7 @@ class UsersStateModel(
                 println("Error: ${result.error}")
                 error.send(result.error.toString())
             }
-            is Result.Success -> {}
+            is Result.Success -> _users.update { usersRepository.subscribedUsers.value }
         }
     }
     fun requestSubscribingUsers(userId: String) = coScope.launch {
@@ -49,7 +53,7 @@ class UsersStateModel(
                 println("Error: ${result.error}")
                 error.send(result.error.toString())
             }
-            is Result.Success -> {}
+            is Result.Success -> _users.update { usersRepository.subscribingUsers.value }
         }
     }
     fun requestSubscription(userId: String, userIdToSubscribe: String) = coScope.launch {
@@ -58,7 +62,7 @@ class UsersStateModel(
                 println("Error: ${result.error}")
                 error.send(result.error.toString())
             }
-            is Result.Success -> {}
+            is Result.Success -> _users.update { usersRepository.subscribedUsers.value }
         }
     }
     fun requestUnsubscription(userId: String, userIdToUnsubscribe: String) = coScope.launch {
@@ -67,7 +71,7 @@ class UsersStateModel(
                 println("Error: ${result.error}")
                 error.send(result.error.toString())
             }
-            is Result.Success -> {}
+            is Result.Success -> _users.update { usersRepository.subscribedUsers.value }
         }
     }
 }
