@@ -9,6 +9,7 @@ import com.rvcoding.imhere.domain.data.db.toExposed
 import com.rvcoding.imhere.domain.model.Coordinates
 import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respondText
@@ -24,8 +25,19 @@ fun Routing.users() {
     val userRepository: ApiUserRepository = get<ApiUserRepository>()
 
     get(Route.Users.endpoint) {
-        val users = userRepository.getAll()
-        call.respondText(Json.encodeToString(UsersResponse(users.map { it.toExposed() })), ContentType.Application.Json)
+        try {
+            val users = userRepository.getAll()
+            call.respondText(
+                text = Json.encodeToString(UsersResponse(users.map { it.toExposed() })),
+                contentType = ContentType.Application.Json
+            )
+        } catch (e: Exception) {
+            call.respondText(
+                text = Json.encodeToString(UsersResponse.empty()),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
+        }
     }
 
     get(Route.State.endpoint) {
@@ -33,9 +45,16 @@ fun Routing.users() {
             val userId = call.request.queryParameters["userId"] ?: ""
             userRepository.get(userId)?.let { user ->
                 call.respondText(Json.encodeToString(UserStateResponse(user.toExposed())), ContentType.Application.Json)
-            } ?: call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
+            } ?: call.respondText(
+                text = Json.encodeToString(UserStateResponse(null)),
+                contentType = ContentType.Application.Json
+            )
         } catch (e: Exception) {
-            call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
+            call.respondText(
+                text = Json.encodeToString(UserStateResponse(null)),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
     }
 
@@ -46,9 +65,16 @@ fun Routing.users() {
                 userRepository.updateLastActivity(user.id)
                 userRepository.updateState(user.id, request.state)
                 call.respondText(Json.encodeToString(UserStateResponse(user.copy(state = request.state.state).toExposed())), ContentType.Application.Json)
-            } ?: call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
+            } ?: call.respondText(
+                text = Json.encodeToString(UserStateResponse(null)),
+                contentType = ContentType.Application.Json
+            )
         } catch (e: Exception) {
-            call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
+            call.respondText(
+                text = Json.encodeToString(UserStateResponse(null)),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
     }
 
@@ -66,9 +92,16 @@ fun Routing.users() {
                     lastCoordinatesTimestamp = coordinates.timestamp
                 ).toExposed())
                 ), ContentType.Application.Json)
-            } ?: call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
+            } ?: call.respondText(
+                text = Json.encodeToString(UserStateResponse(null)),
+                contentType = ContentType.Application.Json
+            )
         } catch (e: Exception) {
-            call.respondText(Json.encodeToString(UserStateResponse(null)), ContentType.Application.Json)
+            call.respondText(
+                text = Json.encodeToString(UserStateResponse(null)),
+                contentType = ContentType.Application.Json,
+                status = HttpStatusCode.InternalServerError
+            )
         }
     }
 }

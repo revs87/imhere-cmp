@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,9 @@ import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.asP
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.getKoin
@@ -49,6 +53,15 @@ fun AllInOneApiScreen(
     val onLogout: (String) -> Unit = { uid -> coScope.launch { sm.userIntent.send(AllInOneApiIntent.Logout(uid)) } }
     val configState by sm.userConfig.collectAsState()
     val state by sm.state.collectAsState()
+
+    LaunchedEffect(true) {
+        um.error.consumeAsFlow()
+            .onEach { error ->
+                sm.setContent(error)
+                showUsers = false
+            }
+            .launchIn(coScope)
+    }
 
     AppTheme {
         Box(

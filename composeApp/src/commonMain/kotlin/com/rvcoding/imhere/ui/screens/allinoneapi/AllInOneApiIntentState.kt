@@ -1,10 +1,10 @@
 package com.rvcoding.imhere.ui.screens.allinoneapi
 
-sealed class AllInOneApiIntent {
-    data object Configuration : AllInOneApiIntent()
-    data class Register(val userId: String, val password: String, val firstName: String, val lastName: String) : AllInOneApiIntent()
-    data class Login(val userId: String, val password: String) : AllInOneApiIntent()
-    data class Logout(val userId: String) : AllInOneApiIntent()
+sealed interface AllInOneApiIntent {
+    data object Configuration : AllInOneApiIntent
+    data class Register(val userId: String, val password: String, val firstName: String, val lastName: String) : AllInOneApiIntent
+    data class Login(val userId: String, val password: String) : AllInOneApiIntent
+    data class Logout(val userId: String) : AllInOneApiIntent
 }
 
 sealed interface AllInOneApiState {
@@ -16,5 +16,5 @@ sealed interface AllInOneApiState {
         data object Login : Content
         data object Logout : Content
     }
-    data object Error : AllInOneApiState
+    data class Error(val message: String) : AllInOneApiState
 }

@@ -30,7 +30,7 @@ open class UsersRepositoryApiOnlyImpl(private val api: IHApi) : UsersRepository 
             return when (result) {
                 is Result.Success -> {
                     _users.update { result.data.users.filter { user -> user.id != userId } }
-                    Result.Success(result.data)
+                    Result.Success(UsersResponse(result.data.users.filter { user -> user.id != userId }))
                 }
                 is Result.Error -> Result.Error(result.error)
             }
@@ -71,7 +71,7 @@ open class UsersRepositoryApiOnlyImpl(private val api: IHApi) : UsersRepository 
         return when (val result = api.subscribe(userId, userIdToSubscribe)) {
             is Result.Success -> {
                 _subscribedUsers.update { users -> users + User(id = userIdToSubscribe) }
-                Result.Success(result.data)
+                Result.Success(Unit)
             }
             is Result.Error -> Result.Error(result.error)
         }
@@ -81,7 +81,7 @@ open class UsersRepositoryApiOnlyImpl(private val api: IHApi) : UsersRepository 
         return when (val result = api.unsubscribe(userId, userIdToUnsubscribe)) {
             is Result.Success -> {
                 _subscribedUsers.update { users -> users - User(id = userIdToUnsubscribe) }
-                Result.Success(result.data)
+                Result.Success(Unit)
             }
             is Result.Error -> Result.Error(result.error)
         }

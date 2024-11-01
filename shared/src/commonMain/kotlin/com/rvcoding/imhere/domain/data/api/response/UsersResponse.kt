@@ -6,4 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UsersResponse(
     val users: List<User>
-)
+) {
+    companion object {
+        fun empty() = UsersResponse(emptyList())
+    }
+}

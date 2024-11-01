@@ -30,17 +30,23 @@ class AllInOneApiStateModel(
     private val scope: CoroutineScope
 ) {
     private val _content = MutableStateFlow("Waiting for responses")
+    fun setContent(value: String) { _content.update { value } }
     val content: StateFlow<String> = _content.asStateFlow()
 
     val userConfig: StateFlow<Preferences?> = dataStore
         .data
-        .stateIn(scope, SharingStarted.WhileSubscribed(), null)
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+            initialValue = null
+        )
 
     val userIntent = Channel<AllInOneApiIntent>(Channel.UNLIMITED)
     private val _state = MutableStateFlow<AllInOneApiState>(AllInOneApiState.Initial)
     val state: StateFlow<AllInOneApiState> = _state.asStateFlow()
     init {
-        userIntent.consumeAsFlow()
+        userIntent
+            .consumeAsFlow()
             .onEach { intent ->
                 when (intent) {
                     is AllInOneApiIntent.Configuration -> requestConfiguration()
@@ -65,7 +71,7 @@ class AllInOneApiStateModel(
                     }
                     AllInOneApiState.Content.Configuration
                 }
-                is Result.Error -> AllInOneApiState.Error
+                is Result.Error -> AllInOneApiState.Error(result.error.toString())
             }
         }
         _content.update { result.toString() }
@@ -91,7 +97,7 @@ class AllInOneApiStateModel(
                     }
                     AllInOneApiState.Content.Register
                 }
-                is Result.Error -> AllInOneApiState.Error
+                is Result.Error -> AllInOneApiState.Error(result.error.toString())
             }
         }
         _content.update { result.toString() }
@@ -110,7 +116,7 @@ class AllInOneApiStateModel(
                     }
                     AllInOneApiState.Content.Login
                 }
-                is Result.Error -> AllInOneApiState.Error
+                is Result.Error -> AllInOneApiState.Error(result.error.toString())
             }
         }
         _content.update { result.toString() }
@@ -126,7 +132,7 @@ class AllInOneApiStateModel(
                     }
                     AllInOneApiState.Content.Logout
                 }
-                is Result.Error -> AllInOneApiState.Error
+                is Result.Error -> AllInOneApiState.Error(result.error.toString())
             }
         }
         _content.update { result.toString() }

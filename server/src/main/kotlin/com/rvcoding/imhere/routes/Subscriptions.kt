@@ -14,6 +14,7 @@ import com.rvcoding.imhere.domain.data.db.toExposed
 import com.rvcoding.imhere.domain.repository.ApiSubscriptionRepository
 import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respondText
@@ -40,11 +41,19 @@ fun Routing.subscriptions() {
         val containsUser = userRepository.get(userId) != null
         when {
             userId.isBlank() -> {
-                call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                call.respondText(
+                    text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.BadRequest
+                )
                 return@get
             }
             !containsUser -> {
-                call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                call.respondText(
+                    text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.NotFound
+                )
                 return@get
             }
         }
@@ -57,11 +66,19 @@ fun Routing.subscriptions() {
         val containsUser = userRepository.get(userId) != null
         when {
             userId.isBlank() -> {
-                call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                call.respondText(
+                    text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.BadRequest
+                )
                 return@get
             }
             !containsUser -> {
-                call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                call.respondText(
+                    text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.NotFound
+                )
                 return@get
             }
         }
@@ -75,11 +92,19 @@ fun Routing.subscriptions() {
         val containsUser = userRepository.get(userId) != null
         when {
             userId.isBlank() -> {
-                call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                call.respondText(
+                    text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.BadRequest
+                )
                 return@get
             }
             !containsUser -> {
-                call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                call.respondText(
+                    text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.NotFound
+                )
                 return@get
             }
         }
@@ -94,15 +119,27 @@ fun Routing.subscriptions() {
             val containsUser = userRepository.get(request.userId) != null
             when {
                 request.userId.isBlank() || request.userIdToSubscribe.isBlank() -> {
-                    call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.BadRequest
+                    )
                     return@post
                 }
                 !containsUser -> {
-                    call.respondText(json.encodeToString(ApiResponse(Failure("User not found"))), ContentType.Application.Json)
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotFound
+                    )
                     return@post
                 }
                 request.userId == request.userIdToSubscribe -> {
-                    call.respondText(json.encodeToString(ApiResponse(Failure("You can't subscribe to yourself"))), ContentType.Application.Json)
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("You can't subscribe to yourself"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotAcceptable
+                    )
                     return@post
                 }
             }
@@ -121,15 +158,27 @@ fun Routing.subscriptions() {
             val containsSubscription = subscriptionRepository.getUserSubscriptions(request.userId).find { it.userSubscribedId == request.userIdToUnsubscribe } != null
             when {
                 request.userId.isBlank() || request.userIdToUnsubscribe.isBlank() -> {
-                    call.respondText(json.encodeToString(ApiResponse(Failure("Invalid request"))), ContentType.Application.Json)
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("Invalid request"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.BadRequest
+                    )
                     return@post
                 }
                 !containsSubscription -> {
-                    call.respondText(json.encodeToString(ApiResponse(Failure("Subscription not found"))), ContentType.Application.Json)
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("User not found"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotFound
+                    )
                     return@post
                 }
                 request.userId == request.userIdToUnsubscribe -> {
-                    call.respondText(json.encodeToString(ApiResponse(Failure("You can't unsubscribe yourself"))), ContentType.Application.Json)
+                    call.respondText(
+                        text = json.encodeToString(ApiResponse(Failure("You can't subscribe to yourself"))),
+                        contentType = ContentType.Application.Json,
+                        status = HttpStatusCode.NotAcceptable
+                    )
                     return@post
                 }
             }
