@@ -1,6 +1,7 @@
 package com.rvcoding.imhere.ui.screens.allinoneapi
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -95,21 +96,37 @@ fun AllInOneApiScreen(
                     Button(onClick = { um.requestSubscribedUsers(userId); showUsers = true }) { Text("SubscribedUsers") }
                     Button(onClick = { um.requestSubscribingUsers(userId); showUsers = true }) { Text("SubscribingUsers") }
                 }
-                Row {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
                     TextField(
+                        modifier = Modifier.weight(1f),
                         value = toSubscribe,
                         onValueChange = { toSubscribe = it },
                         label = { Text("User ID to subscribe") }
                     )
                     TextField(
+                        modifier = Modifier.weight(1f),
                         value = toUnsubscribe,
                         onValueChange = { toUnsubscribe = it },
                         label = { Text("User ID to unsubscribe") }
                     )
                 }
-                Row {
-                    Button(onClick = { um.requestSubscription(userId, toSubscribe); showUsers = true }) { Text("Subscribe") }
-                    Button(onClick = { um.requestUnsubscription(userId, toUnsubscribe); showUsers = true }) { Text("Unsubscribe") }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        onClick = { um.requestSubscription(userId, toSubscribe); showUsers = true }) { Text("Subscribe")
+                    }
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        onClick = { um.requestUnsubscription(userId, toUnsubscribe); showUsers = true }) { Text("Unsubscribe")
+                    }
                 }
 
                 AnimatedVisibility(showUsers) {
