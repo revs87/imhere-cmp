@@ -4,4 +4,4 @@ import com.rvcoding.imhere.applicationContext
 import com.rvcoding.imhere.domain.data.local.dataStoreFileName
 
 
-actual fun getDataStoreFilePath(): String = applicationContext.filesDir.resolve(dataStoreFileName).absolutePath
+internal fun getDataStoreFilePath(): String = applicationContext.filesDir.resolve(dataStoreFileName).absolutePath

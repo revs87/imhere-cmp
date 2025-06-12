@@ -1,9 +1,7 @@
 package com.rvcoding.imhere.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.rvcoding.imhere.data.api.IHService
-import com.rvcoding.imhere.data.local.DataStoreFactoryImpl
+import com.rvcoding.imhere.data.local.PreferencesDataStoreImpl
 import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.repository.UsersRepository
 import com.rvcoding.imhere.domain.repository.UsersRepositoryPlatformImpl
@@ -21,6 +19,7 @@ import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
@@ -58,7 +57,8 @@ val appModule = module {
     single<IHApi> { IHService(get()) }
 
     /** Key-Value Storage */
-    single<DataStore<Preferences>> { DataStoreFactoryImpl().dataStore() }
+    singleOf(::PreferencesDataStoreImpl)
+    //single<DataStore<Preferences>> { DataStoreFactoryImpl().dataStore() }
 
     /** Repositories */
     single<UsersRepository> { UsersRepositoryPlatformImpl(get()) }

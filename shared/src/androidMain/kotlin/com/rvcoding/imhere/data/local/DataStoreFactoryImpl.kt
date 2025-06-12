@@ -7,8 +7,6 @@ import com.rvcoding.imhere.domain.data.local.DataStoreFactory
 import okio.Path.Companion.toPath
 
 
-expect fun getDataStoreFilePath(): String
-
 class DataStoreFactoryImpl : DataStoreFactory {
     override fun dataStore(): DataStore<Preferences> =
         PreferenceDataStoreFactory.createWithPath(

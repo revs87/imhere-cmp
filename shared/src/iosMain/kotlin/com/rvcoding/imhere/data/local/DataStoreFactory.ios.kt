@@ -9,7 +9,7 @@ import platform.Foundation.NSUserDomainMask
 
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun getDataStoreFilePath(): String {
+internal fun getDataStoreFilePath(): String {
     val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,

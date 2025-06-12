@@ -7,17 +7,15 @@ import com.rvcoding.imhere.domain.data.api.response.SessionsResponse
 import com.rvcoding.imhere.domain.repository.ApiSessionRepository
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.koin.ktor.ext.get
+import org.koin.ktor.ext.inject
 
 
 fun Routing.sessions() {
-    val sessionRepository: ApiSessionRepository = get<ApiSessionRepository>()
+    val sessionRepository: ApiSessionRepository by inject<ApiSessionRepository>()
 
     get(Route.Sessions.endpoint) {
         try {

@@ -1,6 +1,5 @@
 package com.rvcoding.imhere.routes
 
-//import io.ktor.server.routing.RoutingContext
 import com.rvcoding.imhere.domain.Route
 import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.LogoutResult
@@ -14,16 +13,14 @@ import com.rvcoding.imhere.domain.repository.ApiAuthRepository
 import com.rvcoding.imhere.domain.repository.ApiSessionRepository
 import com.rvcoding.imhere.domain.repository.ApiUserRepository
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondRedirect
 import io.ktor.server.routing.Routing
+import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import io.ktor.util.pipeline.PipelineContext
-import org.koin.ktor.ext.get
+import org.koin.ktor.ext.inject
 import java.util.Collections
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -33,9 +30,9 @@ import kotlin.collections.set
 
 
 fun Routing.authentication() {
-    val authRepository: ApiAuthRepository = get<ApiAuthRepository>()
-    val sessionRepository: ApiSessionRepository = get<ApiSessionRepository>()
-    val userRepository: ApiUserRepository = get<ApiUserRepository>()
+    val authRepository: ApiAuthRepository by inject<ApiAuthRepository>()
+    val sessionRepository: ApiSessionRepository by inject<ApiSessionRepository>()
+    val userRepository: ApiUserRepository by inject<ApiUserRepository>()
     val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
     post(Route.Register.endpoint) {
@@ -134,9 +131,8 @@ fun Routing.authentication() {
 
 }
 
-
-//private suspend fun RoutingContext.loginHandle(
-private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
+private suspend fun RoutingContext.loginHandle(
+//private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
     authRepository: ApiAuthRepository,
     sessionRepository: ApiSessionRepository,
     userRepository: ApiUserRepository,
@@ -179,8 +175,8 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.loginHandle(
     }
 }
 
-//private suspend fun RoutingContext.onUnauthorizedError() {
-private suspend fun PipelineContext<Unit, ApplicationCall>.onUnauthorizedError(isLogout: Boolean) {
+
+private suspend fun RoutingContext.onUnauthorizedError(isLogout: Boolean) {
     call.respond(
         message = AuthResponse(
             code = if (isLogout) LogoutResult.UnauthorizedError.code else LoginResult.UnauthorizedError.code,

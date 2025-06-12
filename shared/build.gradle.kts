@@ -74,6 +74,14 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.startup.runtime)
+            implementation(libs.androidx.core.ktx)
+            implementation(libs.google.android.gms.play.services.location)
+            implementation(libs.androidx.datastore)
+            implementation(libs.androidx.datastore.preferences)
+        }
+        iosMain.dependencies {
+            implementation(libs.androidx.datastore)
+            implementation(libs.androidx.datastore.preferences)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -83,8 +91,6 @@ kotlin {
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
             implementation(project.dependencies.platform(libs.kotlincrypto.hash))
             implementation(libs.kotlincrypto.hash.sha2)
         }
