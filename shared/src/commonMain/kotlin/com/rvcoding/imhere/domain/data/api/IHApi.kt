@@ -30,7 +30,7 @@ interface IHApi {
 
 val URL = when (getPlatformType()) {
 //    is PlatformType.ANDROID -> "http://10.0.2.2:8080"
-    is PlatformType.ANDROID -> "http://192.168.1.69:8080"
+    is PlatformType.ANDROID -> "http://192.168.1.170:8080"
     is PlatformType.DESKTOP -> "http://0.0.0.0:8080"
     is PlatformType.IOS -> "http://0.0.0.0:8080"
     is PlatformType.WEB -> "http://0.0.0.0:8080"

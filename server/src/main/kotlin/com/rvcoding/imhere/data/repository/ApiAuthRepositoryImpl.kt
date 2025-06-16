@@ -1,6 +1,5 @@
 package com.rvcoding.imhere.data.repository
 
-import com.rvcoding.imhere.domain.data.api.AuthResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.ChangePasswordResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.LoginResult
 import com.rvcoding.imhere.domain.data.api.AuthResult.LogoutResult

@@ -76,12 +76,8 @@ kotlin {
             implementation(libs.androidx.startup.runtime)
             implementation(libs.androidx.core.ktx)
             implementation(libs.google.android.gms.play.services.location)
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
         }
         iosMain.dependencies {
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

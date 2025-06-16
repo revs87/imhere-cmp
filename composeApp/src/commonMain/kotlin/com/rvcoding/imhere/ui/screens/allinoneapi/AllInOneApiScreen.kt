@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.USER_ID_KEY
-import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.asPreferenceKey
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
@@ -66,7 +65,7 @@ fun AllInOneApiScreen(
 
     AppTheme {
         Box(
-            modifier = modifier,
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -74,7 +73,7 @@ fun AllInOneApiScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "State: $state")
-                configState?.let { Text(text = "LoggedIn: ${it[USER_ID_KEY.asPreferenceKey()]}") }
+                Text(text = "LoggedIn: ${configState.settings[USER_ID_KEY]}")
                 Button(onClick = { onConfiguration.invoke(); showUsers = false }) { Text("Configuration") }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -150,5 +149,4 @@ fun AllInOneApiScreen(
 
         }
     }
-
 }

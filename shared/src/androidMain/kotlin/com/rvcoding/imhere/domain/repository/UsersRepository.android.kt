@@ -1,10 +1,10 @@
 package com.rvcoding.imhere.domain.repository
 
+import com.rvcoding.imhere.data.repository.UsersRepositoryApiOnlyImpl
 import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.data.api.error.HttpError
 import com.rvcoding.imhere.domain.data.api.response.UsersResponse
-import com.rvcoding.imhere.domain.data.repository.UsersRepositoryApiOnlyImpl
 
 actual class UsersRepositoryPlatformImpl actual constructor(private val api: IHApi) : UsersRepositoryApiOnlyImpl(api) {
 

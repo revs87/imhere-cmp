@@ -1,15 +1,14 @@
 package com.rvcoding.imhere.ui.screens.allinoneapi
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
+import com.rvcoding.imhere.data.local.UserSettings
+import com.rvcoding.imhere.data.local.Value
 import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.FEATURE_FLAGS_KEY
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.SESSION_TTL_KEY
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.TIMEOUT_KEY
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.USER_ID_KEY
-import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.asPreferenceKey
+import com.rvcoding.imhere.domain.data.repository.DataRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,19 +25,19 @@ import kotlinx.coroutines.launch
 
 class AllInOneApiStateModel(
     private val api: IHApi,
-    private val dataStore: DataStore<Preferences>,
+    private val dataRepository: DataRepository,
     private val scope: CoroutineScope
 ) {
     private val _content = MutableStateFlow("Waiting for responses")
     fun setContent(value: String) { _content.update { value } }
     val content: StateFlow<String> = _content.asStateFlow()
 
-    val userConfig: StateFlow<Preferences?> = dataStore
+    val userConfig: StateFlow<UserSettings> = dataRepository
         .data
         .stateIn(
             scope = scope,
             started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-            initialValue = null
+            initialValue = UserSettings(emptyMap())
         )
 
     val userIntent = Channel<AllInOneApiIntent>(Channel.UNLIMITED)
@@ -64,10 +63,10 @@ class AllInOneApiStateModel(
         _state.update {
             when (result) {
                 is Result.Success -> {
-                    dataStore.edit { config ->
-                        FEATURE_FLAGS_KEY.asPreferenceKey().let { config[it] = result.data.configuration.getOrElse(it.name) { "" } }
-                        TIMEOUT_KEY.asPreferenceKey().let { config[it] = result.data.configuration.getOrElse(it.name) { "" } }
-                        SESSION_TTL_KEY.asPreferenceKey().let { config[it] = result.data.configuration.getOrElse(it.name) { "" } }
+                    dataRepository.update { config ->
+                        FEATURE_FLAGS_KEY.let { config[it] = Value.StringVal(result.data.configuration.getOrElse(it) { "" }) }
+                        TIMEOUT_KEY.let { config[it] = Value.StringVal(result.data.configuration.getOrElse(it) { "" }) }
+                        SESSION_TTL_KEY.let { config[it] = Value.StringVal(result.data.configuration.getOrElse(it) { "" }) }
                     }
                     AllInOneApiState.Content.Configuration
                 }
@@ -92,8 +91,8 @@ class AllInOneApiStateModel(
         _state.update {
             when (result) {
                 is Result.Success -> {
-                    dataStore.edit { config ->
-                        config[USER_ID_KEY.asPreferenceKey()] = userId
+                    dataRepository.update { config ->
+                        USER_ID_KEY.let { config[it] = Value.SecureStringVal(userId) }
                     }
                     AllInOneApiState.Content.Register
                 }
@@ -111,8 +110,8 @@ class AllInOneApiStateModel(
         _state.update {
             when (result) {
                 is Result.Success -> {
-                    dataStore.edit { config ->
-                        config[USER_ID_KEY.asPreferenceKey()] = userId
+                    dataRepository.update { config ->
+                        USER_ID_KEY.let { config[it] = Value.SecureStringVal(userId) }
                     }
                     AllInOneApiState.Content.Login
                 }
@@ -127,8 +126,8 @@ class AllInOneApiStateModel(
         _state.update {
             when (result) {
                 is Result.Success -> {
-                    dataStore.edit { config ->
-                        config.remove(USER_ID_KEY.asPreferenceKey())
+                    dataRepository.update { config ->
+                        config.remove(USER_ID_KEY)
                     }
                     AllInOneApiState.Content.Logout
                 }
