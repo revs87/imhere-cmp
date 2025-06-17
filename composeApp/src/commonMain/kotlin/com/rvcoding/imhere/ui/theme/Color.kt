@@ -218,7 +218,17 @@ val surfaceContainerDarkHighContrast = Color(0xFF1A2120)
 val surfaceContainerHighDarkHighContrast = Color(0xFF252B2A)
 val surfaceContainerHighestDarkHighContrast = Color(0xFF303635)
 
+/************  App colors  ************/
 
+val PrimaryGreen = Color(0xFF1DB954)
+val TertiaryGreen = Color(0xFF62D98F)
+val DarkTransparent = Color(0x33FFFFFF) // White with 20% opacity
+val LightTextColor = Color.White
+val LightGreenTextColor = Color(0xFF9EB8A8)
+val LightTextBackground = Color(0xFF29382e)
+val DarkTextColor = Color(0xFF000000)
+val DarkBackground = Color(0xFF131813)
+val LightBackground = Color(0xFF29382e)
 
 
 

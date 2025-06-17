@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -20,7 +22,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.sp
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.USER_ID_KEY
+import com.rvcoding.imhere.ui.component.PrimaryButton
+import com.rvcoding.imhere.ui.component.SecondaryButton
+import com.rvcoding.imhere.ui.component.TertiaryButton
 import com.rvcoding.imhere.ui.screens.users.UsersScreen
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.ui.theme.AppTheme
@@ -69,12 +75,14 @@ fun AllInOneApiScreen(
             contentAlignment = Alignment.Center
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "State: $state")
-                Text(text = "LoggedIn: ${configState.settings[USER_ID_KEY]}")
-                Button(onClick = { onConfiguration.invoke(); showUsers = false }) { Text("Configuration") }
+                Text(text = "State: $state", fontSize = 14.sp)
+                Text(text = "LoggedIn: ${configState.settings[USER_ID_KEY]}", fontSize = 14.sp)
+                PrimaryButton(onClick = { onConfiguration.invoke(); showUsers = false }, text = "Configuration")
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.Bottom,
@@ -94,14 +102,14 @@ fun AllInOneApiScreen(
                     )
                 }
                 Row {
-                    Button(onClick = { onRegister(userId, password, "", ""); showUsers = false }) { Text("Register") }
-                    Button(onClick = { onLogin(userId, password); showUsers = false }) { Text("Login") }
-                    Button(onClick = { onLogout(userId); showUsers = false }) { Text("Logout") }
+                    PrimaryButton(onClick = { onRegister(userId, password, "", ""); showUsers = false }, text = "Register")
+                    PrimaryButton(onClick = { onLogin(userId, password); showUsers = false }, text = "Login")
+                    SecondaryButton(onClick = { onLogout(userId); showUsers = false }, text = "Logout", thin = true)
                 }
                 Row {
-                    Button(onClick = { um.requestUsers(""); showUsers = true }) { Text("AllUsers") }
-                    Button(onClick = { um.requestSubscribedUsers(userId); showUsers = true }) { Text("SubscribedUsers") }
-                    Button(onClick = { um.requestSubscribingUsers(userId); showUsers = true }) { Text("SubscribingUsers") }
+                    PrimaryButton(onClick = { um.requestUsers(""); showUsers = true }, text = "AllUsers")
+                    PrimaryButton(onClick = { um.requestSubscribedUsers(userId); showUsers = true }, text = "SubscribedUsers")
+                    TertiaryButton(onClick = { um.requestSubscribingUsers(userId); showUsers = true }, text = "Watchers", thin = true)
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -142,7 +150,8 @@ fun AllInOneApiScreen(
                 AnimatedVisibility(!showUsers) {
                     Text(
                         modifier = Modifier.fillMaxSize(),
-                        text = content
+                        text = content,
+                        fontSize = 14.sp
                     )
                 }
             }
