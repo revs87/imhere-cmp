@@ -15,12 +15,12 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.koin.ktor.ext.inject
 
 
 fun Routing.users() {
-    val userRepository: ApiUserRepository by inject<ApiUserRepository>()
+    val userRepository: ApiUserRepository by com.rvcoding.imhere.inject<ApiUserRepository>()
 
     get(Route.Users.endpoint) {
         try {

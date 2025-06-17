@@ -20,13 +20,14 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 
 
 fun Routing.subscriptions() {
-    val userRepository: ApiUserRepository by inject<ApiUserRepository>()
-    val subscriptionRepository: ApiSubscriptionRepository by inject<ApiSubscriptionRepository>()
+    val userRepository: ApiUserRepository by com.rvcoding.imhere.inject<ApiUserRepository>()
+    val subscriptionRepository: ApiSubscriptionRepository by com.rvcoding.imhere.inject<ApiSubscriptionRepository>()
     val json = Json { ignoreUnknownKeys = true }
 
     get(Route.Subscriptions.endpoint) {

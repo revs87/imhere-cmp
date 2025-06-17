@@ -10,12 +10,13 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 
 
 fun Routing.sessions() {
-    val sessionRepository: ApiSessionRepository by inject<ApiSessionRepository>()
+    val sessionRepository: ApiSessionRepository by com.rvcoding.imhere.inject<ApiSessionRepository>()
 
     get(Route.Sessions.endpoint) {
         try {

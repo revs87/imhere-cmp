@@ -20,7 +20,6 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import org.koin.ktor.ext.inject
 import java.util.Collections
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -28,11 +27,10 @@ import kotlin.collections.component3
 import kotlin.collections.component4
 import kotlin.collections.set
 
-
 fun Routing.authentication() {
-    val authRepository: ApiAuthRepository by inject<ApiAuthRepository>()
-    val sessionRepository: ApiSessionRepository by inject<ApiSessionRepository>()
-    val userRepository: ApiUserRepository by inject<ApiUserRepository>()
+    val authRepository: ApiAuthRepository by com.rvcoding.imhere.inject<ApiAuthRepository>()
+    val sessionRepository: ApiSessionRepository by com.rvcoding.imhere.inject<ApiSessionRepository>()
+    val userRepository: ApiUserRepository by com.rvcoding.imhere.inject<ApiUserRepository>()
     val isInternal: MutableMap<String, Boolean> = Collections.synchronizedMap(mutableMapOf<String, Boolean>())
 
     post(Route.Register.endpoint) {
