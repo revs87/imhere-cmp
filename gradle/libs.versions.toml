@@ -9,15 +9,14 @@ androidx-constraintlayout = "2.2.1"
 androidx-core = "1.16.0"
 androidx-core-ktx = "1.16.0"
 androidx-espresso-core = "3.6.1"
-androidx-lifecycle = "2.8.4"
+androidx-lifecycle = "2.9.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 gmsLocation = "21.3.0"
 
 # https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#jetpack-compose-and-compose-multiplatform-release-cycles
-cmp-plugin = "1.6.11"
-compose = "1.6.7"
-compose_material3 = "1.2.1"
+compose-multiplatform = "1.8.2"
+material3 = "1.3.2"
 
 junit = "4.13.2"
 assertk = "0.26.1"
@@ -28,11 +27,6 @@ ksp = "2.1.20-2.0.1"
 sqlite = "2.5.1"
 realm = "2.3.0" # https://github.com/realm/realm-kotlin
 # https://github.com/InsertKoinIO/koin-getting-started/blob/main/ktor/build.gradle
-#koin_nowasm = "3.5.3"
-#ktor_nowasm = "2.3.12"
-# Ktor 3 is not yet supported in Koin:
-#     https://github.com/InsertKoinIO/koin/issues/1716
-#     https://github.com/InsertKoinIO/koin/blob/main/projects/gradle/libs.versions.toml
 koin = "4.0.4"
 ktor = "3.0.3"
 coil3 = "3.1.0"
@@ -131,7 +125,7 @@ google-android-gms-play-services-location = { module = "com.google.android.gms:p
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "cmp-plugin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
