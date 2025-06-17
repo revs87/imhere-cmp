@@ -1,11 +1,10 @@
 package com.rvcoding.imhere.ui.screens.users
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,14 +30,11 @@ fun UsersScreen(
             modifier = modifier,
             contentAlignment = Alignment.Center
         ) {
-            LazyColumn(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                itemsIndexed(
-                    items = users,
-                    key = { index, _ -> index }
-                ) { _, user ->
+                users.forEach { user ->
                     UserCard(
                         modifier = Modifier
                             .size(380.dp, 200.dp)
