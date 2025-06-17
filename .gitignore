@@ -26,6 +26,7 @@
 kotlin-js-store/
 .gradle/
 build/
+.idea/*
 .idea/artifacts/*
 .idea/deploymentTargetSelector.xml
 
