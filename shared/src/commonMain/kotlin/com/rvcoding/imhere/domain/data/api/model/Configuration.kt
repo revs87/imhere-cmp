@@ -1,7 +1,5 @@
 package com.rvcoding.imhere.domain.data.api.model
 
-import androidx.datastore.preferences.core.stringPreferencesKey
-
 
 class ConfigurationKeys {
     companion object {
@@ -10,7 +8,5 @@ class ConfigurationKeys {
         const val SESSION_TTL_KEY = "sessionTtlInMillis"
 
         const val USER_ID_KEY = "userId"
-
-        fun String.asPreferenceKey() = stringPreferencesKey(this)
     }
 }

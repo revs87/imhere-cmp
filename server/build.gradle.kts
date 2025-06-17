@@ -36,8 +36,6 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     implementation(libs.sqlite.bundled)
-    implementation(libs.realm.base)
-    implementation(libs.realm.sync)
 
     implementation(project.dependencies.platform(libs.kotlincrypto.hash))
     implementation(libs.kotlincrypto.hash.sha2)

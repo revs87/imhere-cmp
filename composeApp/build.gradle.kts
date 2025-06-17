@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.realm)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -66,8 +65,6 @@ kotlin {
             implementation(libs.voyager.android.koin)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
-            implementation(libs.realm.base)
-            implementation(libs.realm.sync)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -81,8 +78,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
             implementation(libs.mob.settings)
             implementation(libs.kotlin.coroutines)
             implementation(libs.stately.common)
@@ -102,8 +97,6 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 //            implementation(libs.room.runtime)
 //            implementation(libs.sqlite.bundled)
-//            implementation(libs.realm.base)
-//            implementation(libs.realm.sync)
 
             implementation(libs.jetbrains.androidx.navigation.compose)
             implementation(libs.voyager.navigator)
@@ -113,7 +106,7 @@ kotlin {
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
-            implementation(libs.coil.network.ktor)
+//            implementation(libs.coil.network.ktor)
 
             implementation(projects.shared)
         }
@@ -123,8 +116,6 @@ kotlin {
             implementation(libs.ktor.client.darwin)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
-            implementation(libs.realm.base)
-            implementation(libs.realm.sync)
         }
         desktopMain.dependencies {
             implementation(libs.skiko.awt)

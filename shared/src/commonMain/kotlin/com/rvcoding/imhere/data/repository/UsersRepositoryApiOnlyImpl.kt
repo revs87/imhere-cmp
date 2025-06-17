@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.domain.data.repository
+package com.rvcoding.imhere.data.repository
 
 import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.IHApi
