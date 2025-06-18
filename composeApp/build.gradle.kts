@@ -55,6 +55,7 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
+            implementation(libs.androidx.core.splashscreen)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.android)
