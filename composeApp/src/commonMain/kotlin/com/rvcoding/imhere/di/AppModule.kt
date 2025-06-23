@@ -7,6 +7,7 @@ import com.rvcoding.imhere.domain.data.repository.DataRepository
 import com.rvcoding.imhere.domain.repository.UsersRepository
 import com.rvcoding.imhere.domain.repository.UsersRepositoryPlatformImpl
 import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiStateModel
+import com.rvcoding.imhere.ui.screens.location.LocationStateModel
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
@@ -63,4 +64,7 @@ val appModule = module {
     /** StateModels */
     factory { UsersStateModel(get(), get()) }
     factory { AllInOneApiStateModel(get(), get(), get()) }
+
+    /** Location */
+    factory { LocationStateModel(get(), get()) }
 }
