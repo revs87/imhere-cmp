@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.ui.screens.allinoneapi
+package com.rvcoding.imhere.ui.screens._internal.allinoneapi
 
 sealed interface AllInOneApiIntent {
     data object Configuration : AllInOneApiIntent

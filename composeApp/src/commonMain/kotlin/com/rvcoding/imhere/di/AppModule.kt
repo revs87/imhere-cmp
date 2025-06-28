@@ -7,8 +7,8 @@ import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.data.repository.DataRepository
 import com.rvcoding.imhere.domain.repository.UsersRepository
 import com.rvcoding.imhere.domain.repository.UsersRepositoryPlatformImpl
-import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiStateModel
-import com.rvcoding.imhere.ui.screens.location.LocationStateModel
+import com.rvcoding.imhere.ui.screens._internal.allinoneapi.AllInOneApiStateModel
+import com.rvcoding.imhere.ui.screens._internal.location.LocationStateModel
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient

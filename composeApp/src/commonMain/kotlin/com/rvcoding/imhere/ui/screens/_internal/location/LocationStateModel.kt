@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.ui.screens.location
+package com.rvcoding.imhere.ui.screens._internal.location
 
 import com.rvcoding.imhere.data.location.LocationProviderFactory
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.ui.screens.allinoneapi
+package com.rvcoding.imhere.ui.screens._internal.allinoneapi
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement

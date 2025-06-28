@@ -1,4 +1,4 @@
-package com.rvcoding.imhere.ui.screens.location
+package com.rvcoding.imhere.ui.screens._internal.location
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
