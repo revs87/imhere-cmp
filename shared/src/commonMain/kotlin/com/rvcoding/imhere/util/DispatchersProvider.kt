@@ -2,7 +2,6 @@ package com.rvcoding.imhere.util
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 
 interface DispatchersProvider {
     val main: CoroutineDispatcher
@@ -12,5 +11,11 @@ interface DispatchersProvider {
     val default: CoroutineDispatcher
         get() = Dispatchers.Default
     val io: CoroutineDispatcher
-        get() = Dispatchers.IO
+        /**
+         * ios -> internal DefaultIoScheduler
+         * wasmJs -> Dispatchers.Default
+         * */
+        get() = platformCoroutineDispatcherIO()
 }
+
+expect fun platformCoroutineDispatcherIO(): CoroutineDispatcher

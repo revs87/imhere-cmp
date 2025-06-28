@@ -79,6 +79,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.android)
             implementation(libs.koin.androidTest)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio)
 
             implementation(libs.ksafe)
             implementation(libs.ksafe.compose)
@@ -86,6 +88,7 @@ kotlin {
         iosMain.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
+            implementation(libs.ktor.client.darwin)
 
             implementation(libs.ksafe)
             implementation(libs.ksafe.compose)
@@ -95,6 +98,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
 
+            implementation(libs.kotlin.coroutines)
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
@@ -105,14 +109,20 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.annotations)
+            implementation(libs.ktor.client.core)
         }
         jvmMain.dependencies {
+            implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.skiko.awt)
             implementation(libs.skiko.awt.runtime)
+            implementation(libs.ktor.client.cio)
+
             implementation(compose.desktop.currentOs)
         }
         wasmJsMain.dependencies {
+            implementation(libs.kotlin.stdlib.wasm.js)
             implementation(npm("uuid", "10.0.0"))
+            implementation(libs.ktor.client.js)
         }
     }
 }
@@ -127,4 +137,8 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+
+configurations.all {
+    resolutionStrategy.force(libs.kotlin.stdlib.wasm.js)
 }

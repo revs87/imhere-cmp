@@ -1,6 +1,7 @@
 package com.rvcoding.imhere.di
 
 import com.rvcoding.imhere.data.api.IHService
+import com.rvcoding.imhere.data.remote.engine.platformHttpClientEngineFactory
 import com.rvcoding.imhere.data.repository.DataRepositoryImpl
 import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.data.repository.DataRepository
@@ -11,7 +12,6 @@ import com.rvcoding.imhere.ui.screens.location.LocationStateModel
 import com.rvcoding.imhere.ui.screens.users.UsersStateModel
 import com.rvcoding.imhere.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpCallValidator
 import io.ktor.client.plugins.HttpRedirect
 import io.ktor.client.plugins.HttpSend
@@ -28,7 +28,7 @@ val appModule = module {
     single { CoroutineScope(StandardDispatchersProvider.io) }
 
     /** API Client */
-    fun provideHttpClient(): HttpClient = HttpClient(CIO) {
+    fun provideHttpClient(): HttpClient = HttpClient(platformHttpClientEngineFactory()) {
         install(ContentNegotiation) {
             json(Json { ignoreUnknownKeys = true})
         }

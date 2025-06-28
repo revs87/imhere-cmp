@@ -1,5 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -12,23 +14,23 @@ plugins {
 }
 
 kotlin {
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "composeApp"
-//        browser {
-//            val projectDirPath = project.projectDir.path
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-//                    static = (static ?: mutableListOf()).apply {
-//                        // Serve sources to debug inside browser
-//                        add(projectDirPath)
-//                    }
-//                }
-//            }
-//        }
-//        binaries.executable()
-//    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
     
     androidTarget(name = "android") {
         compilerOptions {
@@ -63,6 +65,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio)
             implementation(libs.voyager.android.koin)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
@@ -81,7 +84,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.mob.settings)
             implementation(libs.kotlin.coroutines)
-            implementation(libs.stately.common)
+//            implementation(libs.stately.common) // No kotlin 2.1.20 support on stately.common:2.1.0
             implementation(project.dependencies.platform(libs.kotlincrypto.hash))
             implementation(libs.kotlincrypto.hash.sha2)
 
@@ -91,7 +94,6 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.serializationKotlinxJson)
             implementation(libs.ktor.client.contentNegotiation)
-            implementation(libs.ktor.client.cio)
 
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
@@ -125,7 +127,9 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
         }
         wasmJsMain.dependencies {
+            implementation(libs.kotlin.stdlib.wasm.js)
             implementation(npm("uuid", "10.0.0"))
+            implementation(libs.ktor.client.js)
         }
     }
 }
@@ -187,4 +191,8 @@ room {
 
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+configurations.all {
+    resolutionStrategy.force(libs.kotlin.stdlib.wasm.js)
 }
