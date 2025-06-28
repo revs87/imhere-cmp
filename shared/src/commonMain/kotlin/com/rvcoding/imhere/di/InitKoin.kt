@@ -6,13 +6,13 @@ import org.koin.dsl.KoinAppDeclaration
 
 
 fun initKoin(
-    appModulesList: List<Module> = emptyList(),
+    appModules: List<Module> = emptyList(),
     config: KoinAppDeclaration? = null
 ) = startKoin {
     config?.invoke(this)
     modules(
+        platformSharedModule(),
         sharedModule,
-        //platformSharedModule(), //TODO crashes
-        *appModulesList.toTypedArray()
+        *appModules.toTypedArray()
     )
 }

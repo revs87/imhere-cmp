@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -52,20 +53,20 @@ kotlin {
     
     jvm()
 
-    val osName = System.getProperty("os.name")
-    val targetOs = when {
-        osName == "Mac OS X" -> "macos"
-        osName.startsWith("Win") -> "windows"
-        osName.startsWith("Linux") -> "linux"
-        else -> error("Unsupported OS: $osName")
-    }
-    val targetArch = when (val osArch = System.getProperty("os.arch")) {
-        "x86_64", "amd64" -> "x64"
-        "aarch64" -> "arm64"
-        else -> error("Unsupported arch: $osArch")
-    }
-    val version = "0.8.12" // or any more recent version
-    val target = "${targetOs}-${targetArch}"
+//    val osName = System.getProperty("os.name")
+//    val targetOs = when {
+//        osName == "Mac OS X" -> "macos"
+//        osName.startsWith("Win") -> "windows"
+//        osName.startsWith("Linux") -> "linux"
+//        else -> error("Unsupported OS: $osName")
+//    }
+//    val targetArch = when (val osArch = System.getProperty("os.arch")) {
+//        "x86_64", "amd64" -> "x64"
+//        "aarch64" -> "arm64"
+//        else -> error("Unsupported arch: $osArch")
+//    }
+//    val version = "0.8.12" // or any more recent version
+//    val target = "${targetOs}-${targetArch}"
 
 
     sourceSets {
@@ -78,10 +79,16 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.android)
             implementation(libs.koin.androidTest)
+
+            implementation(libs.ksafe)
+            implementation(libs.ksafe.compose)
         }
         iosMain.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
+
+            implementation(libs.ksafe)
+            implementation(libs.ksafe.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -97,6 +104,7 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.annotations)
         }
         jvmMain.dependencies {
             implementation(libs.skiko.awt)
@@ -113,8 +121,8 @@ android {
     namespace = "com.rvcoding.imhere.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

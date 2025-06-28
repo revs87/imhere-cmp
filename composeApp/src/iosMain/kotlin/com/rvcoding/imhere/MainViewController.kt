@@ -7,6 +7,6 @@ import com.rvcoding.imhere.di.initKoin
 fun MainViewController() = ComposeUIViewController(
     configure = {
         initKoin(
-            appModulesList = listOf(appModule)
+            appModules = listOf(appModule)
         )
     }) { MainUI() }

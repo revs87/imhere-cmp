@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-//    alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
@@ -31,7 +30,7 @@ kotlin {
 //        binaries.executable()
 //    }
     
-    androidTarget {
+    androidTarget(name = "android") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
         }
@@ -129,29 +128,6 @@ kotlin {
             implementation(npm("uuid", "10.0.0"))
         }
     }
-
-//    cocoapods {
-//        // REQUIRED: Specify the version for your pod.
-//        version = "1.16.2" // <<---- ADD THIS LINE (use your desired version)
-//
-//        // Recommended fields:
-//        summary = "Shared module for ImHere application"
-//        homepage = "https://github.com/yourusername/imhere-cmp" // Example homepage
-//
-//        // Optional fields:
-//        license = "{ :type => 'Apache-2.0' }" // Example, choose your license
-//        authors = "{ 'Rui Vieira' => 'your.email@example.com' }" // Example
-//
-//        // Framework name should be picked up from the framework configuration.
-//        // If you need to explicitly set it (e.g. if it differs or for clarity):
-//        framework {
-//            baseName = "ComposeApp"
-//        }
-//
-//        // Optional: If you need to set a specific iOS deployment target for the pod
-//        // This should generally align with or be lower than your iOS app's target.
-//        // ios.deploymentTarget = "13.0"
-//    }
 }
 
 android {

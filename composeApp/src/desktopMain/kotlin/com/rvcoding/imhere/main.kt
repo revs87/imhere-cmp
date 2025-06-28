@@ -7,7 +7,7 @@ import com.rvcoding.imhere.di.initKoin
 
 fun main() = application {
     initKoin(
-        appModulesList = listOf(appModule)
+        appModules = listOf(appModule)
     )
     Window(
         onCloseRequest = ::exitApplication,

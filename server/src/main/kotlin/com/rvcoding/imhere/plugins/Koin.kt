@@ -8,7 +8,7 @@ import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 
 fun Application.configureKoin(){
-    initKoin(appModulesList = listOf(serverModule)) {
+    initKoin(appModules = listOf(serverModule)) {
         slf4jLogger(level = org.koin.core.logger.Level.ERROR)
     }
     install(Koin){

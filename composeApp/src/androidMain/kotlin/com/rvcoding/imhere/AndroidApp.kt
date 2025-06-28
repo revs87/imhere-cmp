@@ -4,7 +4,6 @@ package com.rvcoding.imhere
 import android.app.Application
 import com.rvcoding.imhere.di.appModule
 import com.rvcoding.imhere.di.initKoin
-import com.rvcoding.imhere.di.platformAppModule
 import org.koin.android.ext.koin.androidContext
 
 
@@ -13,9 +12,10 @@ class AndroidApp : Application() {
         super.onCreate()
 
         initKoin(
-            appModulesList = listOf(appModule)
+            appModules = listOf(appModule)
         ) {
             androidContext(this@AndroidApp)
+//            androidLogger(level = org.koin.core.logger.Level.ERROR)
         }
     }
 }
