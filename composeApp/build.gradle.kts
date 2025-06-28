@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -31,10 +30,9 @@ kotlin {
 //        binaries.executable()
 //    }
     
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    androidTarget(name = "android") {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -56,6 +54,8 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.androidx.core.splashscreen)
+            implementation(libs.androidx.core.ktx)
+            implementation(libs.google.android.gms.play.services.location)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.android)

@@ -2,6 +2,8 @@ package com.rvcoding.imhere.ui.screens.allinoneapi
 
 import com.rvcoding.imhere.data.local.UserSettings
 import com.rvcoding.imhere.data.local.Value
+import com.rvcoding.imhere.data.local.ksafe.KSafeWrapper
+import com.rvcoding.imhere.data.local.ksafe.mutableStateOf
 import com.rvcoding.imhere.domain.Result
 import com.rvcoding.imhere.domain.data.api.IHApi
 import com.rvcoding.imhere.domain.data.api.model.ConfigurationKeys.Companion.FEATURE_FLAGS_KEY
@@ -26,10 +28,14 @@ import kotlinx.coroutines.launch
 class AllInOneApiStateModel(
     private val api: IHApi,
     private val dataRepository: DataRepository,
+    private val ksafe: KSafeWrapper,
     private val scope: CoroutineScope
 ) {
+
+    private var counter by ksafe.mutableStateOf(0)
+
     private val _content = MutableStateFlow("Waiting for responses")
-    fun setContent(value: String) { _content.update { value } }
+    fun setContent(value: String) { _content.update { value + counter++ } }
     val content: StateFlow<String> = _content.asStateFlow()
 
     val userConfig: StateFlow<UserSettings> = dataRepository

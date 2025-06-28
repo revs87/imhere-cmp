@@ -9,19 +9,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.rvcoding.imhere.di.IHKoin
 import com.rvcoding.imhere.ui.screens.allinoneapi.AllInOneApiScreen
 import com.rvcoding.imhere.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.core.context.startKoin
 
 @Composable
 @Preview
-fun App() {
-    startKoin {
-        modules(IHKoin.modules)
-    }
-
+fun MainUI() {
     AppTheme {
         Scaffold(
             modifier = Modifier.fillMaxWidth(),
