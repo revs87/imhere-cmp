@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
 
-val serverModule = module {
+val serverModule = module(createdAtStart = true) {
     single<SessionsDao> {
         Room.databaseBuilder<SessionsDatabase>(
             name = SessionsDatabase.DATABASE_NAME

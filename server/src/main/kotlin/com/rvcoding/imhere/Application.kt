@@ -26,6 +26,11 @@ inline fun <reified T : Any> inject(
     }
 
 
+/**
+ * In order to avoid Koin late readiness, here are the correct steps:
+ * + Clean, Build, Build again and then Run, or
+ * + Add another Build entry to Configuration->Before launch.
+ * */
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 //fun main() {
 //    embeddedServer(
