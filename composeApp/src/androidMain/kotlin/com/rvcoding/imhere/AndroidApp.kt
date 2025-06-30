@@ -11,6 +11,8 @@ class AndroidApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        CommonContext.setContext(this)
+
         initKoin(
             appModules = listOf(appModule)
         ) {

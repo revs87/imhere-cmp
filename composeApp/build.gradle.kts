@@ -16,7 +16,7 @@ plugins {
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "composeApp"
+        outputModuleName = "composeApp"
         browser {
             val projectDirPath = project.projectDir.path
             commonWebpackConfig {
@@ -34,7 +34,7 @@ kotlin {
     
     androidTarget(name = "android") {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -71,6 +71,7 @@ kotlin {
             implementation(libs.sqlite.bundled)
         }
         commonMain.dependencies {
+            implementation(libs.kotlin.stdlib)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -191,8 +192,4 @@ room {
 
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
-}
-
-configurations.all {
-    resolutionStrategy.force(libs.kotlin.stdlib.wasm.js)
 }

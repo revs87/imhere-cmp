@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+
+        <!--
+            The InitializationProvider is used by androidx.startup to discover and run Initializers.
+            The `android:authorities` uses a placeholder that will be filled by the consuming app's applicationId.
+            The `tools:node="merge"` attribute is important if other libraries or the main app
+            also define Initializers, as it allows all of them to be merged under this single provider
+            during the manifest merging process.
+        -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <!--
+                This meta-data entry makes your KInitializer discoverable by App Startup.
+                The `android:name` attribute MUST be the fully qualified class name of your Initializer.
+                Ensure 'com.rvcoding.imhere.KInitializer' matches the actual package and class name.
+            -->
+            <meta-data
+                android:name="com.rvcoding.imhere.KInitializer"
+                android:value="androidx.startup" />
+
+        </provider>
+
+    </application>
+
+</manifest>

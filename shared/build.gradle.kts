@@ -28,7 +28,7 @@ kotlin {
 
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -50,7 +50,8 @@ kotlin {
             binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
         }
     }
-    
+
+    jvmToolchain(17)
     jvm()
 
 //    val osName = System.getProperty("os.name")
@@ -94,6 +95,7 @@ kotlin {
             implementation(libs.ksafe.compose)
         }
         commonMain.dependencies {
+            implementation(libs.kotlin.stdlib)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -131,14 +133,10 @@ android {
     namespace = "com.rvcoding.imhere.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
-}
-
-configurations.all {
-    resolutionStrategy.force(libs.kotlin.stdlib.wasm.js)
 }
