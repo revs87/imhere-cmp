@@ -22,13 +22,12 @@ import platform.Foundation.NSError
 import platform.Foundation.timeIntervalSince1970
 import platform.darwin.NSObject
 
-@OptIn(ExperimentalForeignApi::class)
 // This class does three things:
 // 1. Inherits from NSObject: This is required for any class that acts as a delegate for Apple's frameworks.
 //    It's Kotlin's way of creating an object that the Objective-C runtime can understand.
 // 2. Implements KMPLocation: Our shared business interface.
 // 3. Implements CLLocationManagerDelegateProtocol: The delegate protocol for receiving location updates and events.
-class IosLocationProvider : NSObject(), KMPLocation, CLLocationManagerDelegateProtocol {
+class IosLocationProvider : NSObject(), CLLocationManagerDelegateProtocol {
 
     private val coScope: CoroutineScope = CoroutineScope(CoroutineName("IosLocationProvider") + platformCoroutineDispatcherIO())
 
@@ -39,7 +38,7 @@ class IosLocationProvider : NSObject(), KMPLocation, CLLocationManagerDelegatePr
     private var locationUpdateCallback: ((LocationDomain) -> Unit)? = null
 
 
-    override fun getLocation(interval: Long): Flow<LocationDomain> = callbackFlow {
+    fun getLocation(interval: Long): Flow<LocationDomain> = callbackFlow {
         // Set the callback that will send data into the flow's channel.
         this@IosLocationProvider.locationUpdateCallback = { location ->
             trySend(location) // Emits the location to the Flow collector.
@@ -82,6 +81,7 @@ class IosLocationProvider : NSObject(), KMPLocation, CLLocationManagerDelegatePr
     }
 
     // This delegate method is called by iOS whenever a new location is available.
+    @OptIn(ExperimentalForeignApi::class)
     override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
         didUpdateLocations.filterIsInstance<CLLocation>().firstOrNull()?.let { location ->
             val locationDomain = LocationDomain(

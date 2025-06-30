@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rvcoding.imhere.data.permissions.PermissionStatus
 import com.rvcoding.imhere.ui.theme.AppTheme
 import com.rvcoding.imhere.util.toLocalDate
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -35,10 +36,12 @@ fun LocationScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(text = "Permission status: ${permissionStatus.value}")
-                Button(
-                    onClick = { sm.requestLocationPermission() }
-                ) {
-                    Text(text = "Request Location permissions")
+                if (permissionStatus.value != PermissionStatus.GRANTED) {
+                    Button(
+                        onClick = { sm.requestLocationPermission() }
+                    ) {
+                        Text(text = "Request Location permissions")
+                    }
                 }
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),

@@ -1,6 +1,6 @@
 [versions]
-agp = "8.6.1"
-android-compileSdk = "35"
+agp = "8.9.3"
+android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "34"
 androidx-activityCompose = "1.10.1"
@@ -20,10 +20,10 @@ material3 = "1.3.2"
 
 junit = "4.13.2"
 assertk = "0.28.1"
-kotlin = "2.1.20"
+kotlin = "2.2.0"
 kotlinx-serialization = "1.9.0"
 room = "2.7.2"
-ksp = "2.1.20-2.0.1"
+ksp = "2.2.0-2.0.2"
 sqlite = "2.5.2"
 realm = "2.3.0" # https://github.com/realm/realm-kotlin
 #koin = "4.0.4" # https://github.com/InsertKoinIO/koin-getting-started/blob/main/ktor/build.gradle
@@ -48,6 +48,7 @@ coreSplash = "1.0.1"
 
 
 [libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin"}
 kotlin-stdlib-wasm-js = { module = "org.jetbrains.kotlin:kotlin-stdlib-wasm-js", version.ref = "kotlin"}
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

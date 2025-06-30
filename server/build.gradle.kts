@@ -46,14 +46,14 @@ dependencies {
     testImplementation(libs.assertk)
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
