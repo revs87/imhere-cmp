@@ -10,6 +10,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.rvcoding.imhere.ui.screens._internal.allinoneapi.AllInOneApiScreen
+import com.rvcoding.imhere.ui.screens._internal.location.LocationScreen
 import com.rvcoding.imhere.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -29,7 +30,8 @@ fun MainUI() {
                     .padding(innerPadding),
             ) {
 
-                AllInOneApiScreen()
+//                AllInOneApiScreen()
+                LocationScreen()
 
             }
         }

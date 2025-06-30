@@ -21,7 +21,7 @@ class AndroidLocationProvider(
 
     @SuppressLint("MissingPermission")
     override fun getLocation(interval: Long): Flow<LocationDomain> = callbackFlow {
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000L)
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, interval)
             .setWaitForAccurateLocation(true)
             .setMinUpdateIntervalMillis(interval)
             .build()

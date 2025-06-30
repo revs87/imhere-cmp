@@ -1,6 +1,8 @@
 package com.rvcoding.imhere.di
 
 import com.rvcoding.imhere.data.api.IHService
+import com.rvcoding.imhere.data.location.LocationProviderFactory
+import com.rvcoding.imhere.data.permissions.PermissionHandlerFactory
 import com.rvcoding.imhere.data.remote.engine.platformHttpClientEngineFactory
 import com.rvcoding.imhere.data.repository.DataRepositoryImpl
 import com.rvcoding.imhere.domain.data.api.IHApi
@@ -66,5 +68,7 @@ val appModule = module {
     factory { AllInOneApiStateModel(get(), get(), get(), get()) }
 
     /** Location */
-    factory { LocationStateModel(get(), get()) }
+    factory { LocationStateModel(get(), get(), get()) }
+    factory { PermissionHandlerFactory() }
+    factory { LocationProviderFactory() }
 }
