@@ -10,13 +10,12 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.rvcoding.imhere.ui.screens._internal.allinoneapi.AllInOneApiScreen
-import com.rvcoding.imhere.ui.screens._internal.location.LocationScreen
 import com.rvcoding.imhere.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun MainUI() {
+fun AdminUI() {
     AppTheme {
         Scaffold(
             modifier = Modifier.fillMaxWidth(),
@@ -29,10 +28,7 @@ fun MainUI() {
                     .fillMaxWidth()
                     .padding(innerPadding),
             ) {
-
-//                AllInOneApiScreen()
-                LocationScreen()
-
+                AllInOneApiScreen()
             }
         }
     }

@@ -12,4 +12,4 @@ fun MainViewController() = ComposeUIViewController(
         initKoin(
             appModules = listOf(appModule)
         )
-    }) { MainUI() }
+    }) { MobileUI() }

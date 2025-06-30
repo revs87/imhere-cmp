@@ -12,6 +12,6 @@ fun main() {
         appModules = listOf(appModule)
     )
     ComposeViewport(document.body!!) {
-        MainUI()
+        AdminUI()
     }
 }
