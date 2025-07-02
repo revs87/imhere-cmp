@@ -20,10 +20,10 @@
             <!--
                 This meta-data entry makes your KInitializer discoverable by App Startup.
                 The `android:name` attribute MUST be the fully qualified class name of your Initializer.
-                Ensure 'com.rvcoding.imhere.KInitializer' matches the actual package and class name.
+                Ensure 'com.rvcoding.solotrek.KInitializer' matches the actual package and class name.
             -->
             <meta-data
-                android:name="com.rvcoding.imhere.KInitializer"
+                android:name="com.rvcoding.solotrek.KInitializer"
                 android:value="androidx.startup" />
 
         </provider>

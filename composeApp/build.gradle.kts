@@ -93,6 +93,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.serializationKotlinxJson)
             implementation(libs.ktor.client.contentNegotiation)
 
@@ -122,10 +123,12 @@ kotlin {
             implementation(libs.sqlite.bundled)
         }
         desktopMain.dependencies {
+            implementation(libs.ktor.client.cio)
             implementation(libs.skiko.awt)
             implementation(libs.skiko.awt.runtime)
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ui.backhandler)
         }
         wasmJsMain.dependencies {
             implementation(libs.kotlin.stdlib.wasm.js)
@@ -136,7 +139,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.rvcoding.imhere"
+    namespace = "com.rvcoding.solotrek"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -144,7 +147,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "com.rvcoding.imhere"
+        applicationId = "com.rvcoding.solotrek"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -176,11 +179,11 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "com.rvcoding.imhere.MainKt"
+        mainClass = "com.rvcoding.solotrek.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.rvcoding.imhere"
+            packageName = "com.rvcoding.solotrek"
             packageVersion = "1.0.0"
         }
     }
