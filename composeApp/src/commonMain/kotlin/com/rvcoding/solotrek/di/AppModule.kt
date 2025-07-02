@@ -30,6 +30,7 @@ val appModule = module {
     single { CoroutineScope(StandardDispatchersProvider.io) }
 
     /** API Client */
+    // TODO https://ktor.io/docs/client-engines.html#mpp-config
     fun provideHttpClient(): HttpClient = HttpClient(platformHttpClientEngineFactory()) {
         // engine {} // config CIO -> https://ktor.io/docs/client-engines.html#jvm-android-native
         install(ContentNegotiation) {
