@@ -1,4 +1,4 @@
-rootProject.name = "ImHere"
+rootProject.name = "SoloTrek"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

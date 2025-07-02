@@ -34,20 +34,20 @@ kotlin {
     
     iosX64 {
         binaries.framework {
-            baseName = "imhere"
-            binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
+            baseName = "solotrek"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
         }
     }
     iosArm64 {
         binaries.framework {
-            baseName = "imhere"
-            binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
+            baseName = "solotrek"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
         }
     }
     iosSimulatorArm64 {
         binaries.framework {
-            baseName = "imhere"
-            binaryOptions["bundleId"] = "com.rvcoding.imhere.bid"
+            baseName = "solotrek"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
         }
     }
 
@@ -112,6 +112,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.annotations)
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.serialization)
         }
         jvmMain.dependencies {
             implementation(libs.kotlinx.coroutines.swing)
@@ -130,7 +131,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.rvcoding.imhere.shared"
+    namespace = "com.rvcoding.solotrek.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

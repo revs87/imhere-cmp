@@ -7,10 +7,10 @@ plugins {
     application
 }
 
-group = "com.rvcoding.imhere"
+group = "com.rvcoding.solotrek"
 version = "1.0.0"
 application {
-    mainClass.set("com.rvcoding.imhere.ApplicationKt")
+    mainClass.set("com.rvcoding.solotrek.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.koin.ktor)
     implementation(libs.koin.loggerSlf4j)
     implementation(libs.logback)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.ImHere" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SoloTrek" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="Theme.ImHere.Splash" parent="Theme.SplashScreen">
+    <style name="Theme.SoloTrek.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_animated_logo</item>
         <item name="windowSplashScreenBackground">@color/splash_color</item>
 
-        <item name="postSplashScreenTheme">@style/Theme.ImHere</item>
+        <item name="postSplashScreenTheme">@style/Theme.SoloTrek</item>
     </style>
 </resources>
