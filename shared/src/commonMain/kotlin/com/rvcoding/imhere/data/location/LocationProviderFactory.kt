@@ -10,5 +10,7 @@ expect class LocationProviderFactory() {
 }
 
 class FakeLocationProvider : KMPLocation {
-    override fun getLocation(interval: Long): Flow<LocationDomain> = flowOf(LocationDomain(1.0, 2.0, 3.0, 4))
+    override fun getLocation(powerLevel: PowerLevel): Flow<LocationDomain> = flowOf(
+        LocationDomain(1.0, 2.0, 3.0, 4)
+    )
 }
