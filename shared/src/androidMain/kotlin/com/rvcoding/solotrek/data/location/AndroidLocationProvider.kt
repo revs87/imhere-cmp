@@ -31,9 +31,9 @@ class AndroidLocationProvider(
     }
 
     private fun intervalMillis(powerLevel: PowerLevel): Long = when (powerLevel) {
-        LEVEL_1 -> 30 * 60 * 1000L // 30 minutes
-        LEVEL_2 -> 10 * 60 * 1000L // 10 minutes
-        LEVEL_3 -> 60 * 1000L      //  1 minute
+        LEVEL_1 ->  5 * 60 * 1000L //  5 minutes
+        LEVEL_2 ->  2 * 60 * 1000L //  2 minutes
+        LEVEL_3 -> 30 * 1000L      // 30 seconds
         LEVEL_4 -> 10 * 1000L      // 10 seconds
         LEVEL_5 ->  5 * 1000L      //  5 seconds
     }
@@ -41,9 +41,9 @@ class AndroidLocationProvider(
     private fun LocationRequest.Builder.setMinUpdateIntervalMillis(powerLevel: PowerLevel): LocationRequest.Builder {
         setMinUpdateIntervalMillis(
             when (powerLevel) {
-                LEVEL_1 ->  5 * 60 * 1000L //  5 minutes
-                LEVEL_2 ->  3 * 60 * 1000L //  3 minutes
-                LEVEL_3 -> 30 * 1000L      // 30 seconds
+                LEVEL_1 ->  2 * 60 * 1000L //  2 minutes
+                LEVEL_2 ->  1 * 60 * 1000L //  1 minute
+                LEVEL_3 -> 15 * 1000L      // 15 seconds
                 LEVEL_4 ->  5 * 1000L      //  5 seconds
                 LEVEL_5 ->  1 * 1000L      //  1 seconds
             }
@@ -54,8 +54,8 @@ class AndroidLocationProvider(
     private fun LocationRequest.Builder.setMinUpdateDistanceMeters(powerLevel: PowerLevel): LocationRequest.Builder {
         setMinUpdateDistanceMeters(
             when (powerLevel) {
-                LEVEL_1 -> 500.0F // 500 meters
-                LEVEL_2 -> 100.0F // 100 meters
+                LEVEL_1 -> 100.0F // 500 meters
+                LEVEL_2 ->  50.0F // 100 meters
                 LEVEL_3 ->  20.0F //  20 meters
                 LEVEL_4 ->   5.0F //   5 meters
                 LEVEL_5 ->   0.0F //   0 meters
@@ -66,10 +66,10 @@ class AndroidLocationProvider(
     private fun LocationRequest.Builder.setMaxUpdateDelayMillis(powerLevel: PowerLevel): LocationRequest.Builder {
         setMaxUpdateDelayMillis(
             when (powerLevel) {
-                LEVEL_1 -> 60 * 60 * 1000L //  1 hour
-                LEVEL_2 -> 30 * 60 * 1000L // 30 minutes
-                LEVEL_3 ->  5 * 60 * 1000L //  5 minutes
-                LEVEL_4 ->  1 * 60 * 1000L //  1 minute
+                LEVEL_1 -> 10 * 60 * 1000L // 10 minutes
+                LEVEL_2 ->  5 * 60 * 1000L //  5 minutes
+                LEVEL_3 ->  1 * 60 * 1000L //  1 minute
+                LEVEL_4 ->  30 * 1000L     // 30 seconds
                 LEVEL_5 ->  0L             //  0 seconds
             }
         )
