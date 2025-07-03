@@ -69,6 +69,7 @@ kotlin {
             implementation(libs.voyager.android.koin)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
             implementation(libs.kotlin.stdlib)
@@ -84,7 +85,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.mob.settings)
-            implementation(libs.kotlin.coroutines)
+            implementation(libs.kotlinx.coroutines)
 //            implementation(libs.stately.common) // No kotlin 2.1.20 support on stately.common:2.1.0
             implementation(project.dependencies.platform(libs.kotlincrypto.hash))
             implementation(libs.kotlincrypto.hash.sha2)
@@ -123,6 +124,7 @@ kotlin {
             implementation(libs.sqlite.bundled)
         }
         desktopMain.dependencies {
+            implementation(libs.ktor.client.core.jvm)
             implementation(libs.ktor.client.cio)
             implementation(libs.skiko.awt)
             implementation(libs.skiko.awt.runtime)

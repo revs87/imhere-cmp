@@ -17,8 +17,8 @@ class MainActivity : ComponentActivity() {
         PermissionLauncher.launcher = permissionRegister()
 
         setContent {
-//            MobileUI()
-            AdminUI()
+            MobileUI()
+//            AdminUI()
         }
     }
 

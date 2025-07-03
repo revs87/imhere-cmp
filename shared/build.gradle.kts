@@ -85,6 +85,7 @@ kotlin {
 
             implementation(libs.ksafe)
             implementation(libs.ksafe.compose)
+            implementation(libs.kotlinx.coroutines.android)
         }
         iosMain.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))
@@ -100,7 +101,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
 
-            implementation(libs.kotlin.coroutines)
+            implementation(libs.kotlinx.coroutines)
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
@@ -113,11 +114,14 @@ kotlin {
             implementation(libs.koin.annotations)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.serializationKotlinxJson)
         }
         jvmMain.dependencies {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.skiko.awt)
             implementation(libs.skiko.awt.runtime)
+            implementation(libs.ktor.client.core.jvm)
             implementation(libs.ktor.client.cio)
 
             implementation(compose.desktop.currentOs)
