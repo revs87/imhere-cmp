@@ -70,7 +70,7 @@ class AndroidLocationProvider(
                 LEVEL_2 ->  5 * 60 * 1000L //  5 minutes
                 LEVEL_3 ->  1 * 60 * 1000L //  1 minute
                 LEVEL_4 ->  30 * 1000L     // 30 seconds
-                LEVEL_5 ->  0L             //  0 seconds
+                LEVEL_5 ->   5 * 1000L     //  5 seconds
             }
         )
         return this

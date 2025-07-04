@@ -17,6 +17,8 @@ gmsLocation = "21.3.0"
 # https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#jetpack-compose-and-compose-multiplatform-release-cycles
 compose-multiplatform = "1.8.2"
 material3 = "1.3.2"
+# https://github.com/JetBrains/compose-hot-reload/releases
+compose-hotReload = "1.0.0-beta03"
 
 junit = "4.13.2"
 assertk = "0.28.1"
@@ -32,6 +34,8 @@ koin_annotations_version = "2.1.0" # https://github.com/InsertKoinIO/koin-annota
 ktor = "3.0.3"
 coil3 = "3.2.0"
 logback = "1.5.6"
+# https://youtrack.jetbrains.com/issue/CMP-7646?_gl=1*x7jj24*_gcl_au*NTg2ODkzMTI4LjE3NDk2ODA5MDM.*FPAU*NDgwMjEzODU4LjE3NDk2ODA0ODM.*_ga*NjkyMzIzMzYyLjE3NDk2ODA5MDM.*_ga_9J976DJZ68*czE3NTE2NDYxNjMkbzEyJGcxJHQxNzUxNjQ2MTcyJGo1MSRsMCRoMA..
+#jetbrains-androidx-navigation3 = "1.0.0"
 jetbrains-androidx-navigation = "2.9.0-beta03"
 multiplatformSettings = "1.3.0"
 startupRuntime = "1.2.0"
@@ -141,6 +145,7 @@ ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.r
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+jetbrainsComposeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotReload" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
