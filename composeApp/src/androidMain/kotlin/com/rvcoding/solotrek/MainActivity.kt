@@ -1,9 +1,12 @@
 package com.rvcoding.solotrek
 
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import com.rvcoding.solotrek.data.permissions.PermissionLauncher
 import com.rvcoding.solotrek.data.permissions.PermissionStatus
@@ -11,6 +14,10 @@ import com.rvcoding.solotrek.data.permissions.PermissionStatus
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.auto(darkScrim = Color.TRANSPARENT, lightScrim = Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.auto(darkScrim = Color.TRANSPARENT, lightScrim = Color.TRANSPARENT)
+        )
 
         CommonContext.setActivity(this)
 
