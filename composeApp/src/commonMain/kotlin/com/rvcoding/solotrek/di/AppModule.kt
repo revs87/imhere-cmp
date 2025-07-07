@@ -11,6 +11,7 @@ import com.rvcoding.solotrek.domain.repository.UsersRepository
 import com.rvcoding.solotrek.domain.repository.UsersRepositoryPlatformImpl
 import com.rvcoding.solotrek.ui.screens._internal.allinoneapi.AllInOneApiStateModel
 import com.rvcoding.solotrek.ui.screens._internal.location.LocationStateModel
+import com.rvcoding.solotrek.ui.screens._internal.maps.MapsStateModel
 import com.rvcoding.solotrek.ui.screens.users.UsersStateModel
 import com.rvcoding.solotrek.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
@@ -75,6 +76,7 @@ val appModule = module {
 
     /** Location */
     factory { LocationStateModel(get(), get(), get()) }
+    factory { MapsStateModel(get(), get(), get()) }
     factory { PermissionHandlerFactory() }
     factory { LocationProviderFactory() }
 }

@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -144,5 +145,30 @@ android {
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+
+        val mapsApiKey = project.loadLocalProperty(
+            path = "secrets.properties",
+            propertyName = "MAPS_API_KEY",
+        )
+        buildConfigField("String", "mapsApiKey", "\"$mapsApiKey\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+fun Project.loadLocalProperty(
+    path: String,
+    propertyName: String,
+): String {
+    val localProperties = Properties()
+    val localPropertiesFile = project.rootProject.file(path)
+    try {
+        localProperties.load(localPropertiesFile.inputStream())
+        val property = localProperties.getProperty(propertyName)
+        return property
+    } catch (e: Exception) {
+        throw GradleException("Error loading local property $propertyName: ${e.toString()}")
     }
 }

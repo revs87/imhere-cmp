@@ -1,10 +1,9 @@
-package com.rvcoding.solotrek.ui.screens._internal.location
+package com.rvcoding.solotrek.ui.screens._internal.maps
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,18 +13,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rvcoding.solotrek.AppSecrets
 import com.rvcoding.solotrek.data.permissions.PermissionStatus
 import com.rvcoding.solotrek.domain.data.location.LocationDomain
 import com.rvcoding.solotrek.ui.theme.AppTheme
-import com.rvcoding.solotrek.util.toLocalDate
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.getKoin
 
 
 @Composable
-fun LocationScreenRoot() {
-    val sm = getKoin().get<LocationStateModel>()
-    LocationScreen(
+fun MapsScreenRoot() {
+    val sm = getKoin().get<MapsStateModel>()
+
+    MapsScreen(
         location = sm.location.collectAsStateWithLifecycle(),
         permissionStatus = sm.locationPermissionStatus.collectAsStateWithLifecycle(),
         requestLocationPermission = sm::requestLocationPermission
@@ -33,12 +33,11 @@ fun LocationScreenRoot() {
 }
 
 @Composable
-fun LocationScreen(
-    location: State<List<LocationDomain>>,
+fun MapsScreen(
+    location: State<LocationDomain>,
     permissionStatus: State<PermissionStatus?>,
     requestLocationPermission: () -> Unit
 ) {
-
     AppTheme {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -48,7 +47,7 @@ fun LocationScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "Permission status: ${permissionStatus.value}")
+                Text(text = "Permission status: ${permissionStatus.value}", fontSize = 12.sp)
                 if (permissionStatus.value != PermissionStatus.GRANTED) {
                     Button(
                         onClick = { requestLocationPermission() }
@@ -56,30 +55,13 @@ fun LocationScreen(
                         Text(text = "Request Location permissions")
                     }
                 }
-                LazyColumn(
+                Text(text = AppSecrets.mapsApiKey, fontSize = 12.sp)
+                Text(text = "Coordinates: ${location.value.latitude}, ${location.value.longitude}", fontSize = 12.sp)
+                Box(
                     modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    userScrollEnabled = true
+                    contentAlignment = Alignment.Center
                 ) {
-                    items(
-                        count = location.value.size,
-                        key = { location.value[it].toString() }
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = location.value[it].timestamp.toLocalDate(),
-                                fontSize = 12.sp
-                            )
-                            Text(
-                                text = "lat:${location.value[it].latitude}  lon:${location.value[it].longitude}  alt:${location.value[it].altitude}",
-                                fontSize = 14.sp
-                            )
-                        }
-                    }
+                    // TODO GMaps
                 }
             }
         }
@@ -88,9 +70,9 @@ fun LocationScreen(
 
 @Preview
 @Composable
-private fun LocationScreenPreview() {
-    LocationScreen(
-        location = mutableStateOf(listOf(LocationDomain.Initial)),
+private fun MapsScreenPreview() {
+    MapsScreen(
+        location = mutableStateOf(LocationDomain.Initial),
         permissionStatus = mutableStateOf(PermissionStatus.GRANTED),
         requestLocationPermission = {}
     )

@@ -9,12 +9,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.rvcoding.solotrek.ui.screens._internal.location.LocationScreen
+import com.rvcoding.solotrek.ui.screens._internal.maps.MapsScreenRoot
 import com.rvcoding.solotrek.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-@Preview
 fun MobileUI() {
     AppTheme {
         Scaffold(
@@ -28,7 +26,8 @@ fun MobileUI() {
                     .fillMaxWidth()
                     .padding(innerPadding),
             ) {
-                LocationScreen()
+//                LocationScreenRoot()
+                MapsScreenRoot()
             }
         }
     }
