@@ -13,6 +13,9 @@ androidx-lifecycle = "2.9.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 gmsLocation = "21.3.0"
+mapsCompose = "6.1.0"
+pods-google-maps = "9.0.0"
+pods-google-ios-maps-utils = "6.1.0"
 
 # https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#jetpack-compose-and-compose-multiplatform-release-cycles
 compose-multiplatform = "1.8.2"
@@ -139,6 +142,7 @@ kotlinx-uuid = { module = "app.softwork:kotlinx-uuid-core", version.ref = "kotli
 ksafe = { module = "eu.anifantakis:ksafe", version.ref = "ksafe" }
 ksafe-compose = { module = "eu.anifantakis:ksafe-compose", version.ref = "ksafe" }
 google-android-gms-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "gmsLocation"}
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose"}
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose-multiplatform" }
 
 [plugins]
@@ -155,4 +159,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 realm = { id = "io.realm.kotlin", version.ref = "realm" }
-#kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }

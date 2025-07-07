@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -34,22 +35,41 @@ kotlin {
         }
     }
     
-    iosX64 {
-        binaries.framework {
-            baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        version = "1.0" // Your shared module's version
+        ios.deploymentTarget = "15.0" // Match your Podfile and Xcode target
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "shared" // This will produce shared.framework
+            isStatic = true // Default is false (dynamic framework)
         }
-    }
-    iosArm64 {
-        binaries.framework {
-            baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+        // If GoogleMaps is only used by iOS-specific code within your shared module
+        // and not directly by common code, you might not list it here.
+        // However, if you have common code that expects GoogleMaps (via expect/actual),
+        // you might need to declare it, though it's more common to handle this
+        // via platform-specific source sets.
+
+        // If GoogleMaps is a dependency that your SHARED framework itself needs to link against:
+        // pod("GoogleMaps") { version = "~> 7.4.0" } // Example version, use the one you need
+
+        // If GoogleMaps is purely an iOS app-level dependency (most common for UI components):
+        // You typically don't add it here but directly in the iosApp/Podfile.
+
+        pod("GoogleMaps") {
+            version = libs.versions.pods.google.maps.get()
+            extraOpts += listOf("-compiler-option", "-fmodules")
         }
-    }
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+
+        pod("Google-Maps-iOS-Utils") {
+            moduleName = "GoogleMapsUtils"
+            version = libs.versions.pods.google.ios.maps.utils.get()
+            extraOpts += listOf("-compiler-option", "-fmodules")
         }
     }
 
@@ -151,6 +171,7 @@ android {
             propertyName = "MAPS_API_KEY",
         )
         buildConfigField("String", "mapsApiKey", "\"$mapsApiKey\"")
+        resValue("string", "mapsApiKey", mapsApiKey)
     }
 
     buildFeatures {

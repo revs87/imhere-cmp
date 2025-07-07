@@ -25,8 +25,11 @@
             <meta-data
                 android:name="com.rvcoding.solotrek.KInitializer"
                 android:value="androidx.startup" />
-
         </provider>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/mapsApiKey" />
 
     </application>
 
