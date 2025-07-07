@@ -2,6 +2,7 @@ package com.rvcoding.solotrek.di
 
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.rvcoding.solotrek.data.internal.db.DbUtils.DATABASE_PATH
 import com.rvcoding.solotrek.data.internal.db.SessionsDao
 import com.rvcoding.solotrek.data.internal.db.SessionsDatabase
 import com.rvcoding.solotrek.data.internal.db.SubscriptionsDao
@@ -23,7 +24,7 @@ import org.koin.dsl.module
 val serverModule = module(createdAtStart = true) {
     single<SessionsDao> {
         Room.databaseBuilder<SessionsDatabase>(
-            name = SessionsDatabase.DATABASE_NAME
+            name = "$$DATABASE_PATH/${SessionsDatabase.DATABASE_NAME}"
         )
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
@@ -32,7 +33,7 @@ val serverModule = module(createdAtStart = true) {
     }
     single<UsersDao> {
         Room.databaseBuilder<UsersDatabase>(
-            name = UsersDatabase.DATABASE_NAME
+            name = "$$DATABASE_PATH/${UsersDatabase.DATABASE_NAME}"
         )
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
@@ -41,7 +42,7 @@ val serverModule = module(createdAtStart = true) {
     }
     single<SubscriptionsDao> {
         Room.databaseBuilder<SubscriptionsDatabase>(
-            name = SubscriptionsDatabase.DATABASE_NAME
+            name = "$$DATABASE_PATH/${SubscriptionsDatabase.DATABASE_NAME}"
         )
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
