@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
@@ -14,6 +16,8 @@ import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.rvcoding.solotrek.domain.data.location.LocationDomain
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 actual fun MapComponent(coordinates: LocationDomain) {
@@ -22,7 +26,8 @@ actual fun MapComponent(coordinates: LocationDomain) {
     ) {
         val coordinates = LatLng(coordinates.latitude, coordinates.longitude)
         val markerState = rememberUpdatedMarkerState(coordinates)
-        val cameraPositionState = rememberUpdatedCameraPositionState(coordinates)
+        val coScope = rememberCoroutineScope()
+        val cameraPositionState = rememberUpdatedCameraPositionState(coordinates, coScope)
 
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
@@ -48,6 +53,16 @@ private fun rememberUpdatedMarkerState(newPosition: LatLng): MarkerState =
 
 
 @Composable
-private fun rememberUpdatedCameraPositionState(newPosition: LatLng): CameraPositionState =
+private fun rememberUpdatedCameraPositionState(newPosition: LatLng, coScope: CoroutineScope): CameraPositionState =
     remember { CameraPositionState(position = CameraPosition.fromLatLngZoom(newPosition, 15f)) }
-        .apply { position = CameraPosition.fromLatLngZoom(newPosition, 15f) }
+        .apply {
+            coScope.launch {
+                animate(
+                    update = CameraUpdateFactory.newCameraPosition(
+                        CameraPosition.fromLatLngZoom(newPosition, 15f)
+                    ),
+                    durationMs = 2_000
+                )
+            }
+            position = CameraPosition.fromLatLngZoom(newPosition, 15f)
+        }
