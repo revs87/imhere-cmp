@@ -53,16 +53,18 @@ private fun rememberUpdatedMarkerState(newPosition: LatLng): MarkerState =
 
 
 @Composable
-private fun rememberUpdatedCameraPositionState(newPosition: LatLng, coScope: CoroutineScope): CameraPositionState =
+private fun rememberUpdatedCameraPositionState(
+    newPosition: LatLng,
+    coScope: CoroutineScope
+): CameraPositionState =
     remember { CameraPositionState(position = CameraPosition.fromLatLngZoom(newPosition, 15f)) }
         .apply {
+            val newCameraPosition = CameraPosition.fromLatLngZoom(newPosition, 15f)
             coScope.launch {
                 animate(
-                    update = CameraUpdateFactory.newCameraPosition(
-                        CameraPosition.fromLatLngZoom(newPosition, 15f)
-                    ),
+                    update = CameraUpdateFactory.newCameraPosition(newCameraPosition),
                     durationMs = 2_000
                 )
             }
-            position = CameraPosition.fromLatLngZoom(newPosition, 15f)
+            position = newCameraPosition
         }
