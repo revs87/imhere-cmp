@@ -56,10 +56,10 @@ private fun rememberUpdatedMarkerState(newPosition: LatLng): MarkerState =
 private fun rememberUpdatedCameraPositionState(
     newPosition: LatLng,
     coScope: CoroutineScope
-): CameraPositionState =
-    remember { CameraPositionState(position = CameraPosition.fromLatLngZoom(newPosition, 15f)) }
+): CameraPositionState {
+    val newCameraPosition = CameraPosition.fromLatLngZoom(newPosition, 15f)
+    return remember { CameraPositionState(position = newCameraPosition) }
         .apply {
-            val newCameraPosition = CameraPosition.fromLatLngZoom(newPosition, 15f)
             coScope.launch {
                 animate(
                     update = CameraUpdateFactory.newCameraPosition(newCameraPosition),
@@ -68,3 +68,4 @@ private fun rememberUpdatedCameraPositionState(
             }
             position = newCameraPosition
         }
+}
