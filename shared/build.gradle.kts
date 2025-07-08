@@ -151,6 +151,7 @@ android {
             propertyName = "MAPS_API_KEY",
         )
         buildConfigField("String", "mapsApiKey", "\"$mapsApiKey\"")
+        resValue("string", "mapsApiKey", mapsApiKey)
     }
 
     buildFeatures {
