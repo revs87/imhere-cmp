@@ -95,5 +95,8 @@ struct MapView: UIViewRepresentable {
         // Animate the map and move the marker to the new location.
         uiView.animate(toLocation: newCoordinate)
         marker.position = newCoordinate
+        marker.snippet = "Lat: \(String(format: "%.4f", mapState.latitude)), Long: \(String(format: "%.4f", mapState.longitude))"
+        marker.map = uiView
+        uiView.selectedMarker = marker
     }
 }
