@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.androidx.core.ktx)
             implementation(libs.google.android.gms.play.services.location)
+            implementation(libs.google.android.maps.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.android)

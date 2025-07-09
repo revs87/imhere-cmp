@@ -151,6 +151,7 @@ android {
             propertyName = "MAPS_API_KEY",
         )
         buildConfigField("String", "mapsApiKey", "\"$mapsApiKey\"")
+        resValue("string", "mapsApiKey", mapsApiKey)
     }
 
     buildFeatures {
@@ -164,11 +165,12 @@ fun Project.loadLocalProperty(
 ): String {
     val localProperties = Properties()
     val localPropertiesFile = project.rootProject.file(path)
-    try {
+    return try {
         localProperties.load(localPropertiesFile.inputStream())
         val property = localProperties.getProperty(propertyName)
-        return property
+        property
     } catch (e: Exception) {
-        throw GradleException("Error loading local property $propertyName: ${e.toString()}")
+        println(GradleException("Error loading local property $propertyName: ${e.toString()}"))
+        ""
     }
 }

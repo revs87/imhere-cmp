@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rvcoding.solotrek.AppSecrets
 import com.rvcoding.solotrek.data.permissions.PermissionStatus
 import com.rvcoding.solotrek.domain.data.location.LocationDomain
+import com.rvcoding.solotrek.ui.component.maps.MapComponent
 import com.rvcoding.solotrek.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.getKoin
@@ -61,7 +62,7 @@ fun MapsScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // TODO GMaps
+                    MapComponent(coordinates = location.value)
                 }
             }
         }
