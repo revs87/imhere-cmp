@@ -57,7 +57,7 @@ private fun rememberUpdatedCameraPositionState(
     newPosition: LatLng,
     coScope: CoroutineScope
 ): CameraPositionState {
-    val newCameraPosition = CameraPosition.fromLatLngZoom(newPosition, 15f)
+    val newCameraPosition = CameraPosition.fromLatLngZoom(newPosition, 16f)
     return remember { CameraPositionState(position = newCameraPosition) }
         .apply {
             coScope.launch {
