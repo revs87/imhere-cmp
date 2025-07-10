@@ -118,6 +118,8 @@ kotlin {
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serializationKotlinxJson)
+
+            implementation(libs.kermit.logging)
         }
         jvmMain.dependencies {
             implementation(libs.kotlinx.coroutines.swing)
@@ -127,11 +129,16 @@ kotlin {
             implementation(libs.ktor.client.cio)
 
             implementation(compose.desktop.currentOs)
+
+            api(libs.kermit.logging)
+            implementation(libs.slf4j.simple)
         }
         wasmJsMain.dependencies {
             implementation(libs.kotlin.stdlib.wasm.js)
             implementation(npm("uuid", "10.0.0"))
             implementation(libs.ktor.client.js)
+
+            api(libs.kermit.logging)
         }
     }
 }

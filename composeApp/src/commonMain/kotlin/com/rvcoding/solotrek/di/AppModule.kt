@@ -17,18 +17,16 @@ import com.rvcoding.solotrek.ui.screens.poc.location.LocationStateModel
 import com.rvcoding.solotrek.ui.screens.poc.maps.MapsStateModel
 import com.rvcoding.solotrek.ui.screens.poc.users.UsersStateModel
 import com.rvcoding.solotrek.util.DispatchersProvider
+import com.rvcoding.solotrek.util.L
 import com.rvcoding.solotrek.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpCallValidator
 import io.ktor.client.plugins.HttpRedirect
-import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
@@ -50,7 +48,11 @@ val appModule = module {
             })
         }
         install(Logging) {
-            logger = Logger.DEFAULT
+            logger = object : Logger {
+                override fun log(message: String) {
+                    L.d("HttpClient") { message }
+                }
+            }
             level = LogLevel.ALL
         }
         install(HttpCallValidator)
@@ -63,15 +65,6 @@ val appModule = module {
             this.checkHttpMethod = false
         }
     }
-        .also {
-            it.plugin(HttpSend).intercept { request ->
-                println("Intercepting request: ${request.url}")
-                //request.headers.append("X-Custom-Header", "MyValue")
-                val call = execute(request)
-                println("Response received: ${call.response.status}")
-                call
-            }
-        }
     single { provideHttpClient() }
     single<SoloTrekApi> { SoloTrekService(get()) }
 
