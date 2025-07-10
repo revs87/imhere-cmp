@@ -1,5 +1,6 @@
 package com.rvcoding.solotrek
 
+import com.rvcoding.solotrek.plugins.configureHttp
 import com.rvcoding.solotrek.plugins.configureKoin
 import com.rvcoding.solotrek.plugins.configureMonitoring
 import com.rvcoding.solotrek.plugins.configureRouting
@@ -45,6 +46,7 @@ fun Application.module() {
     configureSerialization()
     configureKoin()
     configureRouting()
+    configureHttp()
     configureMonitoring()
 //    configureDefaultHeader() // Version to fix Clock needed
     configureStatusPages()

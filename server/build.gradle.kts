@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.ktor.server.contentNegotiation)
     implementation(libs.ktor.server.defaultHeaders)
     implementation(libs.ktor.server.htmlBuilder)
+    implementation(libs.ktor.server.cors)
 
     implementation(libs.room.gradlePlugin)
     implementation(libs.room.runtime)

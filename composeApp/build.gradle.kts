@@ -100,6 +100,7 @@ kotlin {
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.serializationKotlinxJson)
             implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.logging)
 
             implementation(libs.kotlin.serialization)
             implementation(libs.kotlinx.serialization.json)
