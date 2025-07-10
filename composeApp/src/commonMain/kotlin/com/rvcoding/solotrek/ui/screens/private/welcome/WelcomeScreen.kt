@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens
+package com.rvcoding.solotrek.ui.screens.private.welcome
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +11,13 @@ import com.rvcoding.solotrek.Greeting
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
-@Preview
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreenRoot() {
+    WelcomeScreen()
+}
+
+@Composable
+private fun WelcomeScreen() {
     val greeting = remember { Greeting().greet() }
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -21,4 +25,11 @@ fun WelcomeScreen() {
     ) {
         Text("Platform: $greeting")
     }
+}
+
+
+@Preview
+@Composable
+private fun WelcomeScreenPreview() {
+    WelcomeScreen()
 }

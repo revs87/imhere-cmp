@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens._internal.maps
+package com.rvcoding.solotrek.ui.screens.poc.maps
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +34,7 @@ fun MapsScreenRoot() {
 }
 
 @Composable
-fun MapsScreen(
+private fun MapsScreen(
     location: State<LocationDomain>,
     permissionStatus: State<PermissionStatus?>,
     requestLocationPermission: () -> Unit

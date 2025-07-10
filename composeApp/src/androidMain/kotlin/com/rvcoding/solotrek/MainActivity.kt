@@ -8,12 +8,15 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.rvcoding.solotrek.data.permissions.PermissionLauncher
 import com.rvcoding.solotrek.data.permissions.PermissionStatus
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.auto(darkScrim = Color.TRANSPARENT, lightScrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.auto(darkScrim = Color.TRANSPARENT, lightScrim = Color.TRANSPARENT)
@@ -24,6 +27,18 @@ class MainActivity : ComponentActivity() {
         PermissionLauncher.launcher = permissionRegister()
 
         setContent {
+            if (isSystemInDarkTheme()) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
+                    navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
+                )
+            } else {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.light(scrim = Color.TRANSPARENT, darkScrim = Color.TRANSPARENT),
+                    navigationBarStyle = SystemBarStyle.light(scrim = Color.TRANSPARENT, darkScrim = Color.TRANSPARENT)
+                )
+            }
+
             MobileUI()
 //            AdminUI()
         }

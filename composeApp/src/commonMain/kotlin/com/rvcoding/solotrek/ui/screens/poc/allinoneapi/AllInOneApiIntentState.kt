@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens._internal.allinoneapi
+package com.rvcoding.solotrek.ui.screens.poc.allinoneapi
 
 sealed interface AllInOneApiIntent {
     data object Configuration : AllInOneApiIntent

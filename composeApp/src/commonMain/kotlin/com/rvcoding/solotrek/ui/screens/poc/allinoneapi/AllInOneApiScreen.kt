@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens._internal.allinoneapi
+package com.rvcoding.solotrek.ui.screens.poc.allinoneapi
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +27,8 @@ import com.rvcoding.solotrek.domain.data.api.model.ConfigurationKeys.Companion.U
 import com.rvcoding.solotrek.ui.component.PrimaryButton
 import com.rvcoding.solotrek.ui.component.SecondaryButton
 import com.rvcoding.solotrek.ui.component.TertiaryButton
-import com.rvcoding.solotrek.ui.screens.users.UsersScreen
-import com.rvcoding.solotrek.ui.screens.users.UsersStateModel
+import com.rvcoding.solotrek.ui.screens.poc.users.UsersScreen
+import com.rvcoding.solotrek.ui.screens.poc.users.UsersStateModel
 import com.rvcoding.solotrek.ui.theme.AppTheme
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.launchIn

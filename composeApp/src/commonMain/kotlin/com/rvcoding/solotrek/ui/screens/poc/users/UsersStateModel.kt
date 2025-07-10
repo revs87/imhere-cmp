@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens.users
+package com.rvcoding.solotrek.ui.screens.poc.users
 
 import com.rvcoding.solotrek.domain.Result
 import com.rvcoding.solotrek.domain.model.User

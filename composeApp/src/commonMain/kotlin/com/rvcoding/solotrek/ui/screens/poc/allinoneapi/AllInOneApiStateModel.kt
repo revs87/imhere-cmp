@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens._internal.allinoneapi
+package com.rvcoding.solotrek.ui.screens.poc.allinoneapi
 
 import com.rvcoding.solotrek.data.local.UserSettings
 import com.rvcoding.solotrek.data.local.Value

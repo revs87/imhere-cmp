@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.rvcoding.solotrek.ui.screens._internal.maps.MapsScreenRoot
+import com.rvcoding.solotrek.ui.navigation.NavigationGraphRoot
 import com.rvcoding.solotrek.ui.theme.AppTheme
 
 @Composable
@@ -26,8 +26,7 @@ fun MobileUI() {
                     .fillMaxWidth()
                     .padding(innerPadding),
             ) {
-//                LocationScreenRoot()
-                MapsScreenRoot()
+                NavigationGraphRoot()
             }
         }
     }

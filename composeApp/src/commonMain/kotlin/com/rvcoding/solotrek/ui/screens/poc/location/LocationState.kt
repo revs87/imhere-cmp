@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens._internal.location
+package com.rvcoding.solotrek.ui.screens.poc.location
 
 import com.rvcoding.solotrek.domain.data.location.LocationDomain
 

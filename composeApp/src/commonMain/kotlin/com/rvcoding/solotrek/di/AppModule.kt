@@ -9,10 +9,14 @@ import com.rvcoding.solotrek.domain.data.api.SoloTrekApi
 import com.rvcoding.solotrek.domain.data.repository.DataRepository
 import com.rvcoding.solotrek.domain.repository.UsersRepository
 import com.rvcoding.solotrek.domain.repository.UsersRepositoryPlatformImpl
-import com.rvcoding.solotrek.ui.screens._internal.allinoneapi.AllInOneApiStateModel
-import com.rvcoding.solotrek.ui.screens._internal.location.LocationStateModel
-import com.rvcoding.solotrek.ui.screens._internal.maps.MapsStateModel
-import com.rvcoding.solotrek.ui.screens.users.UsersStateModel
+import com.rvcoding.solotrek.ui.navigation.NavigationGraphStateModel
+import com.rvcoding.solotrek.ui.navigation.core.DefaultNavigator
+import com.rvcoding.solotrek.ui.navigation.core.Navigator
+import com.rvcoding.solotrek.ui.screens.poc.allinoneapi.AllInOneApiStateModel
+import com.rvcoding.solotrek.ui.screens.poc.location.LocationStateModel
+import com.rvcoding.solotrek.ui.screens.poc.maps.MapsStateModel
+import com.rvcoding.solotrek.ui.screens.poc.users.UsersStateModel
+import com.rvcoding.solotrek.util.DispatchersProvider
 import com.rvcoding.solotrek.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpCallValidator
@@ -27,7 +31,7 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 val appModule = module {
-    single { StandardDispatchersProvider }
+    single<DispatchersProvider> { StandardDispatchersProvider }
     single { CoroutineScope(StandardDispatchersProvider.io) }
 
     /** API Client */
@@ -79,4 +83,8 @@ val appModule = module {
     factory { MapsStateModel(get(), get(), get()) }
     factory { PermissionHandlerFactory() }
     factory { LocationProviderFactory() }
+
+    /* Navigation */
+    single<Navigator> { DefaultNavigator(NavigationGraphStateModel.INITIAL_DESTINATION) }
+    factory { NavigationGraphStateModel(get(), get()) }
 }

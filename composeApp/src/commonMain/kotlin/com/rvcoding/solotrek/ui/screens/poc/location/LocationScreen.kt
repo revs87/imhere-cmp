@@ -1,4 +1,4 @@
-package com.rvcoding.solotrek.ui.screens._internal.location
+package com.rvcoding.solotrek.ui.screens.poc.location
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +33,7 @@ fun LocationScreenRoot() {
 }
 
 @Composable
-fun LocationScreen(
+private fun LocationScreen(
     location: State<List<LocationDomain>>,
     permissionStatus: State<PermissionStatus?>,
     requestLocationPermission: () -> Unit
