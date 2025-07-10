@@ -21,12 +21,14 @@ import com.rvcoding.solotrek.util.StandardDispatchersProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpCallValidator
 import io.ktor.client.plugins.HttpRedirect
+import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.plugin
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
@@ -61,15 +63,15 @@ val appModule = module {
             this.checkHttpMethod = false
         }
     }
-//        .also {
-//            it.plugin(HttpSend).intercept { request ->
-//                println("Intercepting request: ${request.url}")
-//                request.headers.append("X-Custom-Header", "MyValue")
-//                val call = execute(request)
-//                println("Response received: ${call.response.status}")
-//                call
-//            }
-//        }
+        .also {
+            it.plugin(HttpSend).intercept { request ->
+                println("Intercepting request: ${request.url}")
+                //request.headers.append("X-Custom-Header", "MyValue")
+                val call = execute(request)
+                println("Response received: ${call.response.status}")
+                call
+            }
+        }
     single { provideHttpClient() }
     single<SoloTrekApi> { SoloTrekService(get()) }
 
