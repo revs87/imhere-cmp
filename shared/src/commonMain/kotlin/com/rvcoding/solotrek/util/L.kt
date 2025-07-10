@@ -11,12 +11,15 @@ import com.rvcoding.solotrek.getPlatformType
 object L {
     const val TAG = "SOLO-LOGGER"
 
-    val kLogger = Logger(
-        config = loggerConfigInit(
-            platformLogWriter(),
-            minSeverity = Severity.Debug),
-        tag = TAG
-    )
+    val kLogger by lazy {
+        Logger(
+            config = loggerConfigInit(
+                platformLogWriter(),
+                minSeverity = Severity.Debug
+            ),
+            tag = TAG
+        )
+    }
 
     inline fun d(tag: String = TAG, message: () -> String) {
         when (getPlatformType()) {
