@@ -51,4 +51,5 @@ session_db.lck
 secrets.properties
 iosApp/iosApp/Secrets.plist
 composeApp/src/google-services.json
-
+iosApp/iosApp/GoogleService-Info.plist
+iosApp/GoogleService-Info.plist

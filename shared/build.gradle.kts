@@ -38,19 +38,19 @@ kotlin {
     iosX64 {
         binaries.framework {
             baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek"
         }
     }
     iosArm64 {
         binaries.framework {
             baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek"
         }
     }
     iosSimulatorArm64 {
         binaries.framework {
             baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek"
         }
     }
 
