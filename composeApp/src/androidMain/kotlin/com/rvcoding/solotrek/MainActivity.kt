@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.firebase.FirebaseApp
 import com.rvcoding.solotrek.data.permissions.PermissionLauncher
 import com.rvcoding.solotrek.data.permissions.PermissionStatus
 
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.auto(darkScrim = Color.TRANSPARENT, lightScrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.auto(darkScrim = Color.TRANSPARENT, lightScrim = Color.TRANSPARENT)
         )
+        FirebaseApp.initializeApp(this)
 
         CommonContext.setActivity(this)
 

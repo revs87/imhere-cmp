@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.playServices)
 }
 
 kotlin {
@@ -37,19 +38,19 @@ kotlin {
     iosX64 {
         binaries.framework {
             baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek"
         }
     }
     iosArm64 {
         binaries.framework {
             baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek"
         }
     }
     iosSimulatorArm64 {
         binaries.framework {
             baseName = "solotrek"
-            binaryOptions["bundleId"] = "com.rvcoding.solotrek.bid"
+            binaryOptions["bundleId"] = "com.rvcoding.solotrek"
         }
     }
 
