@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -148,10 +150,13 @@ fun AllInOneApiScreen(
                     UsersScreen(sm = um, modifier = Modifier.weight(1f).fillMaxWidth())
                 }
                 AnimatedVisibility(!showUsers) {
-                    Text(
-                        modifier = Modifier.fillMaxSize(),
+                    BasicText(
+                        modifier = Modifier.fillMaxWidth(),
                         text = content,
-                        fontSize = 14.sp
+                        autoSize = TextAutoSize.StepBased(
+                            minFontSize = 9.sp,
+                            maxFontSize = 14.sp,
+                        )
                     )
                 }
             }
